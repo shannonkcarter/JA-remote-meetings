@@ -1,0 +1,95 @@
+---
+title: "JA Remote Meeting Analysis"
+author: "Shannon Carter"
+date: "August 28, 2020"
+
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+---
+
+<style type="text/css">
+body { font-size: 16px; line-height:140%: font-family: 'Libre Franklin', sans-serif; color:#333; }
+.tocify { font-size: 12px; border:none!important; border-radius:0px!important; }
+h2 { font-size:30px; }
+#TOC {
+  background: url("https://www.januaryadvisors.com/wp-content/uploads/2018/07/ja-logo-horizontal.svg");
+  background-size: 80%;
+  padding-bottom: 40px !important;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+background-color: rgb(49,156,244,0.8);
+border-color: #319cf4;
+}
+</style>
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls(all = T))
+
+# load packages
+library(tidyverse)
+library(highcharter)
+library(janitor)
+library(here)
+
+mytheme <- theme_bw(base_size = 15, base_family = "Franklin Gothic Medium") +
+  theme(legend.text = element_text(size = 10),
+        legend.title = element_text(size = 11),
+        text = element_text(size = 14),     
+        axis.title = element_text(size = 12),
+        axis.text  = element_text(size = 10, family = "Consolas"),
+        panel.grid = element_blank())
+
+# load data
+df <- read.csv(here::here("JA_Standup_Analysis.csv"))
+```
+
+```{r}
+hist <- df %>% 
+  pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+  ggplot(aes(x = order)) +
+  geom_bar(stat = "count", fill = "dodgerblue") +
+  facet_wrap(~person) +
+  mytheme +
+  scale_x_continuous(breaks = seq(1, 8, 1))
+hist
+
+hist2 <- df %>% 
+  pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+  filter(person != "Hala" & person != "Divine" & person != "Zach") %>% 
+  ggplot(aes(x = order, fill = person)) +
+  geom_bar(stat = "count", position = 'dodge') +
+  mytheme +
+  scale_x_continuous(breaks = seq(1, 8, 1))
+hist2
+```
+
+```{r}
+View(table(df$Brian))
+View(table(df$Shan))
+
+Mode <- function(x) {
+  ux <- unique(x, na.rm = T)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+summary <- df %>% 
+  summarize(mode_brian = Mode(Brian),
+            mode_carly = Mode(Carly),
+            mode_david = Mode(David),
+            mode_divine = Mode(Divine),
+            mode_hala = Mode(Hala),
+            mode_jeff = Mode(Jeff),
+            mode_kelsey = Mode(Kelsey),
+            mode_shan = Mode(Shan),
+            mode_zach = Mode(Zach))
+```
+
+

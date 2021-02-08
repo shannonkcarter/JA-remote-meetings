@@ -38,6 +38,7 @@ library(tidyverse)
 library(highcharter)
 library(janitor)
 library(here)
+library(googlesheets4)
 
 mytheme <- theme_bw(base_size = 15, base_family = "Franklin Gothic Medium") +
   theme(legend.text = element_text(size = 10),
@@ -48,12 +49,14 @@ mytheme <- theme_bw(base_size = 15, base_family = "Franklin Gothic Medium") +
         panel.grid = element_blank())
 
 # load data
-df <- read.csv(here::here("JA_Standup_Analysis.csv"))
+df <- read_csv(here::here("JA_Standup_Analysis.csv"))
 ```
 
 ```{r}
 hist <- df %>% 
   pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+  filter(person != "Hala" & person != "Divine" & person != "Zach") %>%
+  filter(order < 9) %>% 
   ggplot(aes(x = order)) +
   geom_bar(stat = "count", fill = "dodgerblue") +
   facet_wrap(~person) +
@@ -64,6 +67,7 @@ hist
 hist2 <- df %>% 
   pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
   filter(person != "Hala" & person != "Divine" & person != "Zach") %>% 
+  filter(order < 9) %>% 
   ggplot(aes(x = order, fill = person)) +
   geom_bar(stat = "count", position = 'dodge') +
   mytheme +
@@ -76,7 +80,7 @@ View(table(df$Brian))
 View(table(df$Shan))
 
 Mode <- function(x) {
-  ux <- unique(x, na.rm = T)
+  ux <- unique(x, na.rm = F)
   ux[which.max(tabulate(match(x, ux)))]
 }
 
@@ -88,7 +92,7 @@ summary <- df %>%
             mode_hala = Mode(Hala),
             mode_jeff = Mode(Jeff),
             mode_kelsey = Mode(Kelsey),
-            mode_shan = Mode(Shan),
+            mode_shan = Mode(Shannon),
             mode_zach = Mode(Zach))
 ```
 

@@ -49,12 +49,13 @@ mytheme <- theme_bw(base_size = 15, base_family = "Franklin Gothic Medium") +
         panel.grid = element_blank())
 
 # load data
-df <- read_csv(here::here("JA_Standup_Analysis.csv"))
+df <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1lcaht7ezzJxZ5gvh7A5TF9iZkWGAVQ4hJ9yXXH_6dnY/edit#gid=851427512", sheet = "clean-data", na = "NA")
 ```
 
 ```{r}
 hist <- df %>% 
   pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+  mutate(order = as.numeric(order)) %>% 
   filter(person != "Hala" & person != "Divine" & person != "Zach") %>%
   filter(order < 9) %>% 
   ggplot(aes(x = order)) +

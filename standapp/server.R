@@ -2,6 +2,8 @@
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   
+  data <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1lcaht7ezzJxZ5gvh7A5TF9iZkWGAVQ4hJ9yXXH_6dnY/edit#gid=851427512", sheet = "clean-data", na = "NA")
+  
   #observe(print(str(input$order_order)))
   #observe(print(which(input$order_order == "David")))
     todays_order <- reactive({
@@ -25,5 +27,19 @@ shinyServer(function(input, output) {
       dt <- todays_order() %>% 
         select(-c(Divine, Hala, Zach))
       return(dt)
+    })
+    
+    output$hists <- renderPlot({
+      hist <- data %>% 
+        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person != "Hala" & person != "Divine" & person != "Zach") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "dodgerblue") +
+        facet_wrap(~person) +
+        mytheme +
+        scale_x_continuous(breaks = seq(1, 8, 1))
+      hist
     })
 })

@@ -1,6 +1,8 @@
 library(shiny)
 library(shinyjqui)
 library(DT)
+library(tidyverse)
+library(googlesheets4)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -48,9 +50,9 @@ shinyUI(fluidPage(
                      column(12, align="center",
                             dataTableOutput('todays_order')
                      )
-            )
-            #fluidRow(plotOutput("distPlot"))
-            )
+            ),
+            fluidRow(plotOutput("hists"))
+            ) # close main panel
         ) # close sidebarLayout
     ) # close fluidPage
 ) # close whole app

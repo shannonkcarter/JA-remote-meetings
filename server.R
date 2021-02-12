@@ -22,12 +22,12 @@ shinyServer(function(input, output) {
                  Zach = NA)
       return(df)
     })
-    observe(print(todays_order()))
+    
     output$todays_order <- renderDataTable({
       dt <- todays_order() %>% 
         select(-c(Divine, Hala, Zach))
       return(dt)
-    })
+    }, options= list(dom = "t"), rownames = F)
     
     output$hists <- renderPlot({
       hist <- data %>% 

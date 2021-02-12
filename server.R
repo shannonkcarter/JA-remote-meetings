@@ -2,7 +2,7 @@
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   
-  #data <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1lcaht7ezzJxZ5gvh7A5TF9iZkWGAVQ4hJ9yXXH_6dnY/edit#gid=851427512", sheet = "clean-data", na = "NA")
+  data <- read_csv(here::here("standup_data.csv"))
   
   #observe(print(str(input$order_order)))
   #observe(print(which(input$order_order == "David")))
@@ -38,7 +38,6 @@ shinyServer(function(input, output) {
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "dodgerblue") +
         facet_wrap(~person) +
-        mytheme +
         scale_x_continuous(breaks = seq(1, 8, 1))
       hist
     })

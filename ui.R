@@ -18,10 +18,10 @@ shinyUI(fluidPage(
     column(10, offset = 1,    
     wellPanel(
             fluidRow(
-                column(2, align = "center",
+                column(3, 
                        dateInput(inputId = "date",
                                  format = "M d, yyyy",
-                                 label = "Enter today's date"),
+                                 label = "Enter today's date:"),
                        radioButtons(inputId = "time",
                                     label = "",
                                     choices = c("Standup", "Sitdown"))),
@@ -42,7 +42,7 @@ shinyUI(fluidPage(
                               items = NULL,
                               connect = c("people", "order"),
                               placeholder = "Drag people missing the meeting here")),
-            column(2,
+            column(1,
                    actionButton(inputId = "submit",
                                 label = "Submit Data!",
                                 icon = icon("chevron-right")))

@@ -6,9 +6,11 @@ shinyServer(function(input, output, session) {
   
   #observe(print(str(input$order_order)))
   #observe(print(which(input$order_order == "David")))
+  observe(print(todays_order()))
+  observe(print(tail(df)))
     todays_order <- reactive({
       df <- data.frame(date = input$date,
-                 time = input$time,
+                       time = input$time,
                  Brian = ifelse("Brian" %in% input$order_order, which(input$order_order == "Brian"), NA),
                  Carly = ifelse("Carly" %in% input$order_order, which(input$order_order == "Carly"), NA),
                  David = ifelse("David" %in% input$order_order, which(input$order_order == "David"), NA),
@@ -60,8 +62,8 @@ shinyServer(function(input, output, session) {
       #password protection
       if (input$password_input == app_password) {
         #Save data
-        s3saveRDS(input_data(),
-                  bucket = "standapp",
+        s3saveRDS(rbind(df, todays_order()),
+                  bucket = "standupapp",
                   object = "standapp-data.rds")
         
         removeModal()

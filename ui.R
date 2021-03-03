@@ -1,11 +1,10 @@
-library(shiny)
-library(shinyjqui)
-library(DT)
-library(tidyverse)
-library(googlesheets4)
+source("read-data.R")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
+    
+    tags$head(tags$script(src = "message-handler.js")),
+    shinyjs::useShinyjs(),
 
     # Application title
     column(12, align = "center",
@@ -44,12 +43,13 @@ shinyUI(fluidPage(
                               placeholder = "Drag people missing the meeting here")),
             column(1,
                    actionButton(inputId = "submit",
-                                label = "Submit Data!",
+                                label ="Submit Data!",
+                                #class = "btn-primary",
                                 icon = icon("chevron-right")))
             ))), # close wellPanel
         
             fluidRow(style="padding:20px 0 20px 0;",
-                     column(8, offset = 2, align="center",
+                     column(10, offset = 1, align="center",
                             dataTableOutput('todays_order')
                      )
             ),
@@ -109,9 +109,7 @@ shinyUI(fluidPage(
     fluidRow(
         column(8, offset = 2, align = "center", 
                plotOutput("hists"))),
-    fluidRow(
-        column(8, offset = 2, align = "center", 
-               plotOutput("hists")))
+
 
     ) # close fluidPage
 ) # close whole app

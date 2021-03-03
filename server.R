@@ -1,6 +1,6 @@
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   data <- read_csv(here::here("standup_data.csv"))
   
@@ -27,10 +27,10 @@ shinyServer(function(input, output) {
       dt <- todays_order() %>% 
         select(-c(Divine, Hala, Zach))
       return(dt)
-    }, options= list(dom = "t"), rownames = F)
+    }, options = list(dom = "t", ordering = F, columnDefs = list(list(width = '150px', targets = 2:9, className = "dt-center"))), rownames = F)
     
     output$hists <- renderPlot({
-      hist <- data %>% 
+      hist <- df %>% 
         pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person != "Hala" & person != "Divine" & person != "Zach") %>%
@@ -38,7 +38,38 @@ shinyServer(function(input, output) {
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "dodgerblue") +
         facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1))
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_ja()
       hist
     })
+    
+    #Submit password
+    observeEvent(input$submit, {
+      showModal(
+        modalDialog(
+          title = "Enter password to submit data",
+          textInput(inputId = "password_input", "Type password"),
+          actionButton("submit_pw", "Submit password"),
+          easyClose = T
+        )
+      )
+    })
+    
+    #Submit data
+    observeEvent(input$submit_pw, {
+      #password protection
+      if (input$password_input == app_password) {
+        #Save data
+        s3saveRDS(input_data(),
+                  bucket = "standapp",
+                  object = "standapp-data.rds")
+        
+        removeModal()
+        shinyjs::reset("form")
+        shinyjs::hide("form")
+        shinyjs::show("thankyou_msg")
+        
+      } 
+    })
 })
+

@@ -1,13 +1,8 @@
+library(shiny)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
   
-  data <- read_csv(here::here("standup_data.csv"))
-  
-  #observe(print(str(input$order_order)))
-  #observe(print(which(input$order_order == "David")))
-  observe(print(todays_order()))
-  observe(print(tail(df)))
     todays_order <- reactive({
       df <- data.frame(date = input$date,
                        time = input$time,
@@ -42,6 +37,20 @@ shinyServer(function(input, output, session) {
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "dodgerblue") +
         facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_ja()
+      hist
+    })
+    
+    output$hist_brian <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Brian") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "dodgerblue") +
+        #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_ja()
       hist

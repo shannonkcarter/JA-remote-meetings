@@ -1,14 +1,34 @@
+
 source("read-data.R")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-    
+    # blue #5c9ad2
+    # orange #f59035
     tags$head(tags$script(src = "message-handler.js")),
     shinyjs::useShinyjs(),
+    tags$style(HTML("
+                    .well {
+        background-color: #5c9ad2 !important; 
+        
+        margin-bottom: 10px !important;
+                    }
+        .btn-info {
+        background-color: #f59035 !important;
+        border-color: #FFFFFF;
+        
+        border-radius: 12px;
+        }
+        body {
+        color: #FFFFFF;
+        }
+                    "
+                    )),
 
     # Application title
     column(12, align = "center",
-           h1("January Advisors StandApp")),
+           img(src = "ja_logo.png", height = 100)),
+           #h1("January Advisors StandApp")),
     
     tags$hr(),
 
@@ -66,52 +86,60 @@ shinyUI(fluidPage(
     ## individual stat cards
     
     fluidRow(
-        shiny::HTML("<center><h3>Stats</h3></center>"),
+        #shiny::HTML("<center><h3>Stats</h3></center>"),
         
                fluidRow(
-                   column(width = 2, offset = 2, align = "center",
+                   column(width = 3, offset = 0, align = "center",style="padding:20px;",
+                          wellPanel(
                                img(src = "brian.jpg", height = 150),
                                actionLink(inputId = "stats_brian", 
-                                          label = h5("Brian"))
-                          ),
-                   column(width = 2, align = "center",
+                                          label = h5("Brian")),
+                               plotOutput("hist_brian")
+                          )),
+                   column(width = 3, align = "center",style="padding:20px;",
+                          wellPanel(
                       img(src = "carly.jpg", height = 150),
                       actionLink(inputId = "stats_carly", 
                                  label = h5("Carly"))
-                      ),
-                   column(width = 2, align = "center",
+                      )),
+                   column(width = 3, align = "center",style="padding:20px;",
+                          wellPanel(
                           img(src = "david.jpg", height = 150),
                           actionLink(inputId = "stats_david", 
                                      label = h5("David"))
-                   ),
-                   column(width = 2, align = "center",
+                   )),
+                   column(width = 3, align = "center",style="padding:20px;",
+                          wellPanel(
                           img(src = "emi.png", height = 150),
                           actionLink(inputId = "stats_emi", 
                                      label = h5("Emi"))
-                   )),
+                   ))),
  
-    tags$hr(),
     fluidRow(
-        column(width = 2, offset = 2, align = "center",
+        column(width = 3, offset = 0, align = "center",style="padding:20px;",
+               wellPanel(
                img(src = "jeff.jpg", height = 150),
                actionLink(inputId = "stats_jeff", 
                           label = h5("Jeff"))
-        ),
-        column(width = 2, align = "center",
+        )),
+        column(width = 3, align = "center",style="padding:20px;",
+               wellPanel(
                img(src = "kelsey.jpg", height = 150),
                actionLink(inputId = "stats_kelsey", 
                           label = h5("Kelsey"))
-        ),
-        column(width = 2, align = "center",
+        )),
+        column(width = 3, align = "center",style="padding:20px;",
+               wellPanel(
                img(src = "marissa.png", height = 150),
                actionLink(inputId = "stats_marissa", 
                           label = h5("Marissa"))
-        ),
-        column(width = 2, align = "center",
+        )),
+        column(width = 3, align = "center",style="padding:20px;",
+               wellPanel(
                img(src = "shannon.jpg", height = 150),
                actionLink(inputId = "stats_shannon", 
                           label = h5("Shannon"))
-        ))
+        )))
                ),
     
     fluidRow(

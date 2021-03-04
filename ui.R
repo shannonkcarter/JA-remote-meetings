@@ -8,6 +8,10 @@ shinyUI(fluidPage(
     tags$head(tags$script(src = "message-handler.js")),
     shinyjs::useShinyjs(),
     tags$style(HTML("
+    @font-face {
+        
+        font-family: 'Roboto';
+        }
                     .well {
         background-color: #5c9ad2 !important; 
         
@@ -22,6 +26,7 @@ shinyUI(fluidPage(
         body {
         color: #FFFFFF;
         }
+
                     "
                     )),
 
@@ -78,7 +83,7 @@ shinyUI(fluidPage(
         
             fluidRow(style="padding:20px 0 20px 0;",
                      column(10, offset = 1, align="center",
-                            dataTableOutput('recent_data')
+                            dataTableOutput('table_today')
                      )
             ),
 
@@ -91,60 +96,88 @@ shinyUI(fluidPage(
                fluidRow(
                    column(width = 3, offset = 0, align = "center",style="padding:20px;",
                           wellPanel(
-                               img(src = "brian.jpg", height = 150),
-                               actionLink(inputId = "stats_brian", 
-                                          label = h5("Brian")),
-                               plotOutput("hist_brian")
+                              h3("Brian"),
+                              img(src = "brian.jpg", height = 150),
+                              tags$hr(),
+                              plotOutput("hist_brian", height = "100%"),
+                              h5("Most likely to go: 1st", align = "left"),
+                              h5("Most likely to call on: Jeff", align = "left"),
+                              h5("Most likely to be called on by: Kelsey", align = "left")
                           )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
-                      img(src = "carly.jpg", height = 150),
-                      actionLink(inputId = "stats_carly", 
-                                 label = h5("Carly"))
+                              h3("Carly"),
+                              img(src = "carly.jpg", height = 150),
+                              tags$hr(),
+                              plotOutput("hist_carly", height = "100%"),
+                              h5("Most likely to go: 1st", align = "left"),
+                              h5("Most likely to call on: Jeff", align = "left"),
+                              h5("Most likely to be called on by: Kelsey", align = "left")
+                              
                       )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
+                              h3("David"),
                           img(src = "david.jpg", height = 150),
-                          actionLink(inputId = "stats_david", 
-                                     label = h5("David"))
+                          tags$hr(),
+                          plotOutput("hist_david", height = "100%"),
+                          h5("Most likely to go: 1st", align = "left"),
+                          h5("Most likely to call on: Jeff", align = "left"),
+                          h5("Most likely to be called on by: Kelsey", align = "left")
                    )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
+                              h3("Emi"),
                           img(src = "emi.png", height = 150),
-                          actionLink(inputId = "stats_emi", 
-                                     label = h5("Emi"))
+                          tags$hr(),
+                          plotOutput("hist_emi", height = "100%"),
+                          h5("Most likely to go: 1st", align = "left"),
+                          h5("Most likely to call on: Jeff", align = "left"),
+                          h5("Most likely to be called on by: Kelsey", align = "left")
                    ))),
  
-    fluidRow(
+    fluidRow(#card_ui
         column(width = 3, offset = 0, align = "center",style="padding:20px;",
                wellPanel(
+                   h3("Jeff"),
                img(src = "jeff.jpg", height = 150),
-               actionLink(inputId = "stats_jeff", 
-                          label = h5("Jeff"))
+               tags$hr(),
+               plotOutput("hist_jeff", height = "100%"),
+               h5("Most likely to go: 1st", align = "left"),
+               h5("Most likely to call on: Jeff", align = "left"),
+               h5("Most likely to be called on by: Kelsey", align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
+                   h3("Kelsey"),
                img(src = "kelsey.jpg", height = 150),
-               actionLink(inputId = "stats_kelsey", 
-                          label = h5("Kelsey"))
+               tags$hr(),
+               plotOutput("hist_kelsey", height = "100%"),
+               h5("Most likely to go: 1st", align = "left"),
+               h5("Most likely to call on: Jeff", align = "left"),
+               h5("Most likely to be called on by: Kelsey", align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
+                   h3("Marissa"),
                img(src = "marissa.png", height = 150),
-               actionLink(inputId = "stats_marissa", 
-                          label = h5("Marissa"))
+               tags$hr(),
+               plotOutput("hist_marissa", height = "100%"),
+               h5("Most likely to go: 1st", align = "left"),
+               h5("Most likely to call on: Jeff", align = "left"),
+               h5("Most likely to be called on by: Kelsey", align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
+                   h3("Shannon"),
                img(src = "shannon.jpg", height = 150),
-               actionLink(inputId = "stats_shannon", 
-                          label = h5("Shannon"))
+               tags$hr(),
+               plotOutput("hist_shannon", height = "100%"),
+               h5("Most likely to go: 1st", align = "left"),
+               h5("Most likely to call on: Jeff", align = "left"),
+               h5("Most likely to be called on by: Kelsey", align = "left")
         )))
-               ),
-    
-    fluidRow(
-        column(8, offset = 2, align = "center", 
-               plotOutput("hists"))),
+               )
 
 
     ) # close fluidPage

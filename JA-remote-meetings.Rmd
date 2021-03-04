@@ -39,6 +39,8 @@ library(highcharter)
 library(janitor)
 library(here)
 library(googlesheets4)
+library(config)
+library(aws.s3)
 
 mytheme <- theme_bw(base_size = 15, base_family = "Franklin Gothic Medium") +
   theme(legend.text = element_text(size = 10),
@@ -49,7 +51,24 @@ mytheme <- theme_bw(base_size = 15, base_family = "Franklin Gothic Medium") +
         panel.grid = element_blank())
 
 # load data
-df <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1lcaht7ezzJxZ5gvh7A5TF9iZkWGAVQ4hJ9yXXH_6dnY/edit#gid=851427512", sheet = "clean-data", na = c("NA", ""))
+pw <- config::get("aws", file = "config.yml")
+
+Sys.setenv("AWS_ACCESS_KEY_ID" = pw$AWS_ACCESS_KEY_ID,
+           "AWS_SECRET_ACCESS_KEY" =  pw$AWS_SECRET_ACCESS_KEY,
+           "AWS_DEFAULT_REGION" = pw$AWS_DEFAULT_REGION
+)
+
+
+loadData <- function() {
+  df <- s3readRDS(
+    bucket = "standupapp",
+    object = "standapp-data.rds"
+  )
+  return(df)
+}
+
+df <- loadData()
+# df <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1lcaht7ezzJxZ5gvh7A5TF9iZkWGAVQ4hJ9yXXH_6dnY/edit#gid=851427512", sheet = "clean-data", na = c("NA", ""))
 ```
 
 ```{r}
@@ -78,29 +97,42 @@ hist2
 ```
 
 ```{r}
-View(table(df$Brian))
-View(table(df$Shan))
 
-Mode <- function(x) {
-  ux <- unique(x, na.rm = F)
-  ux[which.max(tabulate(match(x, ux)))]
+getMode <- function(x) {
+  ux <- na.omit(unique(x) )
+ tab <- tabulate(match(x, ux)); ux[tab == max(tab) ]
 }
-
+brian_mode <- getMode(df$Brian)
+emi_mode <- getMode(df$Emi)
 summary <- df %>% 
-  summarize(mode_brian = Mode(Brian),
-            mode_carly = Mode(Carly),
-            mode_david = Mode(David),
-            mode_divine = Mode(Divine),
-            mode_hala = Mode(Hala),
-            mode_jeff = Mode(Jeff),
-            mode_kelsey = Mode(Kelsey),
-            mode_shan = Mode(Shannon),
-            mode_zach = Mode(Zach))
+  summarize(Brian = getMode(Brian)[1],
+            Carly = getMode(Carly)[1],
+            David = getMode(David)[1],
+            Emi = getMode(Emi)[1],
+            Jeff = getMode(Jeff)[1],
+            Kelsey = getMode(Kelsey)[1],
+            Marissa = getMode(Marissa)[1],
+            Shannon = getMode(Shannon)[1]) %>% 
+  pivot_longer(cols = Brian:Shannon, names_to = "person", values_to = "mode") %>% 
+  left_join(call_on)
+
+call_on <- df_long %>% 
+  filter(!is.na(person_called_on)) %>% 
+  group_by(person) %>% 
+  arrange(desc(n)) %>% 
+  slice_head(n = 1) %>% 
+  ungroup() %>% 
+  select(person, most_likely_to_call_on = person_called_on)
+
+called_on_by <- df_long %>% 
+  filter(!is.na(person_))
+  
 ```
+
 ```{r}
 df_long <- df %>% 
   pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>%
-  filter(date < "2021-02-08") %>% 
+  #filter(date < "2021-02-08") %>% 
   mutate(order = as.numeric(order)) %>% 
   filter(person != "Hala" & person != "Divine" & person != "Zach") %>%
   filter(order < 9) %>% 
@@ -110,6 +142,32 @@ df_long <- df %>%
   ungroup() %>% 
   mutate(person_called_on_per_meeting = length(person)) %>% 
   count(person, person_called_on)
+
+# denominator for n so we have proportion of times brian called on any one person
+# but really need this specific for each pairing- number fo meetings where brian and emi were both present
+denom <- data.frame(
+  Brian = length(df$Brian[!is.na(df$Brian)]),
+  Carly = length(df$Carly[!is.na(df$Carly)]),
+  David = length(df$David[!is.na(df$David)]),
+  Emi = length(df$Emi[!is.na(df$Emi)]),
+  Jeff = length(df$Jeff[!is.na(df$Jeff)]),
+  Kelsey = length(df$Kelsey[!is.na(df$Kelsey)]),
+  Marissa = length(df$Marissa[!is.na(df$Marissa)]),
+  Shannon = length(df$Shannon[!is.na(df$Shannon)])
+  ) %>% 
+  pivot_longer(cols = Brian:Shannon, names_to = "person", values_to = "denom")
+
+d <- df_long %>% 
+  filter(!is.na(person_called_on)) %>% 
+  filter(n > 1) %>% 
+  left_join(denom) %>% 
+  mutate(pct = 100*n/denom)
+
+ggplot(data = d, aes(x=person_called_on, y=person, fill=pct)) + 
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white",
+                       midpoint = 15, limit = c(0, 35)) +
+  theme_bw()
 ```
 
 

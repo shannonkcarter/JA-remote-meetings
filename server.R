@@ -25,11 +25,13 @@ shinyServer(function(input, output, session) {
       return(df)
     })
     
-    output$todays_order <- renderDataTable({
-      dt <- todays_order() %>% 
+    output$recent_data <- renderDataTable({
+      dt <- rbind(tail(df), todays_order()) %>% 
         select(-c(Divine, Hala, Zach))
       return(dt)
-    }, options = list(dom = "t", ordering = F, columnDefs = list(list(width = '150px', targets = 2:9, className = "dt-center"))), rownames = F)
+    }, options = list(dom = "t", ordering = F, 
+                      columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
+    rownames = F)
     
     output$hists <- renderPlot({
       hist <- df %>% 
@@ -67,8 +69,8 @@ shinyServer(function(input, output, session) {
                   object = "standapp-data.rds")
         
         removeModal()
-        shinyjs::reset("form")
-        shinyjs::hide("form")
+        #shinyjs::reset("form")
+        #shinyjs::hide("form")
         shinyjs::show("thankyou_msg")
         
       } 

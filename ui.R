@@ -46,11 +46,19 @@ shinyUI(fluidPage(
                                 label ="Submit Data!",
                                 #class = "btn-primary",
                                 icon = icon("chevron-right")))
-            ))), # close wellPanel
+            ),
+            shinyjs::hidden(
+                div(
+                    id = "thankyou_msg",
+                    h3("Thanks, your response was submitted successfully!")
+                )
+            )  
+            ) # close wellPanel
+    ), # close column
         
             fluidRow(style="padding:20px 0 20px 0;",
                      column(10, offset = 1, align="center",
-                            dataTableOutput('todays_order')
+                            dataTableOutput('recent_data')
                      )
             ),
 

@@ -11,8 +11,10 @@ library(jastyle)
 library(lubridate)
 
 # initially - push data to aws bucket
-#df <- read_csv(here::here("standup_data.csv")) 
-#s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
+df <- read_csv(here::here("standup_data.csv")) %>%
+  mutate(date = as.Date(date_y, format = "%m/%d/%y")) %>%
+  select(date, time, Brian, Carly, David, Divine, Emi, Hala, Jeff, Kelsey, Marissa, Shannon, Zach)
+s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
 
 app_password <- config::get("submit", file = "config.yml")$app_pw
 

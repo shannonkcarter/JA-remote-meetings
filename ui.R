@@ -100,8 +100,8 @@ shinyUI(fluidPage(
                               img(src = "brian.jpg", height = 150),
                               tags$hr(),
                               plotOutput("hist_brian", height = "100%"),
-                              h5("Most likely to go: 1st", align = "left"),
-                              h5("Most likely to call on: Jeff", align = "left"),
+                              h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Brian"]),  align = "left"),
+                              h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Brian"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Brian"], "%)"), align = "left"),
                               h5("Most likely to be called on by: Kelsey", align = "left")
                           )),
                    column(width = 3, align = "center",style="padding:20px;",
@@ -110,8 +110,8 @@ shinyUI(fluidPage(
                               img(src = "carly.jpg", height = 150),
                               tags$hr(),
                               plotOutput("hist_carly", height = "100%"),
-                              h5("Most likely to go: 1st", align = "left"),
-                              h5("Most likely to call on: Jeff", align = "left"),
+                              h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Carly"]),  align = "left"),
+                              h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Carly"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Carly"], "%)"), align = "left"),
                               h5("Most likely to be called on by: Kelsey", align = "left")
                               
                       )),
@@ -121,8 +121,8 @@ shinyUI(fluidPage(
                           img(src = "david.jpg", height = 150),
                           tags$hr(),
                           plotOutput("hist_david", height = "100%"),
-                          h5("Most likely to go: 1st", align = "left"),
-                          h5("Most likely to call on: Jeff", align = "left"),
+                          h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "David"]),  align = "left"),
+                          h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "David"], " (", call_on_most$called_on_x_pct[call_on_most$name == "David"], "%)"), align = "left"),
                           h5("Most likely to be called on by: Kelsey", align = "left")
                    )),
                    column(width = 3, align = "center",style="padding:20px;",
@@ -131,8 +131,8 @@ shinyUI(fluidPage(
                           img(src = "emi.png", height = 150),
                           tags$hr(),
                           plotOutput("hist_emi", height = "100%"),
-                          h5("Most likely to go: 1st", align = "left"),
-                          h5("Most likely to call on: Jeff", align = "left"),
+                          h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Emi"]),  align = "left"),
+                          h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Emi"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Emi"], "%)"), align = "left"),
                           h5("Most likely to be called on by: Kelsey", align = "left")
                    ))),
  
@@ -143,8 +143,8 @@ shinyUI(fluidPage(
                img(src = "jeff.jpg", height = 150),
                tags$hr(),
                plotOutput("hist_jeff", height = "100%"),
-               h5("Most likely to go: 1st", align = "left"),
-               h5("Most likely to call on: Jeff", align = "left"),
+               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Jeff"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Jeff"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Jeff"], "%)"), align = "left"),
                h5("Most likely to be called on by: Kelsey", align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
@@ -153,8 +153,8 @@ shinyUI(fluidPage(
                img(src = "kelsey.jpg", height = 150),
                tags$hr(),
                plotOutput("hist_kelsey", height = "100%"),
-               h5("Most likely to go: 1st", align = "left"),
-               h5("Most likely to call on: Jeff", align = "left"),
+               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Kelsey"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Kelsey"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Kelsey"], "%)"), align = "left"),
                h5("Most likely to be called on by: Kelsey", align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
@@ -163,8 +163,8 @@ shinyUI(fluidPage(
                img(src = "marissa.png", height = 150),
                tags$hr(),
                plotOutput("hist_marissa", height = "100%"),
-               h5("Most likely to go: 1st", align = "left"),
-               h5("Most likely to call on: Jeff", align = "left"),
+               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Marissa"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Marissa"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Marissa"], "%)"), align = "left"),
                h5("Most likely to be called on by: Kelsey", align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
@@ -173,8 +173,8 @@ shinyUI(fluidPage(
                img(src = "shannon.jpg", height = 150),
                tags$hr(),
                plotOutput("hist_shannon", height = "100%"),
-               h5("Most likely to go: 1st", align = "left"),
-               h5("Most likely to call on: Jeff", align = "left"),
+               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Shannon"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Shannon"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Shannon"], "%)"), align = "left"),
                h5("Most likely to be called on by: Kelsey", align = "left")
         )))
                )

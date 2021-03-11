@@ -168,5 +168,14 @@ shinyServer(function(input, output, session) {
         
       } 
     })
+    
+    output$table_past <- renderDataTable({
+      dt <- df %>% 
+        tail(20) %>% 
+        select(-c(Divine, Hala, Zach))
+      return(dt)
+    }, options = list(dom = "t", ordering = F, pageLength = 20,
+                      columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
+    rownames = F)
 })
 

@@ -100,9 +100,9 @@ shinyUI(fluidPage(
                               img(src = "brian.jpg", height = 150),
                               tags$hr(),
                               plotOutput("hist_brian", height = "100%"),
-                              h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Brian"]),  align = "left"),
-                              h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Brian"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Brian"], "%)"), align = "left"),
-                              h5("Most likely to be called on by: Kelsey", align = "left")
+                              h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Brian"]),  align = "left"),
+                              h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Brian"], " (", stats$called_on_x_pct[stats$name == "Brian"], "%)"), align = "left"),
+                              h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Brian"], " (", stats$called_on_by_x_pct[stats$name == "Brian"], "%)"), align = "left")
                           )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
@@ -110,9 +110,9 @@ shinyUI(fluidPage(
                               img(src = "carly.jpg", height = 150),
                               tags$hr(),
                               plotOutput("hist_carly", height = "100%"),
-                              h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Carly"]),  align = "left"),
-                              h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Carly"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Carly"], "%)"), align = "left"),
-                              h5("Most likely to be called on by: Kelsey", align = "left")
+                              h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Carly"]),  align = "left"),
+                              h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Carly"], " (", stats$called_on_x_pct[stats$name == "Carly"], "%)"), align = "left"),
+                              h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Carly"], " (", stats$called_on_by_x_pct[stats$name == "Carly"], "%)"), align = "left")
                               
                       )),
                    column(width = 3, align = "center",style="padding:20px;",
@@ -121,9 +121,9 @@ shinyUI(fluidPage(
                           img(src = "david.jpg", height = 150),
                           tags$hr(),
                           plotOutput("hist_david", height = "100%"),
-                          h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "David"]),  align = "left"),
-                          h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "David"], " (", call_on_most$called_on_x_pct[call_on_most$name == "David"], "%)"), align = "left"),
-                          h5("Most likely to be called on by: Kelsey", align = "left")
+                          h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "David"]),  align = "left"),
+                          h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "David"], " (", stats$called_on_x_pct[stats$name == "David"], "%)"), align = "left"),
+                          h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "David"], " (", stats$called_on_by_x_pct[stats$name == "David"], "%)"), align = "left")
                    )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
@@ -131,9 +131,9 @@ shinyUI(fluidPage(
                           img(src = "emi.png", height = 150),
                           tags$hr(),
                           plotOutput("hist_emi", height = "100%"),
-                          h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Emi"]),  align = "left"),
-                          h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Emi"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Emi"], "%)"), align = "left"),
-                          h5("Most likely to be called on by: Kelsey", align = "left")
+                          h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Emi"]),  align = "left"),
+                          h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Emi"], " (", stats$called_on_x_pct[stats$name == "Emi"], "%)"), align = "left"),
+                          h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Emi"], " (", stats$called_on_by_x_pct[stats$name == "Emi"], "%)"), align = "left")
                    ))),
  
     fluidRow(#card_ui
@@ -143,9 +143,9 @@ shinyUI(fluidPage(
                img(src = "jeff.jpg", height = 150),
                tags$hr(),
                plotOutput("hist_jeff", height = "100%"),
-               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Jeff"]),  align = "left"),
-               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Jeff"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Jeff"], "%)"), align = "left"),
-               h5("Most likely to be called on by: Kelsey", align = "left")
+               h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Jeff"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Jeff"], " (", stats$called_on_x_pct[stats$name == "Jeff"], "%)"), align = "left"),
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Jeff"], " (", stats$called_on_by_x_pct[stats$name == "Jeff"], "%)"), align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
@@ -153,9 +153,9 @@ shinyUI(fluidPage(
                img(src = "kelsey.jpg", height = 150),
                tags$hr(),
                plotOutput("hist_kelsey", height = "100%"),
-               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Kelsey"]),  align = "left"),
-               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Kelsey"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Kelsey"], "%)"), align = "left"),
-               h5("Most likely to be called on by: Kelsey", align = "left")
+               h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Kelsey"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Kelsey"], " (", stats$called_on_x_pct[stats$name == "Kelsey"], "%)"), align = "left"),
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Kelsey"], " (", stats$called_on_by_x_pct[stats$name == "Kelsey"], "%)"), align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
@@ -163,9 +163,9 @@ shinyUI(fluidPage(
                img(src = "marissa.png", height = 150),
                tags$hr(),
                plotOutput("hist_marissa", height = "100%"),
-               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Marissa"]),  align = "left"),
-               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Marissa"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Marissa"], "%)"), align = "left"),
-               h5("Most likely to be called on by: Kelsey", align = "left")
+               h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Marissa"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Marissa"], " (", stats$called_on_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Marissa"], " (", stats$called_on_by_x_pct[stats$name == "Marissa"], "%)"), align = "left")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
@@ -173,11 +173,25 @@ shinyUI(fluidPage(
                img(src = "shannon.jpg", height = 150),
                tags$hr(),
                plotOutput("hist_shannon", height = "100%"),
-               h5(paste0("Most likely to go: ", call_on_most$mode_pretty[call_on_most$name == "Shannon"]),  align = "left"),
-               h5(paste0("Most likely to call on: ", call_on_most$calls_on_most[call_on_most$name == "Shannon"], " (", call_on_most$called_on_x_pct[call_on_most$name == "Shannon"], "%)"), align = "left"),
-               h5("Most likely to be called on by: Kelsey", align = "left")
-        )))
-               )
+               h5(paste0("Most likely to go: ", stats$mode_pretty[stats$name == "Shannon"]),  align = "left"),
+               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Shannon"], " (", stats$called_on_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Shannon"], " (", stats$called_on_by_x_pct[stats$name == "Shannon"], "%)"), align = "left")
+        ))) # close fluidRow with 2rd row of stat cards
+               ), # close fluidRow with all stat cards
+    fluidRow(align = "center",
+        # action button reveals scatterplot
+        actionButton(inputId = "show_data",
+                   label = "Click to show data")
+    ),
+    tags$hr(),
+    conditionalPanel(condition = ("input.show_data%2!=0"),
+                     fluidRow(
+                         column(width = 12,
+                                dataTableOutput('table_past')
+                               )
+                         ),
+                     tags$hr())
+    
 
 
     ) # close fluidPage

@@ -28,6 +28,22 @@ shinyServer(function(input, output, session) {
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
     rownames = F)
     
+    output$heatmap <- renderPlot({
+      who_rates %>% 
+        filter(name != "Hala" & name != "Divine" & name != "Zach") %>% 
+        filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
+        filter(!is.na(total_shared_meetings)) %>% 
+        ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
+        geom_tile(color = "white") +
+        scale_fill_gradient2(low = "#5c9ad2", high = "#f59035",
+                             midpoint = 0.14, limit = c(0, 0.4)) +
+        theme_bw() +
+        labs(y = "Person", x = "Calls On", fill = "frequency") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank(),
+              text = element_text(size = 14, family = "Roboto"))
+    })
+    
     output$hist_brian <- renderPlot({
       hist <- df %>% 
         pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
@@ -144,8 +160,8 @@ shinyServer(function(input, output, session) {
     observeEvent(input$submit, {
       showModal(
         modalDialog(
-          title = "Enter password to submit data",
-          textInput(inputId = "password_input", "Type password"),
+          title = h3("Enter password to submit data"),
+          textInput(inputId = "password_input", ""),
           actionButton("submit_pw", "Submit password"),
           easyClose = T
         )

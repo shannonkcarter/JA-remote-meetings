@@ -166,17 +166,20 @@ called_on_most_by <- who_rates_by %>%
   slice_head(n = 1) %>% 
   select(name, called_on_by_most = called_on_by, called_on_by_x_times = n, called_on_by_x_pct = called_on_adj)
 
-heatmap <- who_rates %>% 
-  filter(name != "Hala" & name != "Divine" & name != "Zach") %>% 
-  filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
-  filter(!is.na(total_shared_meetings)) %>% 
-  ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
-  geom_tile(color = "white") +
-  scale_fill_gradient2(low = "#000080", high = "#f59035",
-                       midpoint = 0.14, limit = c(0, 0.4)) +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-heatmap
+# heatmap <- who_rates %>% 
+#   filter(name != "Hala" & name != "Divine" & name != "Zach") %>% 
+#   filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
+#   filter(!is.na(total_shared_meetings)) %>% 
+#   ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
+#   geom_tile(color = "white") +
+#   scale_fill_gradient2(low = "#000080", high = "#f59035",
+#                        midpoint = 0.14, limit = c(0, 0.4)) +
+#   theme_bw() +
+#   labs(y = "Person", x = "Calls On", fill = "frequency") +
+#   theme(panel.grid.major = element_blank(), 
+#         panel.grid.minor = element_blank(),
+#         text = element_text(size = 14, family = "Roboto"))
+# heatmap
 
 stats <- who_rates %>% 
   filter(n > 5) %>% 
@@ -187,3 +190,30 @@ stats <- who_rates %>%
   select(name, calls_on_most = called_on, called_on_x_times = n, called_on_x_pct = called_on_adj) %>% 
   left_join(modes) %>% 
   left_join(called_on_most_by)
+
+
+freq_first <- df %>% 
+  select(-c("Divine", "Hala", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
+  filter(!is.na(order)) %>% 
+  group_by(name) %>% 
+  summarize(number_meetings = length(order),
+            number_first = length(order[order == 1])) %>%
+  mutate(freq_first = round((number_first/number_meetings)*100, 1))
+
+freq_first_last <- df %>% 
+  select(-c("Divine", "Hala", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
+  filter(!is.na(order)) %>% 
+  group_by(date, time) %>% 
+  mutate(last_position = max(order)) %>% 
+  ungroup() %>% 
+  group_by(name) %>% 
+  summarize(number_meetings = length(order),
+            number_last = length(order[order == last_position]),
+            number_first = length(order[order == 1])) %>%
+  mutate(freq_last = round((number_last/number_meetings)*100, 1),
+         freq_first = round((number_first/number_meetings)*100, 1))
+

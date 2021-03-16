@@ -10,6 +10,9 @@ library(shinyjs)
 library(jastyle)
 library(lubridate)
 library(janitor)
+library(shinydashboardPlus)
+library(shinydashboard)
+library(shinyWidgets)
 
 # initially - push data to aws bucket
 # df <- read_csv(here::here("standup_data.csv")) %>%
@@ -214,6 +217,6 @@ freq_first_last <- df %>%
   summarize(number_meetings = length(order),
             number_last = length(order[order == last_position]),
             number_first = length(order[order == 1])) %>%
-  mutate(freq_last = round((number_last/number_meetings)*100, 1),
-         freq_first = round((number_first/number_meetings)*100, 1))
+  mutate(freq_last = round((number_last/number_meetings)*100, 2),
+         freq_first = round((number_first/number_meetings)*100, 2))
 

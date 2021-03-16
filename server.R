@@ -193,5 +193,8 @@ shinyServer(function(input, output, session) {
     }, options = list(dom = "t", ordering = F, pageLength = 20,
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
     rownames = F)
+
+    
+    
 })
 

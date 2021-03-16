@@ -7,6 +7,7 @@ shinyUI(fluidPage(
     # orange #f59035
     tags$head(tags$script(src = "message-handler.js")),
     shinyjs::useShinyjs(),
+   
     tags$style(HTML("
     body {
         
@@ -29,7 +30,12 @@ shinyUI(fluidPage(
         h2 {
         color: #000000 !important;
         }
-
+        h4 {
+        color: #000000 !important;
+        }
+        p {
+        color: #000000 !important;
+        }
                     "
                     )),
 
@@ -78,7 +84,7 @@ shinyUI(fluidPage(
             shinyjs::hidden(
                 div(
                     id = "thankyou_msg",
-                    h4("Thanks, your response was submitted successfully!")
+                    h2("Thanks, your response was submitted successfully!")
                 )
             )  
             ) # close wellPanel
@@ -92,13 +98,30 @@ shinyUI(fluidPage(
     
     fluidRow(column(6, offset = 1, 
                     h2("Team Stats: "))),
-    fluidRow(column(5, offset = 1,
-                    plotOutput("heatmap"))),
+    fluidRow(column(4, offset = 1, align = "center",
+                    h4("Who calls on whom?"),
+                    plotOutput("heatmap", width = "500px")),
+             column(2, offset = 1, align = "center",
+                    h4("Who goes first?"),
+                    img(src = "carly.jpg", height = 150),
+                    p("Most likely"),
+                    br(),
+                    img(src = "shannon.jpg", height = 150),
+                    p("Least likely")),
+             column(2, offset = 1, align = "center",
+                    h4("Who goes last?"),
+                    img(src = "jeff.jpg", height = 150),
+                    p("Most likely"),
+                    br(),
+                    img(src = "marissa.png", height = 150),
+                    p("Least likely")
+                    )),
 
     
     ## individual stat cards
     fluidRow(column(6, offset = 1, 
                     h2("Individual Stats: "))),
+    
     fluidRow(
         #shiny::HTML("<center><h3>Stats</h3></center>"),
         column(width = 10, offset = 1,       
@@ -106,7 +129,32 @@ shinyUI(fluidPage(
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
                               h3("Brian"),
-                              img(src = "brian.jpg", height = 150),
+                              flipBox(
+                                  id = "myflipbox", 
+                                  trigger = "hover",
+                                  width = 12,
+                                  front = div(
+                                      class = "text-center",
+                                      h1("Flip on hover"),
+                                      img(
+                                          src = "https://image.flaticon.com/icons/svg/149/149076.svg",
+                                          height = "300px",
+                                          width = "100%"
+                                      )
+                                  ),
+                                  back = div(
+                                      class = "text-center",
+                                      height = "300px",
+                                      width = "100%",
+                                      h1("Flip on hover"),
+                                      p("More information....")
+                                  )
+                              ),
+                              # flipBox(id = 'brian_flip',
+                              #         trigger = "hover",
+                              #         front = div(img(src = "brian.jpg", height = 150)),
+                              #         back = div(img(src = "brian_today.png", height = 150))
+                              #     ),
                               tags$hr(),
                               plotOutput("hist_brian", height = "100%"),
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Brian"]),  align = "left"),
@@ -205,3 +253,4 @@ shinyUI(fluidPage(
 
     ) # close fluidPage
 ) # close whole app
+

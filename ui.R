@@ -26,8 +26,8 @@ shinyUI(fluidPage(
         body {
         color: #FFFFFF;
         }
-        h3 {
-        color: #5c9ad2 !important;
+        h2 {
+        color: #000000 !important;
         }
 
                     "
@@ -78,7 +78,7 @@ shinyUI(fluidPage(
             shinyjs::hidden(
                 div(
                     id = "thankyou_msg",
-                    h3("Thanks, your response was submitted successfully!")
+                    h4("Thanks, your response was submitted successfully!")
                 )
             )  
             ) # close wellPanel
@@ -91,19 +91,19 @@ shinyUI(fluidPage(
             ),
     
     fluidRow(column(6, offset = 1, 
-                    h3("Team Stats: "))),
-    fluidRow(column(6,
+                    h2("Team Stats: "))),
+    fluidRow(column(5, offset = 1,
                     plotOutput("heatmap"))),
 
     
     ## individual stat cards
     fluidRow(column(6, offset = 1, 
-                    h3("Individual Stats: "))),
+                    h2("Individual Stats: "))),
     fluidRow(
         #shiny::HTML("<center><h3>Stats</h3></center>"),
-        
-               fluidRow(
-                   column(width = 3, offset = 0, align = "center",style="padding:20px;",
+        column(width = 10, offset = 1,       
+        fluidRow(
+                   column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
                               h3("Brian"),
                               img(src = "brian.jpg", height = 150),
@@ -186,7 +186,7 @@ shinyUI(fluidPage(
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Shannon"], " (", stats$called_on_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
                h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Shannon"], " (", stats$called_on_by_x_pct[stats$name == "Shannon"], "%)"), align = "left")
         ))) # close fluidRow with 2rd row of stat cards
-               ), # close fluidRow with all stat cards
+               )), # close fluidRow with all stat cards
     fluidRow(align = "center",
         # action button reveals scatterplot
         actionButton(inputId = "show_data",

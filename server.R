@@ -160,7 +160,7 @@ shinyServer(function(input, output, session) {
     observeEvent(input$submit, {
       showModal(
         modalDialog(
-          title = h3("Enter password to submit data"),
+          title = h2("Enter password to submit data"),
           textInput(inputId = "password_input", ""),
           actionButton("submit_pw", "Submit password"),
           easyClose = T

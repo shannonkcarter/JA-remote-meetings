@@ -45,6 +45,16 @@ loadData <- function() {
 
 df <- loadData()
 
+loadData_ff <- function() {
+  df <- s3readRDS(
+    bucket = "standupapp",
+    object = "funfact-data.rds"
+  )
+  return(df)
+}
+
+fun_facts <- loadData_ff()
+
 ###--- calculations for data vis and stats
 #Start with wide standapp dataset
 

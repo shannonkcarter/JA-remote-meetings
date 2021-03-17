@@ -165,6 +165,8 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
+    #output$colors_brian
+    
     #Submit password
     observeEvent(input$submit, {
       showModal(

@@ -150,6 +150,7 @@ shinyUI(fluidPage(
                               #     ),
                               tags$hr(),
                               plotOutput("hist_brian", height = "100%"),
+                              #plotOutput("colors_brian", height = "100%"),
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Brian"]),  align = "left"),
                               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Brian"], " (", stats$called_on_x_pct[stats$name == "Brian"], "%)"), align = "left"),
                               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Brian"], " (", stats$called_on_by_x_pct[stats$name == "Brian"], "%)"), align = "left")

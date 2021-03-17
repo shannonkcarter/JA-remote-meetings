@@ -143,6 +143,8 @@ shinyUI(fluidPage(
                           wellPanel(
                               h3("Brian"),
                               img(src = "brian.jpg", height = 150),
+                              
+                              
                               # flipBox(id = 'brian_flip',
                               #         trigger = "hover",
                               #         front = div(img(src = "brian.jpg", height = 150)),
@@ -150,10 +152,12 @@ shinyUI(fluidPage(
                               #     ),
                               tags$hr(),
                               plotOutput("hist_brian", height = "100%"),
-                              #plotOutput("colors_brian", height = "100%"),
+                           
+                              
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Brian"]),  align = "left"),
                               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Brian"], " (", stats$called_on_x_pct[stats$name == "Brian"], "%)"), align = "left"),
-                              h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Brian"], " (", stats$called_on_by_x_pct[stats$name == "Brian"], "%)"), align = "left")
+                              h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Brian"], " (", stats$called_on_by_x_pct[stats$name == "Brian"], "%)"), align = "left"),
+                              plotOutput("colors_brian", height = "100%")
                           )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
@@ -163,7 +167,8 @@ shinyUI(fluidPage(
                               plotOutput("hist_carly", height = "100%"),
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Carly"]),  align = "left"),
                               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Carly"], " (", stats$called_on_x_pct[stats$name == "Carly"], "%)"), align = "left"),
-                              h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Carly"], " (", stats$called_on_by_x_pct[stats$name == "Carly"], "%)"), align = "left")
+                              h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Carly"], " (", stats$called_on_by_x_pct[stats$name == "Carly"], "%)"), align = "left"),
+                              plotOutput("colors_carly", height = "100%")
                               
                       )),
                    column(width = 3, align = "center",style="padding:20px;",
@@ -174,7 +179,8 @@ shinyUI(fluidPage(
                           plotOutput("hist_david", height = "100%"),
                           h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "David"]),  align = "left"),
                           h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "David"], " (", stats$called_on_x_pct[stats$name == "David"], "%)"), align = "left"),
-                          h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "David"], " (", stats$called_on_by_x_pct[stats$name == "David"], "%)"), align = "left")
+                          h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "David"], " (", stats$called_on_by_x_pct[stats$name == "David"], "%)"), align = "left"),
+                          plotOutput("colors_david", height = "100%")
                    )),
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
@@ -184,7 +190,8 @@ shinyUI(fluidPage(
                           plotOutput("hist_emi", height = "100%"),
                           h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Emi"]),  align = "left"),
                           h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Emi"], " (", stats$called_on_x_pct[stats$name == "Emi"], "%)"), align = "left"),
-                          h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Emi"], " (", stats$called_on_by_x_pct[stats$name == "Emi"], "%)"), align = "left")
+                          h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Emi"], " (", stats$called_on_by_x_pct[stats$name == "Emi"], "%)"), align = "left"),
+                          plotOutput("colors_emi", height = "100%")
                    ))),
  
     fluidRow(#card_ui
@@ -196,7 +203,8 @@ shinyUI(fluidPage(
                plotOutput("hist_jeff", height = "100%"),
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Jeff"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Jeff"], " (", stats$called_on_x_pct[stats$name == "Jeff"], "%)"), align = "left"),
-               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Jeff"], " (", stats$called_on_by_x_pct[stats$name == "Jeff"], "%)"), align = "left")
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Jeff"], " (", stats$called_on_by_x_pct[stats$name == "Jeff"], "%)"), align = "left"),
+               plotOutput("colors_jeff", height = "100%")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
@@ -206,7 +214,8 @@ shinyUI(fluidPage(
                plotOutput("hist_kelsey", height = "100%"),
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Kelsey"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Kelsey"], " (", stats$called_on_x_pct[stats$name == "Kelsey"], "%)"), align = "left"),
-               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Kelsey"], " (", stats$called_on_by_x_pct[stats$name == "Kelsey"], "%)"), align = "left")
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Kelsey"], " (", stats$called_on_by_x_pct[stats$name == "Kelsey"], "%)"), align = "left"),
+               plotOutput("colors_kelsey", height = "100%")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
@@ -216,7 +225,8 @@ shinyUI(fluidPage(
                plotOutput("hist_marissa", height = "100%"),
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Marissa"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Marissa"], " (", stats$called_on_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
-               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Marissa"], " (", stats$called_on_by_x_pct[stats$name == "Marissa"], "%)"), align = "left")
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Marissa"], " (", stats$called_on_by_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
+               plotOutput("colors_marissa", height = "100%")
         )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
@@ -226,13 +236,16 @@ shinyUI(fluidPage(
                plotOutput("hist_shannon", height = "100%"),
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Shannon"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Shannon"], " (", stats$called_on_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
-               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Shannon"], " (", stats$called_on_by_x_pct[stats$name == "Shannon"], "%)"), align = "left")
+               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Shannon"], " (", stats$called_on_by_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
+               plotOutput("colors_shannon", height = "100%")
         ))) # close fluidRow with 2rd row of stat cards
                )), # close fluidRow with all stat cards
     fluidRow(align = "center",
         # action button reveals scatterplot
         actionButton(inputId = "show_data",
-                   label = "Click to show data")
+                   label = "Click to show data",
+                   icon = icon("table"),
+                   style="color: #fff; background-color: #f59035; border-color: #fff")
     ),
     tags$hr(),
     conditionalPanel(condition = ("input.show_data%2!=0"),

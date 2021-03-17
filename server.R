@@ -20,6 +20,16 @@ shinyServer(function(input, output, session) {
     return(df)
   })
   
+  colors_data <- reactive({
+    df %>% 
+      filter(date != "2021-03-11" & date != "2021-03-12") %>% 
+      tail(10) %>% 
+      select(-c(Divine, Hala, Zach)) %>% 
+      mutate(index = 1:length(date)) %>% 
+      pivot_longer(Brian:Shannon) %>% 
+      mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T))  
+  })
+  
   todays_fun_fact <- reactive({
     ff_df <- tibble(date = input$date,
                     time = input$time,
@@ -165,7 +175,94 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
-    #output$colors_brian
+    output$colors_brian <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "Brian") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_carly <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "Carly") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_david <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "David") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_emi <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "Emi") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_jeff <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "Jeff") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_kelsey <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "Kelsey") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_marissa <- renderPlot({
+      hist <- colors_data() %>% 
+        filter(name == "Marissa") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
+    
+    output$colors_shannon <- renderPlot({
+      hist <- colors_data() %>% 
+        mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T)) %>% 
+        filter(name == "Shannon") %>% 
+        ggplot(aes(x = index, y = name, fill = value)) +
+        geom_tile(color = "white", size = 1) + 
+        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
+        theme_void() +
+        theme(legend.position = "none")
+      hist
+    }, height = 25)
     
     #Submit password
     observeEvent(input$submit, {

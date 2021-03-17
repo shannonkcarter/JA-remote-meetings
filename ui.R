@@ -36,6 +36,7 @@ shinyUI(fluidPage(
         p {
         color: #000000 !important;
         }
+ 
                     "
                     )),
 
@@ -48,10 +49,10 @@ shinyUI(fluidPage(
 
     # Sidebar with a slider input for number of bins
     #sidebarLayout(
-    column(10, offset = 1,    
+    column(12, offset = 0,    
     wellPanel(
             fluidRow(
-                column(3, 
+                column(2, 
                        dateInput(inputId = "date",
                                  format = "M d, yyyy",
                                  label = "Enter today's date:"),
@@ -60,35 +61,47 @@ shinyUI(fluidPage(
                                     choices = c("Standup", "Sitdown"))),
             column(6, offset = 1,
                    orderInput(inputId = 'people',
-                              label = 'Our Team: ',
+                              label = 'Meeting Order: ',
                               items = c('Brian', 'Carly', 'David', "Emi", "Jeff", "Kelsey", "Marissa", "Shannon"),
                               connect = c('order', "missing"),
                               item_class = "info",
                               width = "100%"),
                    orderInput(inputId = 'order',
-                              label = 'Standup Order: ',
+                              label = 'Drag names here to designate order:',
                               items = NULL,
                               connect = c('people', 'missing'),
-                              placeholder = 'Drag names here to designate order...'),
+                              placeholder = ''),
                    orderInput(inputId = 'missing',
                               label = "Truants: ",
                               items = NULL,
                               connect = c("people", "order"),
-                              placeholder = "Drag people missing the meeting here")),
-            column(1,
-                   actionButton(inputId = "submit",
-                                label ="Submit Data!",
-                                #class = "btn-primary",
-                                icon = icon("chevron-right")))
+                              placeholder = "")),
+            column(3,
+
+                   textInput("fun_fact", label = "Fun Fact:", placeholder = "Enter today's fun fact!",
+                             width = "100%"),
+                   fluidRow(
+                       column(6,
+                   radioButtons(inputId = "fun_fact_fun", label = "Was the fun fact fun?", 
+                                choices = c("Yes!", "Not really :("))),
+                   column(6,
+                   radioButtons(inputId = "fun_fact_fact", label = "Was the fun fact factual?",
+                                choices = c("Yes!", "Not really :/")))))
             ),
             shinyjs::hidden(
                 div(
                     id = "thankyou_msg",
-                    h2("Thanks, your response was submitted successfully!")
+                    h3("Thanks, your response was submitted successfully!")
                 )
             )  
             ) # close wellPanel
     ), # close column
+    fluidRow(align = "center",
+        actionButton(inputId = "submit",
+                 label ="Submit Data!",
+                 #class = "btn-primary",
+                 icon = icon("chevron-right"),
+                 style="color: #fff; background-color: #f59035; border-color: #fff")),
         
             fluidRow(style="padding:20px 0 20px 0;",
                      column(10, offset = 1, align="center",
@@ -117,7 +130,7 @@ shinyUI(fluidPage(
                     p("Least likely")
                     )),
 
-    
+    tags$hr(),
     ## individual stat cards
     fluidRow(column(6, offset = 1, 
                     h2("Individual Stats: "))),
@@ -129,27 +142,7 @@ shinyUI(fluidPage(
                    column(width = 3, align = "center",style="padding:20px;",
                           wellPanel(
                               h3("Brian"),
-                              flipBox(
-                                  id = "myflipbox", 
-                                  trigger = "hover",
-                                  width = 12,
-                                  front = div(
-                                      class = "text-center",
-                                      h1("Flip on hover"),
-                                      img(
-                                          src = "https://image.flaticon.com/icons/svg/149/149076.svg",
-                                          height = "300px",
-                                          width = "100%"
-                                      )
-                                  ),
-                                  back = div(
-                                      class = "text-center",
-                                      height = "300px",
-                                      width = "100%",
-                                      h1("Flip on hover"),
-                                      p("More information....")
-                                  )
-                              ),
+                              img(src = "brian.jpg", height = 150),
                               # flipBox(id = 'brian_flip',
                               #         trigger = "hover",
                               #         front = div(img(src = "brian.jpg", height = 150)),

@@ -19,6 +19,15 @@ shinyServer(function(input, output, session) {
                      Zach = NA)
     return(df)
   })
+  
+  todays_fun_fact <- reactive({
+    ff_df <- tibble(date = input$date,
+                    time = input$time,
+                    funfact = input$fun_fact,
+                    fun = input$fun_fact_fun,
+                    fact = input$fun_fact_fact)
+    return(ff_df)
+  })
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
@@ -176,6 +185,10 @@ shinyServer(function(input, output, session) {
         s3saveRDS(rbind(df, todays_order()),
                   bucket = "standupapp",
                   object = "standapp-data.rds")
+        # save fun fact
+        s3saveRDS(rbind(fun_facts, todays_fun_fact()),
+                  bucket = "standupapp",
+                  object = "funfact-data.rds")
         
         removeModal()
         #shinyjs::reset("form")

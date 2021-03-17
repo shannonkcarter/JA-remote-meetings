@@ -301,10 +301,24 @@ stats <- who_rates %>%
   select(name, calls_on_most = called_on, called_on_x_times = n, called_on_x_pct = called_on_adj) %>% 
   left_join(modes) %>% 
   left_join(called_on_most_by)
+```
 
 
+```{r}
 
-
-
+calendar <- df %>% 
+  filter(date != "2021-03-11" & date != "2021-03-12") %>% 
+  tail(10) %>% 
+  select(-c(Divine, Hala, Zach)) %>% 
+  mutate(index = 1:length(date)) %>% 
+  pivot_longer(Brian:Shannon) %>% 
+  #filter(name == "Shannon") %>% 
+  mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T)) %>% 
+  ggplot(aes(x = index, y = name, fill = value)) +
+  geom_tile(color = "white", size = 2) + 
+  scale_fill_manual(values = c("#ff0000", "#ff6600", "#ffff00", "#149414", "#45b6fe", "#2b5bb0", "#663399", "#ff69b4")) + 
+  theme_void() +
+  theme(legend.position = "none")
+calendar
 ```
 

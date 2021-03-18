@@ -137,7 +137,7 @@ shinyUI(fluidPage(
     fluidRow(align = "center", shinyjs::hidden(
         div(
             id = "funfact_random",
-            p(fun_facts$funfact[1])
+            h4(htmlOutput("funfact"))
         )
     )),
 

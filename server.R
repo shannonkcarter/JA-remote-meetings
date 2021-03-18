@@ -38,12 +38,17 @@ shinyServer(function(input, output, session) {
                     fact = input$fun_fact_fact)
     return(ff_df)
   })
-  
+  observe(print(random_fun_fact()))
   random_fun_fact <- reactive({
     # ff <- fun_facts %>% 
     #   select(funfact)
     fact <- fun_facts[sample(nrow(fun_facts), 1), ]
     return(fact)
+  })
+  
+  output$funfact <- renderUI({
+    req(random_fun_fact())
+    text <- random_fun_fact()$funfact
   })
     
     output$table_today <- renderDataTable({

@@ -113,7 +113,7 @@ shinyUI(fluidPage(
                     h2("Team Stats: "))),
     fluidRow(column(4, offset = 1, align = "center",
                     h4("Who calls on whom?"),
-                    plotOutput("heatmap", width = "500px")),
+                    plotOutput("heatmap", width = "450px")),
              column(6, 
              column(4, align = "center",
                     h4("Who goes first?"),

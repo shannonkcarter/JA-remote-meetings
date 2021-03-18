@@ -72,7 +72,9 @@ shinyServer(function(input, output, session) {
         labs(y = "Person", x = "Calls On", fill = "frequency") +
         theme(panel.grid.major = element_blank(), 
               panel.grid.minor = element_blank(),
-              text = element_text(size = 14, family = "Roboto"))
+              text = element_text(size = 14, family = "Roboto"),
+              legend.position = "top"
+              )
     })
     
     output$first <- renderPlot({

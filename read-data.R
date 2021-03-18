@@ -221,6 +221,25 @@ freq_first <- df %>%
             number_first = length(order[order == 1])) %>%
   mutate(freq_first = round((number_first/number_meetings)*100, 1))
 
+meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
+freq_missing <- df %>% 
+  select(-c("Divine", "Hala", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
+  filter(is.na(order)) %>% 
+  group_by(name) %>% 
+  summarize(number_missing = length(name),
+            number_meetings = case_when(name == "Brian" ~ 432 + meetings_since,
+                                        name == "Carly" ~ 324 + meetings_since,
+                                        name == "David" ~ 432 + meetings_since,
+                                        name == "Emi" ~ 188 + meetings_since,
+                                        name == "Jeff" ~ 432 + meetings_since,
+                                        name == "Kelsey" ~ 432 + meetings_since,
+                                        name == "Marissa" ~ 173 + meetings_since,
+                                        name == "Shannon" ~ 432 + meetings_since)) %>%
+  mutate(freq_missing = round((number_missing/number_meetings)*100, 1)) %>% 
+  distinct()
+
 freq_first_last <- df %>% 
   select(-c("Divine", "Hala", "Zach")) %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 

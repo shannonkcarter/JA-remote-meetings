@@ -114,30 +114,32 @@ shinyUI(fluidPage(
     fluidRow(column(4, offset = 1, align = "center",
                     h4("Who calls on whom?"),
                     plotOutput("heatmap", width = "500px")),
-             column(6, offset = 1,
+             column(6, 
              column(4, align = "center",
                     h4("Who goes first?"),
-                    img(src = "carly.jpg", height = 150),
-                    p("Most likely"),
-                    br(),
-                    img(src = "shannon.jpg", height = 150),
-                    p("Least likely")),
+                    plotOutput("first", width = "200px")),
+
              column(4, align = "center",
                     h4("Who goes last?"),
-                    img(src = "jeff.jpg", height = 150),
-                    p("Most likely"),
-                    br(),
-                    img(src = "marissa.png", height = 150),
-                    p("Least likely")
+                    plotOutput("last", width = "200px")
                     ),
              column(4, align = "center",
                     h4("Who skips?"),
-                    img(src = "kelsey.jpg", height = 150),
-                    p("Most likely"),
-                    br(),
-                    img(src = "shannon.jpg", height = 150),
-                    p("Least likely")
+                    plotOutput("missing", width = "200px")
              ))),
+    br(),
+    fluidRow(align = "center",
+             actionButton("show_funfact", 
+                          "Show me a fun fact!",
+                          icon = icon("lightbulb"),
+                          style="color: #fff; background-color: #f59035; border-color: #fff")),
+    br(),
+    fluidRow(align = "center", shinyjs::hidden(
+        div(
+            id = "funfact_random",
+            p(fun_facts$funfact[1])
+        )
+    )),
 
     tags$hr(),
     ## individual stat cards

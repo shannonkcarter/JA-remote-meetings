@@ -18,12 +18,8 @@ library(shinyWidgets)
 # df <- read_csv(here::here("standup_data.csv")) %>%
 #   mutate(date = as.Date(date_y, format = "%m/%d/%y")) %>%
 #   select(date, time, Brian, Carly, David, Divine, Emi, Hala, Jeff, Kelsey, Marissa, Shannon, Zach)
-# funfacts <- tibble(date = as.Date("3/17/21", format = "%m/%d/%y"),
-#                        time = "Standup",
-#                        funfact = "testing",
-#                        fun = "N",
-#                        fact = "N")
-# s3saveRDS(funfacts, bucket = "standupapp", object = "funfact-data.rds")
+
+# s3saveRDS(fun_facts, bucket = "standupapp", object = "funfact-data.rds")
 # s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
 
 app_password <- config::get("submit", file = "config.yml")$app_pw
@@ -54,10 +50,24 @@ loadData_ff <- function() {
 }
 
 fun_facts <- loadData_ff()
+# historical_ff <- data.frame(date = NA,
+#                             time = NA,
+#                             funfact = c("A trumpet player in Detroit was displaced from Houston by construction on Allen Parkway",
+#                                         "Chuck Berry played at a jazz club in St. Louis every Wednesday. Brian was in St. Louis on a Wednesday but his parents didn’t let him see Chuck. Chuck died 3 weeks later",
+#                                         "Archie Bell wrote a hit song then got drafted to Vietnam and Archies’ brother toured as Archie",
+#                                         "Possums have 13 nipples and 2 vaginas",
+#                                         "A whale’s mammary glands weigh 300 pounds",
+#                                         "People surf in cold water (https://www.nytimes.com/2021/03/01/travel/winter-lake-surfers-canada.html?referringSource=articleShare)",
+#                                         "New York's subway system is old but good (https://www.nytimes.com/2021/03/14/podcasts/the-daily/subway-new-york-city.html)"),
+#                             fun = c("N", "N", "Y", "Y", "Y", "Y", "Y"),
+#                             fact = c("Y", "Y", "Y", "Y", "Y", "Y", "Y")) %>% 
+#   mutate(fun = case_when(fun == "Y" ~ "Yes!",
+#                          fun == "N" ~ "Not really :("),
+#          fact = case_when(fact == "Y" ~ "Yes!",
+#                           fact == "N" ~ "Not really :/"))
+
 
 ###--- calculations for data vis and stats
-#Start with wide standapp dataset
-
 getMode <- function(x) {
   ux <- na.omit(unique(x) )
   tab <- tabulate(match(x, ux)); ux[tab == max(tab) ]
@@ -247,18 +257,4 @@ freq_first_last <- df %>%
          freq_first = round((number_first/number_meetings)*100, 2)) %>% 
   left_join(freq_missing)
 
-# ggplot(freq_first_last, aes(x = freq_first, y = reorder(name, freq_first))) +
-#   geom_bar(stat = "identity") + 
-#   labs(x = "Percentage of meetings going first",
-#        y = "person") + 
-#   theme_bw()
-# ggplot(freq_first_last, aes(x = freq_last, y = reorder(name, freq_last))) +
-#   geom_bar(stat = "identity") + 
-#   labs(x = "Percentage of meetings going last",
-#        y = "person") + 
-#   theme_bw()
-# ggplot(freq_first_last, aes(x = freq_missing, y = reorder(name, freq_missing))) +
-#   geom_bar(stat = "identity") + 
-#   labs(x = "Percentage of meetings missed",
-#        y = "person") + 
-#   theme_bw()
+

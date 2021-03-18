@@ -38,6 +38,13 @@ shinyServer(function(input, output, session) {
                     fact = input$fun_fact_fact)
     return(ff_df)
   })
+  
+  random_fun_fact <- reactive({
+    # ff <- fun_facts %>% 
+    #   select(funfact)
+    fact <- fun_facts[sample(nrow(fun_facts), 1), ]
+    return(fact)
+  })
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
@@ -62,6 +69,42 @@ shinyServer(function(input, output, session) {
               panel.grid.minor = element_blank(),
               text = element_text(size = 14, family = "Roboto"))
     })
+    
+    output$first <- renderPlot({
+      ggplot(freq_first_last, aes(x = freq_first, y = reorder(name, freq_first))) +
+        geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
+        labs(x = "% of meetings first",
+             y = NULL) +
+        theme_bw()+
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank(),
+              text = element_text(size = 14, family = "Roboto"))
+
+    })
+    
+    output$last <- renderPlot({
+      ggplot(freq_first_last, aes(x = freq_last, y = reorder(name, freq_last))) +
+        geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
+        labs(x = "% of meetings last",
+             y = NULL) +
+        theme_bw()+
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank(),
+              text = element_text(size = 14, family = "Roboto"))
+
+    })
+    
+    output$missing <- renderPlot({
+      ggplot(freq_first_last, aes(x = freq_missing, y = reorder(name, freq_missing))) +
+        geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
+        labs(x = "% of meetings missed",
+             y = NULL) +
+        theme_bw()+
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank(),
+              text = element_text(size = 14, family = "Roboto"))
+    })
+      
     
     output$hist_brian <- renderPlot({
       hist <- df %>% 
@@ -295,6 +338,11 @@ shinyServer(function(input, output, session) {
         shinyjs::show("thankyou_msg")
         
       } 
+    })
+    
+    observeEvent(input$show_funfact, {
+ 
+      shinyjs::show("funfact_random")
     })
     
     output$table_past <- renderDataTable({

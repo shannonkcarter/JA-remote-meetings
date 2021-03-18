@@ -204,90 +204,49 @@ shinyServer(function(input, output, session) {
     
     output$colors_brian <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "Brian") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Brian")
       hist
     }, height = 25)
     
     output$colors_carly <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "Carly") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Carly")
       hist
     }, height = 25)
     
     output$colors_david <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "David") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "David")
       hist
     }, height = 25)
     
     output$colors_emi <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "Emi") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Emi")
       hist
     }, height = 25)
     
     output$colors_jeff <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "Jeff") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Jeff")
       hist
     }, height = 25)
     
     output$colors_kelsey <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "Kelsey") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Kelsey")
       hist
     }, height = 25)
     
     output$colors_marissa <- renderPlot({
       hist <- colors_data() %>% 
-        filter(name == "Marissa") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Marissa")
       hist
     }, height = 25)
     
     output$colors_shannon <- renderPlot({
       hist <- colors_data() %>% 
-        mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T)) %>% 
-        filter(name == "Shannon") %>% 
-        ggplot(aes(x = index, y = name, fill = value)) +
-        geom_tile(color = "white", size = 1) + 
-        scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-        theme_void() +
-        theme(legend.position = "none")
+        make_colors_chart(., "Shannon")
       hist
     }, height = 25)
     

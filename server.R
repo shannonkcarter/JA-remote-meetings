@@ -73,13 +73,13 @@ shinyServer(function(input, output, session) {
         theme(panel.grid.major = element_blank(), 
               panel.grid.minor = element_blank(),
               text = element_text(size = 14, family = "Roboto"),
-              legend.position = "top"
+              legend.position = "bottom"
               )
     })
     
     output$first <- renderPlot({
       make_bar_chart(freq_first_last, freq_first, name, "% of meetings first")
-    }, height = 200)
+    })
     
     output$last <- renderPlot({
       make_bar_chart(freq_first_last, freq_last, name, "% of meetings last")

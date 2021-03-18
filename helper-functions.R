@@ -13,8 +13,8 @@ make_bar_chart <- function(.data, .x_var, .y_var, .x_axis_name) {
           panel.border = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
-          axis.text.y = element_text(size = 14, family = "Roboto"),
-          text = element_text(size = 14, family = "Roboto")
+          axis.text.y = element_text(size = 12, family = "Roboto"),
+          text = element_text(size = 12, family = "Roboto")
           )
 }
 

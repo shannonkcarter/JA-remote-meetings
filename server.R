@@ -78,38 +78,15 @@ shinyServer(function(input, output, session) {
     })
     
     output$first <- renderPlot({
-      ggplot(freq_first_last, aes(x = freq_first, y = reorder(name, freq_first))) +
-        geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
-        labs(x = "% of meetings first",
-             y = NULL) +
-        theme_bw()+
-        theme(panel.grid.major = element_blank(), 
-              panel.grid.minor = element_blank(),
-              text = element_text(size = 14, family = "Roboto"))
-
+      make_bar_chart(freq_first_last, freq_first, name, "% of meetings first")
     })
     
     output$last <- renderPlot({
-      ggplot(freq_first_last, aes(x = freq_last, y = reorder(name, freq_last))) +
-        geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
-        labs(x = "% of meetings last",
-             y = NULL) +
-        theme_bw()+
-        theme(panel.grid.major = element_blank(), 
-              panel.grid.minor = element_blank(),
-              text = element_text(size = 14, family = "Roboto"))
-
+      make_bar_chart(freq_first_last, freq_last, name, "% of meetings last")
     })
     
     output$missing <- renderPlot({
-      ggplot(freq_first_last, aes(x = freq_missing, y = reorder(name, freq_missing))) +
-        geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
-        labs(x = "% of meetings missed",
-             y = NULL) +
-        theme_bw()+
-        theme(panel.grid.major = element_blank(), 
-              panel.grid.minor = element_blank(),
-              text = element_text(size = 14, family = "Roboto"))
+      make_bar_chart(freq_first_last, freq_missing, name, "% of meetings missed")
     })
       
     

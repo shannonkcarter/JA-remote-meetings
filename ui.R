@@ -8,6 +8,7 @@ shinyUI(fluidPage(
     # orange #f59035
     tags$head(tags$script(src = "message-handler.js")),
     shinyjs::useShinyjs(),
+    useShinydashboardPlus(),
    
     tags$style(HTML("
     body {
@@ -160,10 +161,11 @@ shinyUI(fluidPage(
                               img(src = "brian.jpg", height = 150),
                               
                               
-                              # flipBox(id = 'brian_flip',
+                              # flipBox(img(src = "brian.jpg", height = 150),
+                              #       id = 'brian_flip',
                               #         trigger = "hover",
-                              #         front = div(img(src = "brian.jpg", height = 150)),
-                              #         back = div(img(src = "brian_today.png", height = 150))
+                              #         
+                              #         back_content = img(src = "brian_today.png", height = 150)
                               #     ),
                               tags$hr(),
                               plotOutput("hist_brian", height = "100%"),
@@ -172,6 +174,7 @@ shinyUI(fluidPage(
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Brian"]),  align = "left"),
                               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Brian"], " (", stats$called_on_x_pct[stats$name == "Brian"], "%)"), align = "left"),
                               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Brian"], " (", stats$called_on_by_x_pct[stats$name == "Brian"], "%)"), align = "left"),
+                              h5("Recent activity"),
                               plotOutput("colors_brian", height = "100%")
                           )),
                    column(width = 3, align = "center",style="padding:20px;",
@@ -183,6 +186,7 @@ shinyUI(fluidPage(
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Carly"]),  align = "left"),
                               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Carly"], " (", stats$called_on_x_pct[stats$name == "Carly"], "%)"), align = "left"),
                               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Carly"], " (", stats$called_on_by_x_pct[stats$name == "Carly"], "%)"), align = "left"),
+                              h5("Recent activity"),
                               plotOutput("colors_carly", height = "100%")
                               
                       )),
@@ -195,6 +199,7 @@ shinyUI(fluidPage(
                           h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "David"]),  align = "left"),
                           h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "David"], " (", stats$called_on_x_pct[stats$name == "David"], "%)"), align = "left"),
                           h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "David"], " (", stats$called_on_by_x_pct[stats$name == "David"], "%)"), align = "left"),
+                          h5("Recent activity"),
                           plotOutput("colors_david", height = "100%")
                    )),
                    column(width = 3, align = "center",style="padding:20px;",
@@ -206,6 +211,7 @@ shinyUI(fluidPage(
                           h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Emi"]),  align = "left"),
                           h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Emi"], " (", stats$called_on_x_pct[stats$name == "Emi"], "%)"), align = "left"),
                           h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Emi"], " (", stats$called_on_by_x_pct[stats$name == "Emi"], "%)"), align = "left"),
+                          h5("Recent activity"),
                           plotOutput("colors_emi", height = "100%")
                    ))),
  
@@ -219,6 +225,7 @@ shinyUI(fluidPage(
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Jeff"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Jeff"], " (", stats$called_on_x_pct[stats$name == "Jeff"], "%)"), align = "left"),
                h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Jeff"], " (", stats$called_on_by_x_pct[stats$name == "Jeff"], "%)"), align = "left"),
+               h5("Recent activity"),
                plotOutput("colors_jeff", height = "100%")
         )),
         column(width = 3, align = "center",style="padding:20px;",
@@ -230,6 +237,7 @@ shinyUI(fluidPage(
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Kelsey"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Kelsey"], " (", stats$called_on_x_pct[stats$name == "Kelsey"], "%)"), align = "left"),
                h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Kelsey"], " (", stats$called_on_by_x_pct[stats$name == "Kelsey"], "%)"), align = "left"),
+               h5("Recent activity"),
                plotOutput("colors_kelsey", height = "100%")
         )),
         column(width = 3, align = "center",style="padding:20px;",
@@ -241,6 +249,7 @@ shinyUI(fluidPage(
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Marissa"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Marissa"], " (", stats$called_on_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
                h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Marissa"], " (", stats$called_on_by_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
+               h5("Recent activity"),
                plotOutput("colors_marissa", height = "100%")
         )),
         column(width = 3, align = "center",style="padding:20px;",
@@ -252,6 +261,7 @@ shinyUI(fluidPage(
                h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Shannon"]),  align = "left"),
                h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Shannon"], " (", stats$called_on_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
                h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Shannon"], " (", stats$called_on_by_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
+               h5("Recent activity"),
                plotOutput("colors_shannon", height = "100%")
         ))) # close fluidRow with 2rd row of stat cards
                )), # close fluidRow with all stat cards

@@ -79,7 +79,7 @@ shinyServer(function(input, output, session) {
     
     output$first <- renderPlot({
       make_bar_chart(freq_first_last, freq_first, name, "% of meetings first")
-    })
+    }, height = 200)
     
     output$last <- renderPlot({
       make_bar_chart(freq_first_last, freq_last, name, "% of meetings last")

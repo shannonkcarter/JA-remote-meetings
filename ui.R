@@ -1,5 +1,6 @@
 
 source("read-data.R")
+source("helper-functions.R")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(

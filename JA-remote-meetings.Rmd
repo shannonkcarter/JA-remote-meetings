@@ -123,8 +123,7 @@ call_on <- df_long %>%
   ungroup() %>% 
   select(person, most_likely_to_call_on = person_called_on)
 
-called_on_by <- df_long %>% 
-  filter(!is.na(person_))
+
   
 ```
 
@@ -281,16 +280,25 @@ called_on_most_by <- who_rates_by %>%
   select(name, called_on_by_most = called_on_by, called_on_by_x_times = n, called_on_by_x_pct = called_on_adj)
 
 heatmap <- who_rates %>% 
-  filter(name != "Hala" & name != "Divine" & name != "Zach") %>% 
-  filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
-  filter(!is.na(total_shared_meetings)) %>% 
-  ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
-  geom_tile(color = "white") +
-  scale_fill_gradient2(low = "#000080", high = "#f59035",
-                       midpoint = 0.14, limit = c(0, 0.4)) +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-heatmap
+        filter(name != "Hala" & name != "Divine" & name != "Zach") %>% 
+        filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
+        filter(!is.na(total_shared_meetings)) %>% 
+        ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
+        geom_tile(color = "white") +
+        scale_fill_gradient2(low = "#5c9ad2", high = "#f59035",
+                             midpoint = 0.14, limit = c(0, 0.4)) +
+        labs(title = "Who calls on whom?") +
+        theme_bw() +
+        labs(y = "Person", x = "Calls On", fill = "frequency") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank(),
+              text = element_text(size = 14, family = "Roboto"),
+              legend.position = "bottom",
+              #axis.text.x = element_text(angle = 45, hjust = 1),
+              plot.title.position = "plot",
+              plot.title = element_text(face="bold")
+              )
+ggsave("heatmap.jpg", width = 8.5, height = 5.5, units = "in", dpi = 600)
 
 stats <- who_rates %>% 
   filter(n > 5) %>% 
@@ -305,21 +313,108 @@ stats <- who_rates %>%
 
 
 ```{r}
-
 calendar <- df %>% 
   filter(date != "2021-03-11" & date != "2021-03-12") %>% 
-  tail(10) %>% 
+  #tail(50) %>% 
   select(-c(Divine, Hala, Zach)) %>% 
-  mutate(index = 1:length(date)) %>% 
-  pivot_longer(Brian:Shannon) %>% 
-  #filter(name == "Shannon") %>% 
+  rename(B = Brian, C = Carly, D = David, E = Emi, J = Jeff, K = Kelsey, M = Marissa, S = Shannon) %>% 
+  mutate(index = 1:length(date),
+         date_index = as.numeric(paste0(year(date), month(date))),
+         index2 = case_when(date_index == 20204 ~ 1,
+                            date_index == 20205 ~ 2,
+                            date_index == 20206 ~ 3,
+                            date_index == 20207 ~ 4,
+                            date_index == 20208 ~ 5,
+                            date_index == 20209 ~ 6,
+                            date_index == 202010 ~ 7,
+                            date_index == 202011 ~ 8,
+                            date_index == 202012 ~ 9,
+                            date_index == 20211 ~ 10,
+                            date_index == 20212 ~ 11,
+                            date_index == 20213 ~ 12)) %>% 
+  pivot_longer(B:S) %>% 
   mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T)) %>% 
   ggplot(aes(x = index, y = name, fill = value)) +
-  geom_tile(color = "white", size = 2) + 
+  geom_tile(color = "white", size = 0) + 
+  facet_wrap(~index2, scales = "free", nrow = 1) + 
   scale_fill_manual(values = c("#ff0000", "#f59035", "#ffff00", "#149414", "#5c9ad2", "#2b5bb0", "#663399", "#ff69b4")) + 
-  theme_bw() +
-  theme(legend.position = "none") + 
+  theme_void() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 6, family = "Roboto"),
+        panel.spacing = unit(0, "lines")) + 
   coord_flip()
 calendar
+ggsave("tile_plot.jpg", width = 13, height = 8, units = "in", dpi = 600)
+```
+
+
+```{r}
+
+meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
+freq_missing <- df %>% 
+  select(-c("Divine", "Hala", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
+  filter(!is.na(order)) %>% 
+  group_by(name) %>% 
+  summarize(number_attended = length(name),
+            number_meetings = case_when(name == "Brian" ~ 432 + meetings_since,
+                                        name == "Carly" ~ 324 + meetings_since,
+                                        name == "David" ~ 432 + meetings_since,
+                                        name == "Emi" ~ 188 + meetings_since,
+                                        name == "Jeff" ~ 432 + meetings_since,
+                                        name == "Kelsey" ~ 432 + meetings_since,
+                                        name == "Marissa" ~ 173 + meetings_since,
+                                        name == "Shannon" ~ 432 + meetings_since)) %>%
+  mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
+  distinct() %>% 
+  select(name, freq_missing)
+
+freq_first_last <- df %>% 
+  select(-c("Divine", "Hala", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
+  filter(!is.na(order)) %>% 
+  group_by(date, time) %>% 
+  mutate(last_position = max(order)) %>% 
+  ungroup() %>% 
+  group_by(name) %>% 
+  summarize(number_meetings = length(order),
+            number_last = length(order[order == last_position]),
+            number_first = length(order[order == 1])) %>%
+  mutate(freq_last = round((number_last/number_meetings)*100, 2),
+         freq_first = round((number_first/number_meetings)*100, 2)) %>% 
+  left_join(freq_missing)
+
+make_bar_chart <- function(.data, .x_var, .y_var, .x_axis_name, .title) {
+  x_var <- enquo(.x_var)
+  y_var <- enquo(.y_var)
+  
+  ggplot(freq_first_last, aes(x = !!x_var, y = reorder(!!y_var, !!x_var))) +
+    geom_bar(stat = "identity", fill = "#5c9ad2", size = 2) +
+    geom_text(aes(label = paste0(round(!!x_var), "%")), hjust=1, family="Roboto", fontface="bold", color = "white") +
+    labs(
+      title = .title,
+      x = .x_axis_name,
+      y = NULL) +
+    theme_bw()+
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text.x = element_blank(),
+          axis.text.y = element_text(size = 12, family = "Roboto"),
+          text = element_text(size = 12, family = "Roboto"),
+          plot.title.position = "plot",
+          plot.title = element_text(face="bold", size=16)
+          )
+}
+
+first <- make_bar_chart(freq_first_last, freq_first, name, "% of meetings first", "Who goes first?")
+last <- make_bar_chart(freq_first_last, freq_last, name, "% of meetings last",  "Who goes last?")
+missing <- make_bar_chart(freq_first_last, freq_missing, name, "% of meetings missed",  "Who skips?")
+      
+grid.arrange(grobs=list(first, last), ncol=2)
+   
 ```
 

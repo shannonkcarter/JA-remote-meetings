@@ -417,4 +417,11 @@ missing <- make_bar_chart(freq_first_last, freq_missing, name, "% of meetings mi
 grid.arrange(grobs=list(first, last), ncol=2)
    
 ```
+```{r}
+csa <- df %>% 
+  select(date, time, Carly, Shannon) %>% 
+  mutate(c_s = Shannon - Carly) %>% 
+  filter(!is.na(c_s)) %>% 
+  filter(date > "2020-07-01")
+```
 

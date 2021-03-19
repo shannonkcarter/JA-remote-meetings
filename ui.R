@@ -113,25 +113,17 @@ shinyUI(fluidPage(
     
     fluidRow(column(6, offset = 1, 
                     h2("Team Stats: "))),
-    fluidRow(column(4, offset = 1, align = "center",
-                    h4("Who calls on whom?"),
-                    plotOutput("heatmap", width = "450px", height = "450px")),
-             column(6,
-                    
-                    column(4, align = "center",
-                           h4("Who goes first?"),
-                           plotOutput("first", width = "200px", height = "400px")),
-                    
-                    column(4, align = "center",
-                           h4("Who goes last?"),
-                           plotOutput("last", width = "200px", height = "400px")
-                    ),
-                    column(4, align = "center",
-                           h4("Who skips?"),
-                           plotOutput("missing", width = "200px", height = "400px")
-                    )
-             )
+    fluidRow(
+        column(
+            4, offset=1,
+            plotOutput("heatmap",  height = "350px")
         ),
+        column(
+            6,
+            plotOutput("three_charts", height = "250px")
+        )
+    ),
+
     br(),
     fluidRow(align = "center",
              actionButton("show_funfact", 

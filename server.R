@@ -68,25 +68,28 @@ shinyServer(function(input, output, session) {
         geom_tile(color = "white") +
         scale_fill_gradient2(low = "#5c9ad2", high = "#f59035",
                              midpoint = 0.14, limit = c(0, 0.4)) +
+        labs(title = "Who calls on whom?") +
         theme_bw() +
         labs(y = "Person", x = "Calls On", fill = "frequency") +
         theme(panel.grid.major = element_blank(), 
               panel.grid.minor = element_blank(),
               text = element_text(size = 14, family = "Roboto"),
-              legend.position = "bottom"
+              legend.position = "bottom",
+              axis.text.x = element_text(angle = 45, hjust = 1),
+              plot.title.position = "plot",
+              plot.title = element_text(face="bold")
               )
     })
     
-    output$first <- renderPlot({
-      make_bar_chart(freq_first_last, freq_first, name, "% of meetings first")
-    })
     
-    output$last <- renderPlot({
-      make_bar_chart(freq_first_last, freq_last, name, "% of meetings last")
-    })
-    
-    output$missing <- renderPlot({
-      make_bar_chart(freq_first_last, freq_missing, name, "% of meetings missed")
+    output$three_charts <- renderPlot({
+      
+      first <- make_bar_chart(freq_first_last, freq_first, name, "% of meetings first", "Who goes first?")
+      last <- make_bar_chart(freq_first_last, freq_last, name, "% of meetings last",  "Who goes last?")
+      missing <- make_bar_chart(freq_first_last, freq_missing, name, "% of meetings missed",  "Who skips?")
+      
+      grid.arrange(grobs=list(first, last, missing), ncol=3)
+      
     })
       
     

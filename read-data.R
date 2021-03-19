@@ -13,6 +13,7 @@ library(janitor)
 library(shinydashboardPlus)
 library(shinydashboard)
 library(shinyWidgets)
+library(gridExtra)
 
 # # initially - push data to aws bucket
 # df <- read_csv(here::here("standup_data.csv")) %>%

@@ -38,8 +38,9 @@ shinyServer(function(input, output, session) {
                     fact = input$fun_fact_fact)
     return(ff_df)
   })
-  observe(print(random_fun_fact()))
-  random_fun_fact <- reactive({
+  
+  
+  random_fun_fact <- eventReactive(input$show_funfact, {
     # ff <- fun_facts %>% 
     #   select(funfact)
     fact <- fun_facts[sample(nrow(fun_facts), 1), ]

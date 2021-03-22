@@ -50,7 +50,8 @@ loadData_ff <- function() {
   return(df)
 }
 
-fun_facts <- loadData_ff()
+fun_facts <- loadData_ff() %>% 
+  filter(funfact != "")
 # historical_ff <- data.frame(date = NA,
 #                             time = NA,
 #                             funfact = c("A trumpet player in Detroit was displaced from Houston by construction on Allen Parkway",

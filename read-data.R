@@ -52,21 +52,19 @@ loadData_ff <- function() {
 
 fun_facts <- loadData_ff() %>% 
   filter(funfact != "")
-# historical_ff <- data.frame(date = NA,
-#                             time = NA,
-#                             funfact = c("A trumpet player in Detroit was displaced from Houston by construction on Allen Parkway",
-#                                         "Chuck Berry played at a jazz club in St. Louis every Wednesday. Brian was in St. Louis on a Wednesday but his parents didn’t let him see Chuck. Chuck died 3 weeks later",
-#                                         "Archie Bell wrote a hit song then got drafted to Vietnam and Archies’ brother toured as Archie",
-#                                         "Possums have 13 nipples and 2 vaginas",
-#                                         "A whale’s mammary glands weigh 300 pounds",
-#                                         "People surf in cold water (https://www.nytimes.com/2021/03/01/travel/winter-lake-surfers-canada.html?referringSource=articleShare)",
-#                                         "New York's subway system is old but good (https://www.nytimes.com/2021/03/14/podcasts/the-daily/subway-new-york-city.html)"),
-#                             fun = c("N", "N", "Y", "Y", "Y", "Y", "Y"),
-#                             fact = c("Y", "Y", "Y", "Y", "Y", "Y", "Y")) %>% 
+
+# extra_ff <- data.frame(date = "2021-03-24",
+#                        time = "Standup",
+#                        funfact = c("Jeff is going to order a seder in a box",
+#                                    "Jeff met the founder of Sky Mall at the White House",
+#                                    "dplyr::filter() masks for sale (https://swag.rstudio.com/product/dplyr-mask/50)"),
+#                        fun = c("N", "Y", "Y"),
+#                        fact = c("Y", "Y", "Y")) %>%
 #   mutate(fun = case_when(fun == "Y" ~ "Yes!",
 #                          fun == "N" ~ "Not really :("),
-#          fact = case_when(fact == "Y" ~ "Yes!",
-#                           fact == "N" ~ "Not really :/"))
+#   fact = case_when(fact == "Y" ~ "Yes!",
+#                    fact == "N" ~ "Not really :/"))
+# fun_facts <- rbind(fun_facts, extra_ff)
 
 
 ###--- calculations for data vis and stats

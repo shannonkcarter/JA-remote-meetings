@@ -20,7 +20,7 @@ library(gridExtra)
 #   mutate(date = as.Date(date_y, format = "%m/%d/%y")) %>%
 #   select(date, time, Brian, Carly, David, Divine, Emi, Hala, Jeff, Kelsey, Marissa, Shannon, Zach)
 
-# s3saveRDS(fun_facts, bucket = "standupapp", object = "funfact-data.rds")
+s3saveRDS(fun_facts, bucket = "standupapp", object = "funfact-data.rds")
 # s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
 
 app_password <- config::get("submit", file = "config.yml")$app_pw
@@ -53,18 +53,16 @@ loadData_ff <- function() {
 fun_facts <- loadData_ff() %>% 
   filter(funfact != "")
 
-# extra_ff <- data.frame(date = "2021-03-24",
-#                        time = "Standup",
-#                        funfact = c("Jeff is going to order a seder in a box",
-#                                    "Jeff met the founder of Sky Mall at the White House",
-#                                    "dplyr::filter() masks for sale (https://swag.rstudio.com/product/dplyr-mask/50)"),
-#                        fun = c("N", "Y", "Y"),
-#                        fact = c("Y", "Y", "Y")) %>%
-#   mutate(fun = case_when(fun == "Y" ~ "Yes!",
-#                          fun == "N" ~ "Not really :("),
-#   fact = case_when(fact == "Y" ~ "Yes!",
-#                    fact == "N" ~ "Not really :/"))
-# fun_facts <- rbind(fun_facts, extra_ff)
+extra_ff <- data.frame(date = "2021-03-26",
+                       time = "Sitdown",
+                       funfact = c("Jeff hasn't had Carly's Mimi's kugel"),
+                       fun = c("Y"),
+                       fact = c("Y")) %>%
+  mutate(fun = case_when(fun == "Y" ~ "Yes!",
+                         fun == "N" ~ "Not really :("),
+         fact = case_when(fact == "Y" ~ "Yes!",
+                          fact == "N" ~ "Not really :/"))
+fun_facts <- rbind(fun_facts, extra_ff)
 
 
 ###--- calculations for data vis and stats

@@ -88,7 +88,14 @@ shinyUI(fluidPage(
                                 choices = c("Yes!", "Not really :("))),
                    column(6,
                    radioButtons(inputId = "fun_fact_fact", label = "Was the fun fact factual?",
-                                choices = c("Yes!", "Not really :/")))))
+                                choices = c("Yes!", "Not really :/")))),
+                   
+                   radioButtons(inputId = "errors", label = "Did we misstep?",
+                                choices = c("Yes :/", "No, flawless execution!"),
+                                selected = "No, flawless execution!")
+
+                   ),
+
             ),
             shinyjs::hidden(
                 div(

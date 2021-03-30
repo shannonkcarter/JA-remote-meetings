@@ -6,6 +6,7 @@ shinyServer(function(input, output, session) {
   todays_order <- reactive({
     df <- data.frame(date = input$date,
                      time = input$time,
+                     error = input$errors,
                      Brian = ifelse("Brian" %in% input$order_order$text, which(input$order_order$text == "Brian"), NA),
                      Carly = ifelse("Carly" %in% input$order_order$text, which(input$order_order$text == "Carly"), NA),
                      David = ifelse("David" %in% input$order_order$text, which(input$order_order$text == "David"), NA),
@@ -16,7 +17,9 @@ shinyServer(function(input, output, session) {
                      Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
                      Marissa = ifelse("Marissa" %in% input$order_order$text, which(input$order_order$text == "Marissa"), NA),
                      Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
-                     Zach = NA)
+                     Zach = NA) %>% 
+      mutate(error = case_when(error == "Yes :/" ~ "Y",
+                               error == "No, flawless execution!" ~ "N"))
     return(df)
   })
   
@@ -41,8 +44,6 @@ shinyServer(function(input, output, session) {
   
   
   random_fun_fact <- eventReactive(input$show_funfact, {
-    # ff <- fun_facts %>% 
-    #   select(funfact)
     fact <- fun_facts[sample(nrow(fun_facts), 1), ]
     return(fact)
   })
@@ -54,7 +55,7 @@ shinyServer(function(input, output, session) {
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
-        select(-c(Divine, Hala, Zach))
+        select(-c(error, Divine, Hala, Zach))
       return(dt)
     }, options = list(dom = "t", ordering = F, 
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 

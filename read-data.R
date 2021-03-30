@@ -20,8 +20,8 @@ library(gridExtra)
 #   mutate(date = as.Date(date_y, format = "%m/%d/%y")) %>%
 #   select(date, time, Brian, Carly, David, Divine, Emi, Hala, Jeff, Kelsey, Marissa, Shannon, Zach)
 
-s3saveRDS(fun_facts, bucket = "standupapp", object = "funfact-data.rds")
-# s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
+# s3saveRDS(fun_facts, bucket = "standupapp", object = "funfact-data.rds")
+s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
 
 app_password <- config::get("submit", file = "config.yml")$app_pw
 
@@ -91,7 +91,7 @@ modes <- df %>%
 
 #Calculate Number of times each team member was in a meeting with another
 columns <- colnames(df)
-names <- columns[!columns %in% c("date", "time")]
+names <- columns[!columns %in% c("date", "time", "error")]
 
 all_combos <- combn(names, 2) %>% 
   as.data.frame() %>% 
@@ -106,6 +106,7 @@ all_combos <- combn(names, 2) %>%
   mutate(row_id = row_number())
 
 shared_meetings <- df %>% 
+  select(-error) %>% 
   mutate(
     Brian = ifelse(!is.na(Brian), "Brian", NA),
     Carly = ifelse(!is.na(Carly), "Carly", NA),
@@ -138,6 +139,7 @@ shared_meeting_count <- all_combos %>%
 
 #Figure out who called on who and divide by number of times they shared a meeting
 who_called_on_who <- df %>% 
+  select(-error) %>% 
   pivot_longer(`Brian`:`Zach`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
@@ -153,6 +155,7 @@ who_called_on_who <- df %>%
 
 #Figure out who called on who and divide by number of times they shared a meeting
 who_called_on_by <- df %>% 
+  select(-error) %>% 
   pivot_longer(`Brian`:`Zach`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 

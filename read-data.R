@@ -21,7 +21,7 @@ library(gridExtra)
 #   select(date, time, Brian, Carly, David, Divine, Emi, Hala, Jeff, Kelsey, Marissa, Shannon, Zach)
 
 # s3saveRDS(fun_facts, bucket = "standupapp", object = "funfact-data.rds")
-s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
+# s3saveRDS(df, bucket = "standupapp", object = "standapp-data.rds")
 
 app_password <- config::get("submit", file = "config.yml")$app_pw
 
@@ -224,7 +224,7 @@ stats <- who_rates %>%
 
 meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
 freq_missing <- df %>% 
-  select(-c("Divine", "Hala", "Zach")) %>% 
+  select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
@@ -243,7 +243,7 @@ freq_missing <- df %>%
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
-  select(-c("Divine", "Hala", "Zach")) %>% 
+  select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 

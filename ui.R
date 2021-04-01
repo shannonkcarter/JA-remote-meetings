@@ -64,7 +64,7 @@ shinyUI(fluidPage(
             column(6, offset = 1,
                    orderInput(inputId = 'people',
                               label = 'Meeting Order: ',
-                              items = c('Brian', 'Carly', 'David', "Emi", "Jeff", "Kelsey", "Marissa", "Shannon"),
+                              items = c('Brian', 'Carly', 'David', "Emi", "Jeff", "Kelsey", "Shannon"),
                               connect = c('order', "missing"),
                               item_class = "info",
                               width = "100%"),
@@ -215,7 +215,7 @@ shinyUI(fluidPage(
                    ))),
  
     fluidRow(#card_ui
-        column(width = 3, offset = 0, align = "center",style="padding:20px;",
+        column(width = 3, offset = 1, align = "center",style="padding:20px;",
                wellPanel(
                    h3("Jeff"),
                img(src = "jeff.jpg", height = 150),
@@ -239,18 +239,18 @@ shinyUI(fluidPage(
                h5("Recent activity"),
                plotOutput("colors_kelsey", height = "100%")
         )),
-        column(width = 3, align = "center",style="padding:20px;",
-               wellPanel(
-                   h3("Marissa"),
-               img(src = "marissa.png", height = 150),
-               tags$hr(),
-               plotOutput("hist_marissa", height = "100%"),
-               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Marissa"]),  align = "left"),
-               h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Marissa"], " (", stats$called_on_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
-               h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Marissa"], " (", stats$called_on_by_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
-               h5("Recent activity"),
-               plotOutput("colors_marissa", height = "100%")
-        )),
+        # column(width = 3, align = "center",style="padding:20px;",
+        #        wellPanel(
+        #            h3("Marissa"),
+        #        img(src = "marissa.png", height = 150),
+        #        tags$hr(),
+        #        plotOutput("hist_marissa", height = "100%"),
+        #        h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Marissa"]),  align = "left"),
+        #        h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Marissa"], " (", stats$called_on_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
+        #        h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Marissa"], " (", stats$called_on_by_x_pct[stats$name == "Marissa"], "%)"), align = "left"),
+        #        h5("Recent activity"),
+        #        plotOutput("colors_marissa", height = "100%")
+        # )),
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
                    h3("Shannon"),

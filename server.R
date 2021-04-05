@@ -55,7 +55,7 @@ shinyServer(function(input, output, session) {
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
-        select(-c(error, Divine, Hala, Zach))
+        select(-c(error, Divine, Hala, Marissa, Zach))
       return(dt)
     }, options = list(dom = "t", ordering = F, 
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
@@ -64,7 +64,7 @@ shinyServer(function(input, output, session) {
     output$heatmap <- renderPlot({
       who_rates %>% 
         filter(name != "Hala" & name != "Divine" & name != "Zach" & name != "Marissa") %>% 
-        filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
+        filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach" & called_on != "Marissa") %>% 
         filter(!is.na(total_shared_meetings)) %>% 
         ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
         geom_tile(color = "white") +

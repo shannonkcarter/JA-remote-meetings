@@ -15,6 +15,7 @@ library(shinydashboard)
 library(shinyWidgets)
 library(gridExtra)
 
+
 # # initially - push data to aws bucket
 # df <- read_csv(here::here("standup_data.csv")) %>%
 #   mutate(date = as.Date(date_y, format = "%m/%d/%y")) %>%
@@ -51,7 +52,8 @@ loadData_ff <- function() {
 }
 
 fun_facts <- loadData_ff() %>% 
-  filter(funfact != "")
+  filter(funfact != "") %>% 
+  distinct()
 
 extra_ff <- data.frame(date = "2021-03-26",
                        time = "Sitdown",
@@ -258,4 +260,9 @@ freq_first_last <- df %>%
          freq_first = round((number_first/number_meetings)*100, 2)) %>% 
   left_join(freq_missing)
 
-
+misstep_streak <- df %>% 
+  dplyr::select(date, time, error) %>% 
+  filter(!is.na(error)) %>%
+  mutate(error_count = count_if("N", error))
+  mutate(error_index = case_when(error == "N" ~ 1:length(error),
+                                 error == "Y" ~ 0))

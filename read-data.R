@@ -260,9 +260,11 @@ freq_first_last <- df %>%
          freq_first = round((number_first/number_meetings)*100, 2)) %>% 
   left_join(freq_missing)
 
-misstep_streak <- df %>% 
-  dplyr::select(date, time, error) %>% 
+misstep_streak <- df %>%
+  dplyr::select(date, time, error) %>%
   filter(!is.na(error)) %>%
-  mutate(error_count = count_if("N", error))
-  mutate(error_index = case_when(error == "N" ~ 1:length(error),
-                                 error == "Y" ~ 0))
+  mutate(index = 1:length(error)) %>%
+  mutate(errorless_streak = case_when(error == "N" ~ 1,
+                                 error == "Y" ~ 0)) #%>%
+  #mutate(errorless_streak2 = apply_row_if(cumsum(errorless_streak), 1, errorless_streak))
+  

@@ -2,7 +2,6 @@ library(shiny)
 library(shinyjqui)
 library(DT)
 library(tidyverse)
-library(googlesheets4)
 library(here)
 library(config)
 library(aws.s3)
@@ -14,6 +13,7 @@ library(shinydashboardPlus)
 library(shinydashboard)
 library(shinyWidgets)
 library(gridExtra)
+library(plotly)
 
 
 # # initially - push data to aws bucket
@@ -260,21 +260,21 @@ freq_first_last <- df %>%
          freq_first = round((number_first/number_meetings)*100, 2)) %>% 
   left_join(freq_missing)
 
-misstep_streak <- df %>%
-  dplyr::select(date, time, error) %>%
-  filter(!is.na(error)) %>%
-  mutate(index = 1:length(error)) %>%
-  mutate(errorless_streak = case_when(error == "N" ~ 1,
-                                      error == "Y" ~ 0)) #%>%
-  # mutate(errorless_streak_shift = shift(errorless_streak, 1)) %>% 
-  # mutate(errorless_streak_shift = replace_na(errorless_streak_shift, 0)) %>% 
-  # mutate(errorless_streak2 = case_when(errorless_streak == 0 ~ 0,
-  #                                      errorless_streak == 1 ~ errorless_streak + errorless_streak_shift))
+# misstep_streak <- df %>%
+#   dplyr::select(date, time, error) %>%
+#   filter(!is.na(error)) %>%
+#   mutate(index = 1:length(error)) %>%
+#   mutate(errorless_streak = case_when(error == "N" ~ 1,
+#                                       error == "Y" ~ 0)) #%>%
+#   # mutate(errorless_streak_shift = shift(errorless_streak, 1)) %>% 
+#   # mutate(errorless_streak_shift = replace_na(errorless_streak_shift, 0)) %>% 
+#   # mutate(errorless_streak2 = case_when(errorless_streak == 0 ~ 0,
+#   #                                      errorless_streak == 1 ~ errorless_streak + errorless_streak_shift))
+# 
+#  
+# library(data.table)
+# df <- data.frame(original=misstep_streak$errorless_streak)
+# setDT(df)
+# df[, prev_eq := original==shift(misstep_streak$errorless_streak,1)]
+# mutate(errorless_streak2 = apply_row_if(cumsum(errorless_streak), 1, errorless_streak))
 
- 
-library(data.table)
-df <- data.frame(original=misstep_streak$errorless_streak)
-setDT(df)
-df[, prev_eq := original==shift(misstep_streak$errorless_streak,1)]
-  #mutate(errorless_streak2 = apply_row_if(cumsum(errorless_streak), 1, errorless_streak))
-  

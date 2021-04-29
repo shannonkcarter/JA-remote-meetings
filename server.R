@@ -66,14 +66,17 @@ shinyServer(function(input, output, session) {
         filter(name != "Hala" & name != "Divine" & name != "Zach" & name != "Marissa") %>% 
         filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach" & called_on != "Marissa") %>% 
         filter(!is.na(total_shared_meetings)) %>% 
-        ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
+        # mutate(text = paste0(name, " calls on ", called_on, " in ", round(called_on_adj*100), 
+        #                      "% of meetings they attend together")) %>% 
+        
+        ggplot(aes(x=called_on, y=name, fill=called_on_adj)) +
         geom_tile(color = "white") +
         scale_fill_gradient2(low = "#5c9ad2", high = "#f59035",
-                             midpoint = 0.14, limit = c(0, 0.4)) +
+                             midpoint = 0.14, limit = c(0, 0.45)) +
         labs(title = "Who calls on whom?") +
         theme_bw() +
         labs(y = "Person", x = "Calls On", fill = "frequency") +
-        theme(panel.grid.major = element_blank(), 
+        theme(panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(),
               text = element_text(size = 14, family = "Roboto"),
               legend.position = "bottom",
@@ -81,6 +84,8 @@ shinyServer(function(input, output, session) {
               plot.title.position = "plot",
               plot.title = element_text(face="bold")
               )
+      # ggplotly(chart,
+      #          tooltip = chart$text)
     })
     
     
@@ -296,7 +301,7 @@ shinyServer(function(input, output, session) {
     output$table_past <- renderDataTable({
       dt <- df %>% 
         tail(20) %>% 
-        select(-c(Divine, Hala, Zach))
+        select(-c(Divine, Hala, Zach, Marissa))
       return(dt)
     }, options = list(dom = "t", ordering = F, pageLength = 20,
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 

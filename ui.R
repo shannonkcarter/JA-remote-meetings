@@ -151,10 +151,9 @@ shinyUI(fluidPage(
                     h2("Individual Stats: "))),
     
     fluidRow(
-        #shiny::HTML("<center><h3>Stats</h3></center>"),
         column(width = 10, offset = 1,       
         #fluidRow(
-            column(width = 2,  align = "center",style="padding:20px;",
+            column(width = 2,  align = "center", style = "padding:20px;",
                    wellPanel(
                        h3("Ben"),
                        img(src = "ja.png", height = 150),
@@ -166,7 +165,7 @@ shinyUI(fluidPage(
                        h5("Recent activity"),
                        plotOutput("colors_ben", height = "100%")
                    )),
-                   column(width = 2, align = "center",style="padding:20px;",
+                   column(width = 2, align = "center", style = "padding:20px;",
                           wellPanel(
                               h3("Brian"),
                               img(src = "brian.jpg", height = 150),

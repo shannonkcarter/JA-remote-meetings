@@ -32,7 +32,7 @@ shinyServer(function(input, output, session) {
       select(-c(Divine, Hala, Marissa, Zach)) %>% 
       mutate(index = 1:length(date)) %>% 
       pivot_longer(Ben:Shannon) %>% 
-      mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T))  
+      mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9"), ordered = T))  
   })
   
   todays_fun_fact <- reactive({
@@ -100,7 +100,19 @@ shinyServer(function(input, output, session) {
       grid.arrange(grobs=list(first, last, missing), ncol=3)
       
     })
-      
+    
+    output$hist_ben <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Ben") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#f59035") +
+        scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
+        theme_void()
+      hist
+    }, height = 100)
     
     output$hist_brian <- renderPlot({
       hist <- df %>% 
@@ -149,6 +161,20 @@ shinyServer(function(input, output, session) {
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Emi") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#f59035") +
+        #facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_void()
+      hist
+    }, height = 100)
+    
+    output$hist_eric <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Eric") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "#f59035") +
@@ -214,6 +240,12 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
+    output$colors_ben <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Ben")
+      hist
+    }, height = 25)
+    
     output$colors_brian <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Brian")
@@ -235,6 +267,12 @@ shinyServer(function(input, output, session) {
     output$colors_emi <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Emi")
+      hist
+    }, height = 25)
+    
+    output$colors_eric <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Eric")
       hist
     }, height = 25)
     

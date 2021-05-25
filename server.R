@@ -7,11 +7,13 @@ shinyServer(function(input, output, session) {
     df <- data.frame(date = input$date,
                      time = input$time,
                      error = input$errors,
+                     Ben = ifelse("Ben" %in% input$order_order$text, which(input$order_order$text == "Ben"), NA),
                      Brian = ifelse("Brian" %in% input$order_order$text, which(input$order_order$text == "Brian"), NA),
                      Carly = ifelse("Carly" %in% input$order_order$text, which(input$order_order$text == "Carly"), NA),
                      David = ifelse("David" %in% input$order_order$text, which(input$order_order$text == "David"), NA),
                      Divine = NA,
                      Emi = ifelse("Emi" %in% input$order_order$text, which(input$order_order$text == "Emi"), NA),
+                     Eric = ifelse("Eric" %in% input$order_order$text, which(input$order_order$text == "Eric"), NA),
                      Hala = NA,
                      Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
                      Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
@@ -29,7 +31,7 @@ shinyServer(function(input, output, session) {
       tail(10) %>% 
       select(-c(Divine, Hala, Zach)) %>% 
       mutate(index = 1:length(date)) %>% 
-      pivot_longer(Brian:Shannon) %>% 
+      pivot_longer(Ben:Shannon) %>% 
       mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T))  
   })
   
@@ -102,7 +104,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_brian <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Brian") %>%
         filter(order < 9) %>% 
@@ -116,7 +118,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_carly <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Carly") %>%
         filter(order < 9) %>% 
@@ -130,7 +132,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_david <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "David") %>%
         filter(order < 9) %>% 
@@ -144,7 +146,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_emi <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Emi") %>%
         filter(order < 9) %>% 
@@ -158,7 +160,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_jeff <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Jeff") %>%
         filter(order < 9) %>% 
@@ -172,7 +174,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_kelsey <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Kelsey") %>%
         filter(order < 9) %>% 
@@ -200,7 +202,7 @@ shinyServer(function(input, output, session) {
     
     output$hist_shannon <- renderPlot({
       hist <- df %>% 
-        pivot_longer(cols = Brian:Zach, names_to = "person", values_to = "order") %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Shannon") %>%
         filter(order < 9) %>% 

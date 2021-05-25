@@ -64,7 +64,7 @@ shinyUI(fluidPage(
             column(6, offset = 1,
                    orderInput(inputId = 'people',
                               label = 'Meeting Order: ',
-                              items = c('Brian', 'Carly', 'David', "Emi", "Jeff", "Kelsey", "Shannon"),
+                              items = c('Ben', 'Brian', 'Carly', 'David', "Emi", 'Eric', "Jeff", "Kelsey", "Shannon"),
                               connect = c('order', "missing"),
                               item_class = "info",
                               width = "100%"),

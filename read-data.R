@@ -41,7 +41,7 @@ loadData <- function() {
   return(df)
 }
 
-df <- loadData()
+df <- loadData() 
 
 loadData_ff <- function() {
   df <- s3readRDS(
@@ -74,18 +74,20 @@ getMode <- function(x) {
 }
 
 modes <- df %>% 
-  summarize(Brian = getMode(Brian)[1],
+  summarize(Ben = getMode(Ben)[1],
+            Brian = getMode(Brian)[1],
             Carly = getMode(Carly)[1],
             David = getMode(David)[1],
             Divine = getMode(Divine)[1],
             Emi = getMode(Emi)[1],
+            Eric = getMode(Eric)[1],
             Hala = getMode(Hala)[1],
             Jeff = getMode(Jeff)[1],
             Kelsey = getMode(Kelsey)[1],
             Marissa = getMode(Marissa)[1],
             Shannon = getMode(Shannon)[1],
             Zach = getMode(Zach)[1]) %>% 
-  pivot_longer(cols = Brian:Zach, names_to = "name", values_to = "mode") %>% 
+  pivot_longer(cols = Ben:Zach, names_to = "name", values_to = "mode") %>% 
   mutate(mode_pretty = case_when(mode == 1 ~ "1st",
                                  mode == 2 ~ "2nd",
                                  mode == 3 ~ "3rd", 
@@ -110,11 +112,13 @@ all_combos <- combn(names, 2) %>%
 shared_meetings <- df %>% 
   select(-error) %>% 
   mutate(
+    Ben = ifelse(!is.na(Ben), "Ben", NA),
     Brian = ifelse(!is.na(Brian), "Brian", NA),
     Carly = ifelse(!is.na(Carly), "Carly", NA),
     David = ifelse(!is.na(David), "David", NA),
     Divine = ifelse(!is.na(Divine), "Divine", NA),
     Emi = ifelse(!is.na(Emi), "Emi", NA),
+    Eric = ifelse(!is.na(Eric), "Eric", NA),
     Hala = ifelse(!is.na(Hala), "Hala", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
@@ -142,7 +146,7 @@ shared_meeting_count <- all_combos %>%
 #Figure out who called on who and divide by number of times they shared a meeting
 who_called_on_who <- df %>% 
   select(-error) %>% 
-  pivot_longer(`Brian`:`Zach`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Ben`:`Zach`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   arrange(date, time, order) %>% 
@@ -158,7 +162,7 @@ who_called_on_who <- df %>%
 #Figure out who called on who and divide by number of times they shared a meeting
 who_called_on_by <- df %>% 
   select(-error) %>% 
-  pivot_longer(`Brian`:`Zach`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Ben`:`Zach`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   arrange(date, time, order) %>% 

@@ -55,16 +55,16 @@ fun_facts <- loadData_ff() %>%
   filter(funfact != "") %>% 
   distinct()
 
-extra_ff <- data.frame(date = "2021-03-26",
-                       time = "Sitdown",
-                       funfact = c("Jeff hasn't had Carly's Mimi's kugel"),
-                       fun = c("Y"),
-                       fact = c("Y")) %>%
-  mutate(fun = case_when(fun == "Y" ~ "Yes!",
-                         fun == "N" ~ "Not really :("),
-         fact = case_when(fact == "Y" ~ "Yes!",
-                          fact == "N" ~ "Not really :/"))
-fun_facts <- rbind(fun_facts, extra_ff)
+# extra_ff <- data.frame(date = "2021-03-26",
+#                        time = "Sitdown",
+#                        funfact = c("Jeff hasn't had Carly's Mimi's kugel"),
+#                        fun = c("Y"),
+#                        fact = c("Y")) %>%
+#   mutate(fun = case_when(fun == "Y" ~ "Yes!",
+#                          fun == "N" ~ "Not really :("),
+#          fact = case_when(fact == "Y" ~ "Yes!",
+#                           fact == "N" ~ "Not really :/"))
+# fun_facts <- rbind(fun_facts, extra_ff)
 
 
 ###--- calculations for data vis and stats
@@ -95,15 +95,16 @@ modes <- df %>%
 
 #Calculate Number of times each team member was in a meeting with another
 columns <- colnames(df)
+columns
 names <- columns[!columns %in% c("date", "time", "error")]
-
+names
 all_combos <- combn(names, 2) %>% 
   as.data.frame() %>% 
   mutate(
     rowid = row_number()
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
-  pivot_longer(V1:V55, names_to = "name1", values_to = "name2") %>% 
+  pivot_longer(V1:V78, names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -195,7 +196,7 @@ who_rates_by <- who_called_on_by %>%
   dplyr::select(name, called_on_by, n = n.x, total_shared_meetings, called_on_adj)
 
 called_on_most_by <- who_rates_by %>% 
-  filter(n > 5) %>% 
+  #filter(n > 5) %>% 
   group_by(name) %>% 
   mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
   arrange(desc(called_on_adj)) %>% 
@@ -218,7 +219,7 @@ called_on_most_by <- who_rates_by %>%
 # heatmap
 
 stats <- who_rates %>% 
-  filter(n > 5) %>% 
+  #filter(n > 5) %>% 
   group_by(name) %>% 
   mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
   arrange(desc(called_on_adj)) %>% 
@@ -229,17 +230,21 @@ stats <- who_rates %>%
 
 
 meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
+meetings_since_interns <- length(df$date[as.numeric(rownames(df)) > 523])
+
 freq_missing <- df %>% 
   select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
-  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Ben`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   group_by(name) %>% 
   summarize(number_attended = length(name),
-            number_meetings = case_when(name == "Brian" ~ 432 + meetings_since,
+            number_meetings = case_when(name == "Ben" ~ 0 + meetings_since_interns,
+                                        name == "Brian" ~ 432 + meetings_since,
                                         name == "Carly" ~ 324 + meetings_since,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
+                                        name == "Eric" ~ 0 + meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,
                                         name == "Kelsey" ~ 432 + meetings_since,
                                         name == "Marissa" ~ 173 + meetings_since,
@@ -250,7 +255,7 @@ freq_missing <- df %>%
 
 freq_first_last <- df %>% 
   select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
-  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Ben`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   group_by(date, time) %>% 

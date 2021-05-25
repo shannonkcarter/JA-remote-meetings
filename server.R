@@ -29,7 +29,7 @@ shinyServer(function(input, output, session) {
     df %>% 
       filter(date != "2021-03-11" & date != "2021-03-12") %>% 
       tail(10) %>% 
-      select(-c(Divine, Hala, Zach)) %>% 
+      select(-c(Divine, Hala, Marissa, Zach)) %>% 
       mutate(index = 1:length(date)) %>% 
       pivot_longer(Ben:Shannon) %>% 
       mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), ordered = T))  

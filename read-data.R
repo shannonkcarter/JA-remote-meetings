@@ -47,13 +47,13 @@ loadData_ff <- function() {
   df <- s3readRDS(
     bucket = "standupapp",
     object = "funfact-data.rds"
-  )
+  ) %>% 
+    filter(funfact != "") %>% 
+    distinct()
   return(df)
 }
 
-fun_facts <- loadData_ff() %>% 
-  filter(funfact != "") %>% 
-  distinct()
+fun_facts <- loadData_ff() 
 
 # extra_ff <- data.frame(date = "2021-03-26",
 #                        time = "Sitdown",

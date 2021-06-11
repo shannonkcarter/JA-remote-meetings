@@ -151,9 +151,9 @@ shinyUI(fluidPage(
                     h2("Individual Stats: "))),
     
     fluidRow(
-        column(width = 10, offset = 1,       
+        #column(width = 10, offset = 1,       
         #fluidRow(
-            column(width = 2,  align = "center", style = "padding:20px;",
+            column(width = 2, offset = 1, align = "center", style = "padding:20px;",
                    wellPanel(
                        h3("Ben"),
                        img(src = "ja.png", height = 150),
@@ -214,10 +214,10 @@ shinyUI(fluidPage(
                    h5("Recent activity"),
                    plotOutput("colors_emi", height = "100%")
                )),
-            )),
+            ),
             fluidRow(
-                column(width = 10, offset = 1,
-                       column(width = 2, align = "center",style="padding:20px;",
+                #column(width = 10, offset = 1,
+                       column(width = 2, offset = 1, align = "center",style="padding:20px;",
                           wellPanel(
                               h3("Eric"),
                               img(src = "ja.png", height = 150),
@@ -266,7 +266,7 @@ shinyUI(fluidPage(
                h5("Recent activity"),
                plotOutput("colors_shannon", height = "100%")
         ))
-    )), # close fluidRow with 3rd row of stat cards
+    ), # close fluidRow with 3rd row of stat cards
 
     fluidRow(align = "center",
         # action button reveals scatterplot

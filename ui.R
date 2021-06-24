@@ -64,7 +64,7 @@ shinyUI(fluidPage(
             column(6, offset = 1,
                    orderInput(inputId = 'people',
                               label = 'Meeting Order: ',
-                              items = c('Ben', 'Brian', 'Carly', 'David', "Emi", 'Eric', "Jeff", "Kelsey", "Shannon"),
+                              items = c('Ben', 'Brian', 'Carly', 'David', "Emi", 'Eric', "Jeff", "Kelsey", "Nigel", "Shannon"),
                               connect = c('order', "missing"),
                               item_class = "info",
                               width = "100%"),
@@ -254,6 +254,18 @@ shinyUI(fluidPage(
                h5("Recent activity"),
                plotOutput("colors_kelsey", height = "100%")
         )),
+        column(width = 2, align = "center",style="padding:20px;",
+               wellPanel(
+                   h3("Nigel"),
+                   img(src = "shannon.jpg", height = 150),
+                   tags$hr(),
+                   plotOutput("hist_nigel", height = "100%"),
+                   h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Nigel"]),  align = "left"),
+                   h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Nigel"], " (", stats$called_on_x_pct[stats$name == "Nigel"], "%)"), align = "left"),
+                   h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Nigel"], " (", stats$called_on_by_x_pct[stats$name == "Nigel"], "%)"), align = "left"),
+                   h5("Recent activity"),
+                   plotOutput("colors_nigel", height = "100%")
+               )),
         column(width = 2, align = "center",style="padding:20px;",
                wellPanel(
                    h3("Shannon"),

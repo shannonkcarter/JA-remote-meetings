@@ -85,6 +85,7 @@ modes <- df %>%
             Jeff = getMode(Jeff)[1],
             Kelsey = getMode(Kelsey)[1],
             Marissa = getMode(Marissa)[1],
+            Nigel = getMode(Nigel)[1],
             Shannon = getMode(Shannon)[1],
             Zach = getMode(Zach)[1]) %>% 
   pivot_longer(cols = Ben:Zach, names_to = "name", values_to = "mode") %>% 
@@ -104,7 +105,7 @@ all_combos <- combn(names, 2) %>%
     rowid = row_number()
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
-  pivot_longer(V1:V78, names_to = "name1", values_to = "name2") %>% 
+  pivot_longer(V1:V91, names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -124,6 +125,7 @@ shared_meetings <- df %>%
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
     Marissa = ifelse(!is.na(Marissa), "Marissa", NA),
+    Nigel = ifelse(!is.na(Nigel), "Nigel", NA),
     Shannon = ifelse(!is.na(Shannon), "Shannon", NA),
     Zach = ifelse(!is.na(Zach), "Zach", NA),
   ) 
@@ -231,8 +233,10 @@ stats <- who_rates %>%
 
 meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
 meetings_since_interns <- length(df$date[as.numeric(rownames(df)) > 523])
+meetings_since_nigel <- length(df$date[as.numeric(rownames(df)) > 565])
 
 freq_missing <- df %>% 
+  ungroup() %>% 
   select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
   pivot_longer(`Ben`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
@@ -244,10 +248,11 @@ freq_missing <- df %>%
                                         name == "Carly" ~ 324 + meetings_since,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
-                                        name == "Eric" ~ 0 + meetings_since_interns,
+                                        name == "Eric" ~ 0 +meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,
                                         name == "Kelsey" ~ 432 + meetings_since,
                                         name == "Marissa" ~ 173 + meetings_since,
+                                        name == "Nigel" ~ 0 + meetings_since_nigel,
                                         name == "Shannon" ~ 432 + meetings_since)) %>%
   mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
   distinct() %>% 

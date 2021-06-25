@@ -41,10 +41,7 @@ loadData <- function() {
   return(df)
 }
 
-df <- loadData() %>% 
-  mutate(Nigel = NA) %>% 
-  select(date, time, error, Ben, Brian, Carly, David, Divine, Emi, Eric, Hala, Jeff, Kelsey, Marissa, Nigel, Shannon, Zach) %>% 
-  mutate(Nigel = case_when(date == "2021-06-24" & error == "Y" ~ 8))
+df <- loadData() 
 
 loadData_ff <- function() {
   df <- s3readRDS(

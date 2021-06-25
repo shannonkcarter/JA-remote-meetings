@@ -35,7 +35,9 @@ make_colors_chart <- function(.data, .filter_name) {
     geom_text(aes(label=value), family="Roboto", fontface="bold", color = "white") +
     scale_fill_manual(values = c(`1` = "#ff0000", `2` = "#f59035", `3` = "#ffff00", 
                                  `4` = "#149414", `5` = "#5c9ad2", `6` = "#2b5bb0", 
-                                 `7` = "#663399", `8` = "#ff69b4", `9` = "pink")) + 
+                                 `7` = "#663399", `8` = "#ff69b4", `9` = "pink",
+                                 `10` = "681a47",
+                                 na.value = "transparent")) + 
     theme_void() +
     theme(legend.position = "none", 
           panel.background = element_rect(fill="transparent")

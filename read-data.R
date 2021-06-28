@@ -233,7 +233,7 @@ stats <- who_rates %>%
 
 meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
 meetings_since_interns <- length(df$date[as.numeric(rownames(df)) > 523])
-meetings_since_nigel <- length(df$date[as.numeric(rownames(df)) > 565])
+meetings_since_nigel <- length(df$date[as.numeric(rownames(df)) > 568])
 
 freq_missing <- df %>% 
   ungroup() %>% 

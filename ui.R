@@ -220,7 +220,7 @@ shinyUI(fluidPage(
                        column(width = 2, offset = 1, align = "center",style="padding:20px;",
                           wellPanel(
                               h3("Eric"),
-                              img(src = "ja.png", height = 150),
+                              img(src = "eric.jpg", height = 150),
                               tags$hr(),
                               plotOutput("hist_eric", height = "100%"),
                               h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Eric"]),  align = "left"),

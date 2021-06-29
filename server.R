@@ -110,7 +110,7 @@ shinyServer(function(input, output, session) {
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "#f59035") +
-        scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
     }, height = 100)
@@ -223,6 +223,7 @@ shinyServer(function(input, output, session) {
         geom_bar(stat = "count", fill = "#f59035") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
+        xlim(1,8) +
         theme_void()
       hist
     }, height = 100)

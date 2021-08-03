@@ -237,30 +237,30 @@ meetings_since_nigel <- length(df$date[as.numeric(rownames(df)) > 566])
 
 freq_missing <- df %>% 
   ungroup() %>% 
-  select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
-  pivot_longer(`Ben`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  select(-c("Ben", "Divine", "Eric", "Hala",  "Marissa", "Nigel", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   group_by(name) %>% 
   summarize(number_attended = length(name),
-            number_meetings = case_when(name == "Ben" ~ 0 + meetings_since_interns,
+            number_meetings = case_when(#name == "Ben" ~ 0 + meetings_since_interns,
                                         name == "Brian" ~ 432 + meetings_since,
                                         name == "Carly" ~ 324 + meetings_since,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
-                                        name == "Eric" ~ 0 +meetings_since_interns,
+                                        #name == "Eric" ~ 0 +meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,
                                         name == "Kelsey" ~ 432 + meetings_since,
                                         name == "Marissa" ~ 173 + meetings_since,
-                                        name == "Nigel" ~ 0 + meetings_since_nigel,
+                                        #name == "Nigel" ~ 0 + meetings_since_nigel,
                                         name == "Shannon" ~ 432 + meetings_since)) %>%
   mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
   distinct() %>% 
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
-  select(-c("Divine", "Hala", "Zach", "Marissa")) %>% 
-  pivot_longer(`Ben`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  select(-c("Ben", "Divine", "Eric", "Hala",  "Marissa", "Nigel", "Zach")) %>% 
+  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   group_by(date, time) %>% 

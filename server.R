@@ -7,18 +7,18 @@ shinyServer(function(input, output, session) {
     df <- data.frame(date = input$date,
                      time = input$time,
                      error = input$errors,
-                     Ben = ifelse("Ben" %in% input$order_order$text, which(input$order_order$text == "Ben"), NA),
+                     Ben = NA,
                      Brian = ifelse("Brian" %in% input$order_order$text, which(input$order_order$text == "Brian"), NA),
                      Carly = ifelse("Carly" %in% input$order_order$text, which(input$order_order$text == "Carly"), NA),
                      David = ifelse("David" %in% input$order_order$text, which(input$order_order$text == "David"), NA),
                      Divine = NA,
                      Emi = ifelse("Emi" %in% input$order_order$text, which(input$order_order$text == "Emi"), NA),
-                     Eric = ifelse("Eric" %in% input$order_order$text, which(input$order_order$text == "Eric"), NA),
+                     Eric = NA,
                      Hala = NA,
                      Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
                      Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
                      Marissa = NA,
-                     Nigel = ifelse("Nigel" %in% input$order_order$text, which(input$order_order$text == "Nigel"), NA),
+                     Nigel = NA,
                      Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
                      Zach = NA) %>% 
       mutate(error = case_when(error == "Yes :/" ~ "Y",
@@ -58,7 +58,7 @@ shinyServer(function(input, output, session) {
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
-        select(-c(error, Divine, Hala, Marissa, Zach))
+        select(-c(error, Divine, Hala, Marissa, Zach, Ben, Eric, Nigel))
       return(dt)
     }, options = list(dom = "t", ordering = F, 
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
@@ -66,8 +66,8 @@ shinyServer(function(input, output, session) {
     
     output$heatmap <- renderPlot({
       who_rates %>% 
-        filter(name != "Hala" & name != "Divine" & name != "Zach" & name != "Marissa") %>% 
-        filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach" & called_on != "Marissa") %>% 
+        filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>% 
+        filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>% 
         filter(!is.na(total_shared_meetings)) %>% 
         # mutate(text = paste0(name, " calls on ", called_on, " in ", round(called_on_adj*100), 
         #                      "% of meetings they attend together")) %>% 
@@ -102,18 +102,18 @@ shinyServer(function(input, output, session) {
       
     })
     
-    output$hist_ben <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Ben") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 100)
+    # output$hist_ben <- renderPlot({
+    #   hist <- df %>% 
+    #     pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+    #     mutate(order = as.numeric(order)) %>% 
+    #     filter(person == "Ben") %>%
+    #     filter(order < 9) %>% 
+    #     ggplot(aes(x = order)) +
+    #     geom_bar(stat = "count", fill = "#f59035") +
+    #     scale_x_continuous(breaks = seq(1, 8, 1)) + 
+    #     theme_void()
+    #   hist
+    # }, height = 100)
     
     output$hist_brian <- renderPlot({
       hist <- df %>% 
@@ -171,19 +171,19 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
-    output$hist_eric <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Eric") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 100)
+    # output$hist_eric <- renderPlot({
+    #   hist <- df %>% 
+    #     pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+    #     mutate(order = as.numeric(order)) %>% 
+    #     filter(person == "Eric") %>%
+    #     filter(order < 9) %>% 
+    #     ggplot(aes(x = order)) +
+    #     geom_bar(stat = "count", fill = "#f59035") +
+    #     #facet_wrap(~person) +
+    #     scale_x_continuous(breaks = seq(1, 8, 1)) + 
+    #     theme_void()
+    #   hist
+    # }, height = 100)
     
     output$hist_jeff <- renderPlot({
       hist <- df %>% 
@@ -213,20 +213,20 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
-    output$hist_nigel <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Nigel") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
-        xlim(1,8) +
-        theme_void()
-      hist
-    }, height = 100)
+    # output$hist_nigel <- renderPlot({
+    #   hist <- df %>% 
+    #     pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+    #     mutate(order = as.numeric(order)) %>% 
+    #     filter(person == "Nigel") %>%
+    #     filter(order < 9) %>% 
+    #     ggplot(aes(x = order)) +
+    #     geom_bar(stat = "count", fill = "#f59035") +
+    #     #facet_wrap(~person) +
+    #     scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
+    #     xlim(1,8) +
+    #     theme_void()
+    #   hist
+    # }, height = 100)
 
     
     output$hist_shannon <- renderPlot({
@@ -243,11 +243,11 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
-    output$colors_ben <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Ben")
-      hist
-    }, height = 25)
+    # output$colors_ben <- renderPlot({
+    #   hist <- colors_data() %>% 
+    #     make_colors_chart(., "Ben")
+    #   hist
+    # }, height = 25)
     
     output$colors_brian <- renderPlot({
       hist <- colors_data() %>% 
@@ -273,11 +273,11 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 25)
     
-    output$colors_eric <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Eric")
-      hist
-    }, height = 25)
+    # output$colors_eric <- renderPlot({
+    #   hist <- colors_data() %>% 
+    #     make_colors_chart(., "Eric")
+    #   hist
+    # }, height = 25)
     
     output$colors_jeff <- renderPlot({
       hist <- colors_data() %>% 
@@ -291,11 +291,11 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 25)
     
-    output$colors_nigel <- renderPlot({
-      hist <- colors_data() %>%
-        make_colors_chart(., "Nigel")
-      hist
-    }, height = 25)
+    # output$colors_nigel <- renderPlot({
+    #   hist <- colors_data() %>%
+    #     make_colors_chart(., "Nigel")
+    #   hist
+    # }, height = 25)
     
     output$colors_shannon <- renderPlot({
       hist <- colors_data() %>% 
@@ -344,7 +344,7 @@ shinyServer(function(input, output, session) {
     output$table_past <- renderDataTable({
       dt <- df %>% 
         tail(20) %>% 
-        select(-c(Divine, Hala, Zach, Marissa))
+        select(-c(Divine, Hala, Zach, Marissa, Ben, Eric, Nigel))
       return(dt)
     }, options = list(dom = "t", ordering = F, pageLength = 20,
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 

@@ -122,13 +122,18 @@ shinyUI(fluidPage(
                     h2("Team Stats: "))),
     fluidRow(
         column(
-            4, offset=1,
+            3, offset=1,
             plotOutput("heatmap",  height = "350px")
         ),
         column(
-            6,
+            5,
             plotOutput("three_charts", height = "250px")
-        )
+        ),
+        column(2,
+               h3(htmlOutput("longest_streak_vb", aligh = "center")),
+               h5("Longest period without a misstep")
+               #valueBoxOutput("current_streak_vb")
+               )
     ),
 
     br(),

@@ -26,6 +26,12 @@ shinyServer(function(input, output, session) {
     return(df)
   })
   
+  
+  output$longest_streak_vb <- renderUI({
+    text <- max(x$numones)
+    return(text)
+  })
+  
   colors_data <- reactive({
     df %>% 
       filter(date != "2021-03-11" & date != "2021-03-12") %>% 

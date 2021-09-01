@@ -203,7 +203,7 @@ shinyUI(fluidPage(
             ),
             fluidRow(
                    
-        column(width = 3, offset = 1, align = "center",style="padding:20px;",
+        column(width = 3, offset = 1,  align = "center",style="padding:20px;",
                wellPanel(
                    h3("Jeff"),
                img(src = "jeff.jpg", height = 150),

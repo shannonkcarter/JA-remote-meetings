@@ -280,11 +280,11 @@ freq_first_last <- df %>%
 #   mutate(index = 1:length(error)) %>%
 #   mutate(errorless_streak = case_when(error == "N" ~ 1,
 #                                       error == "Y" ~ 0)) #%>%
-#   # mutate(errorless_streak_shift = shift(errorless_streak, 1)) %>% 
-#   # mutate(errorless_streak_shift = replace_na(errorless_streak_shift, 0)) %>% 
-#   # mutate(errorless_streak2 = case_when(errorless_streak == 0 ~ 0,
-#   #                                      errorless_streak == 1 ~ errorless_streak + errorless_streak_shift))
-# 
+  # mutate(errorless_streak_shift = shift(errorless_streak, 1)) %>%
+  # mutate(errorless_streak_shift = replace_na(errorless_streak_shift, 0)) %>%
+  # mutate(errorless_streak2 = case_when(errorless_streak == 0 ~ 0,
+  #                                      errorless_streak == 1 ~ errorless_streak + errorless_streak_shift))
+
 #  
 # library(data.table)
 # df <- data.frame(original=misstep_streak$errorless_streak)

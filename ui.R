@@ -38,6 +38,11 @@ shinyUI(fluidPage(
         p {
         color: #000000 !important;
         }
+    
+    .small-box { 
+                background-color: #f59035 !important; 
+                color:white !important; 
+                height: 100px}
  
                     "
                     )),
@@ -130,9 +135,9 @@ shinyUI(fluidPage(
             plotOutput("three_charts", height = "250px")
         ),
         column(2,
-               h3(htmlOutput("longest_streak_vb", aligh = "center")),
-               h5("Longest period without a misstep")
-               #valueBoxOutput("current_streak_vb")
+               br(),
+               valueBoxOutput("current_streak_vb", width = "100%"),
+               valueBoxOutput("longest_streak_vb", width = "100%")
                )
     ),
 

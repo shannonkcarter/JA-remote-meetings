@@ -26,10 +26,21 @@ shinyServer(function(input, output, session) {
     return(df)
   })
   
+  output$current_streak_vb <- renderValueBox({
+    valueBox(value = current_streak,
+             subtitle = tags$p("meetings since last misstep", style = "color: #ffffff !important;"),
+             #subtitle = "meetings since last misstep",
+             icon = icon("clock"),
+             color = "light-blue"
+    )
+  })
   
-  output$longest_streak_vb <- renderUI({
-    text <- max(x$numones)
-    return(text)
+  output$longest_streak_vb <- renderValueBox({
+    valueBox(value = longest_streak,
+             subtitle = tags$p("longest winning streak", style = "color: #ffffff !important;"),
+             icon = icon("trophy"),
+             color = "light-blue"
+             )
   })
   
   colors_data <- reactive({

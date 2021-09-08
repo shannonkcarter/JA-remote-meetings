@@ -1,0 +1,14 @@
+name: JA-remote-meetings
+title: JA-remote-meetings
+username:
+account: januaryadvisors
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3631083
+bundleId: 5012292
+url: https://januaryadvisors.shinyapps.io/JA-remote-meetings/
+when: 1631111509.99527
+lastSyncTime: 1631111509.99529
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: figures/first_last.jpg|figures/heatmap.jpg|figures/Rplot.png|figures/skips_plot.jpg|figures/tile_plot.jpg|JA-remote-meetings.Rmd|standup_data.csv

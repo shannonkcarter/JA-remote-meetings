@@ -1,7 +1,0 @@
-default:
-  aws:
-    AWS_ACCESS_KEY_ID: "AKIA46SFWZO7KKVEI3GN"
-    AWS_SECRET_ACCESS_KEY: "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"
-    AWS_DEFAULT_REGION: "us-east-2"
-  submit:
-    app_pw: "illstart"

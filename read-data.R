@@ -52,7 +52,9 @@ loadData_ff <- function() {
     distinct()
   return(df)
 }
-
+# df <- df %>% 
+#   mutate(error = case_when(date == "2021-11-30" & time == "Standup" ~ "Y",
+#                            T ~ error))
 fun_facts <- loadData_ff() 
 
 # extra_ff <- data.frame(date = "2021-03-26",

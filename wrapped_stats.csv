@@ -1,0 +1,8 @@
+name,number_present,freq_present,number_absent,freq_absent,number_first,freq_first,number_last,freq_last,person_calls_on_most,freq_calls_on_most,person_called_by_most,freq_called_by_most
+Brian,388,88.4,51,11.599999999999994,54,13.9,110,28.4,Kelsey,21.5,Jeff,22.9
+Carly,373,85,66,15,81,21.7,34,9.1,Shannon,48.8,Shannon,47.1
+David,380,86.6,59,13.400000000000006,68,17.9,68,17.9,Jeff,24.7,Brian,20.3
+Emi,364,82.9,75,17.099999999999994,46,12.6,57,15.7,Brian,22.6,Kelsey,20.8
+Jeff,378,86.1,61,13.900000000000006,97,25.7,63,16.7,Brian,22.9,David,24.7
+Kelsey,327,74.5,112,25.5,50,15.3,78,23.9,Emi,20.8,Brian,21.5
+Shannon,405,92.3,34,7.700000000000003,10,2.5,16,4,Carly,47.1,Carly,48.8

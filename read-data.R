@@ -43,6 +43,17 @@ loadData <- function() {
 
 df <- loadData() 
 
+# # need to do if adding another person...
+# todays_order <- c(date = "2022-01-04", time = "Standup", error = "N",
+#                   Ben = NA, Brian = 4, Carly = 1, David = 6, Divine = NA, Emi = 5,
+#                   Eric = NA, Hala = NA, Jeff = 7, Kelsey = 8, Marissa = NA,
+#                   Nigel = NA, Shannon = 2, Taylor = 3, Zach = NA)
+# df <- df %>%
+#   mutate("Taylor" = NA) %>%
+#   select(-Zach, Zach) %>%
+#   rbind(todays_order)
+
+
 loadData_ff <- function() {
   df <- s3readRDS(
     bucket = "standupapp",
@@ -89,6 +100,7 @@ modes <- df %>%
             Marissa = getMode(Marissa)[1],
             Nigel = getMode(Nigel)[1],
             Shannon = getMode(Shannon)[1],
+            Taylor = getMode(Taylor)[1],
             Zach = getMode(Zach)[1]) %>% 
   pivot_longer(cols = Ben:Zach, names_to = "name", values_to = "mode") %>% 
   mutate(mode_pretty = case_when(mode == 1 ~ "1st",
@@ -107,7 +119,7 @@ all_combos <- combn(names, 2) %>%
     rowid = row_number()
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
-  pivot_longer(V1:V91, names_to = "name1", values_to = "name2") %>% 
+  pivot_longer(V1:V105, names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -129,6 +141,7 @@ shared_meetings <- df %>%
     Marissa = ifelse(!is.na(Marissa), "Marissa", NA),
     Nigel = ifelse(!is.na(Nigel), "Nigel", NA),
     Shannon = ifelse(!is.na(Shannon), "Shannon", NA),
+    Taylor = ifelse(!is.na(Taylor), "Taylor", NA),
     Zach = ifelse(!is.na(Zach), "Zach", NA),
   ) 
 
@@ -233,16 +246,18 @@ stats <- who_rates %>%
   left_join(called_on_most_by)
 
 
-meetings_since <- length(df$date[as.numeric(rownames(df)) > 432])
-meetings_since_interns <- length(df$date[as.numeric(rownames(df)) > 523])
-meetings_since_nigel <- length(df$date[as.numeric(rownames(df)) > 566])
+meetings_since <- as.numeric(length(df$date[as.numeric(rownames(df)) > 432]))
+meetings_since_interns <- as.numeric(length(df$date[as.numeric(rownames(df)) > 523]))
+meetings_since_nigel <- as.numeric(length(df$date[as.numeric(rownames(df)) > 566]))
+meetings_since_taylor <- as.numeric(length(df$date[as.numeric(rownames(df)) > 789]))
 
 freq_missing <- df %>% 
   ungroup() %>% 
   select(-c("Ben", "Divine", "Eric", "Hala",  "Marissa", "Nigel", "Zach")) %>% 
-  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Brian`:`Taylor`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
-  filter(!is.na(order)) %>% 
+  filter(!is.na(order)) %>%
+  mutate(order = as.numeric(order)) %>% 
   group_by(name) %>% 
   summarize(number_attended = length(name),
             number_meetings = case_when(#name == "Ben" ~ 0 + meetings_since_interns,
@@ -255,14 +270,15 @@ freq_missing <- df %>%
                                         name == "Kelsey" ~ 432 + meetings_since,
                                         name == "Marissa" ~ 173 + meetings_since,
                                         #name == "Nigel" ~ 0 + meetings_since_nigel,
-                                        name == "Shannon" ~ 432 + meetings_since)) %>%
+                                        name == "Shannon" ~ 432 + meetings_since,
+                                        name == "Taylor" ~ meetings_since_taylor)) %>%
   mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
   distinct() %>% 
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
   select(-c("Ben", "Divine", "Eric", "Hala",  "Marissa", "Nigel", "Zach")) %>% 
-  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Brian`:`Taylor`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   group_by(date, time) %>% 

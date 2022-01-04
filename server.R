@@ -20,6 +20,7 @@ shinyServer(function(input, output, session) {
                      Marissa = NA,
                      Nigel = NA,
                      Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
+                     Taylor = ifelse("Taylor" %in% input$order_order$text, which(input$order_order$text == "Taylor"), NA),
                      Zach = NA) %>% 
       mutate(error = case_when(error == "Yes :/" ~ "Y",
                                error == "No, flawless execution!" ~ "N"))
@@ -47,9 +48,9 @@ shinyServer(function(input, output, session) {
     df %>% 
       filter(date != "2021-03-11" & date != "2021-03-12") %>% 
       tail(10) %>% 
-      select(-c(Divine, Hala, Marissa, Zach)) %>% 
+      select(-c(Ben, Divine, Eric, Hala, Marissa, Nigel, Zach)) %>% 
       mutate(index = 1:length(date)) %>% 
-      pivot_longer(Ben:Shannon) %>% 
+      pivot_longer(Brian:Taylor) %>% 
       mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9"), ordered = T))  
   })
   
@@ -260,6 +261,20 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 100)
     
+    output$hist_taylor <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Taylor") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#f59035") +
+        #facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_void()
+      hist
+    }, height = 100)
+    
     # output$colors_ben <- renderPlot({
     #   hist <- colors_data() %>% 
     #     make_colors_chart(., "Ben")
@@ -317,6 +332,12 @@ shinyServer(function(input, output, session) {
     output$colors_shannon <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Shannon")
+      hist
+    }, height = 25)
+    
+    output$colors_taylor <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Taylor")
       hist
     }, height = 25)
     

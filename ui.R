@@ -69,7 +69,7 @@ shinyUI(fluidPage(
             column(6, offset = 1,
                    orderInput(inputId = 'people',
                               label = 'Meeting Order: ',
-                              items = c('Brian', 'Carly', 'David', "Emi", "Jeff", "Kelsey", "Shannon"),
+                              items = c('Brian', 'Carly', 'David', "Emi", "Jeff", "Kelsey", "Shannon", "Taylor"),
                               connect = c('order', "missing"),
                               item_class = "info",
                               width = "100%"),
@@ -213,7 +213,7 @@ shinyUI(fluidPage(
             ),
             fluidRow(
                    
-        column(width = 3, offset = 1,  align = "center",style="padding:20px;",
+        column(width = 3,  align = "center",style="padding:20px;",
                wellPanel(
                    h3("Jeff"),
                img(src = "jeff.jpg", height = 150),
@@ -249,7 +249,20 @@ shinyUI(fluidPage(
                h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Shannon"], " (", stats$called_on_by_x_pct[stats$name == "Shannon"], "%)"), align = "left"),
                h5("Recent activity"),
                plotOutput("colors_shannon", height = "100%")
-        ))
+        )),
+        
+        column(width = 3, align = "center",style="padding:20px;",
+               wellPanel(
+                   h3("Taylor"),
+                   img(src = "ja.png", height = 150),
+                   tags$hr(),
+                   plotOutput("hist_taylor", height = "100%"),
+                   h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Taylor"]),  align = "left"),
+                   h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Taylor"], " (", stats$called_on_x_pct[stats$name == "Taylor"], "%)"), align = "left"),
+                   h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Taylor"], " (", stats$called_on_by_x_pct[stats$name == "Taylor"], "%)"), align = "left"),
+                   h5("Recent activity"),
+                   plotOutput("colors_taylor", height = "100%")
+               )),
     ), # close fluidRow with 3rd row of stat cards
 
     fluidRow(align = "center",

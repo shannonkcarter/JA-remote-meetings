@@ -254,7 +254,7 @@ shinyUI(fluidPage(
         column(width = 3, align = "center",style="padding:20px;",
                wellPanel(
                    h3("Taylor"),
-                   img(src = "ja.png", height = 150),
+                   img(src = "taylor.png", height = 150),
                    tags$hr(),
                    plotOutput("hist_taylor", height = "100%"),
                    h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Taylor"]),  align = "left"),

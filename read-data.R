@@ -303,3 +303,13 @@ x <- data.frame(x=seq_along(zis),numones=diff(c(0L,zis))-1L)
 longest_streak <- max(x$numones)
 current_streak <- tail(x, 1) %>% 
   pull(numones)
+
+# View(tabyl(misstep_streak$error))
+# library(jastyle)
+# ggplot(x, aes(x = numones)) + 
+#   geom_histogram(stat = "count", fill = ja_hex("blue")) +
+#   theme_ja() +
+#   labs(x = "streak length",
+#        y = "number of times") +
+#   scale_x_continuous(breaks = seq(0, 55, 5))
+  

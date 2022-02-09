@@ -12,17 +12,19 @@ make_bar_chart <- function(.data, .x_var, .y_var, .x_axis_name, .title) {
       title = .title,
       x = .x_axis_name,
       y = NULL) +
-    theme_bw()+
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_blank(),
-          axis.ticks = element_blank(),
-          axis.text.x = element_blank(),
-          axis.text.y = element_text(size = 12, family = "Roboto"),
-          text = element_text(size = 12, family = "Roboto"),
-          plot.title.position = "plot",
-          plot.title = element_text(face="bold", size=16)
-          )
+    theme_ja() #+
+    # theme_bw()+
+    # theme(panel.grid.major = element_blank(),
+    #       panel.grid.minor = element_blank(),
+    #       panel.border = element_blank(),
+    #       axis.ticks = element_blank(),
+    #       axis.text.x = element_blank(),
+    #       axis.text.y = element_text(size = 12, family = "Roboto"),
+    #       text = element_text(size = 12, family = "Roboto"),
+    #       plot.title.position = "plot",
+    #       plot.title = element_text(face="bold", size=16)
+    #       )
+  
 }
 
 

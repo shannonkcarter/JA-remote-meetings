@@ -5,7 +5,7 @@ source("helper-functions.R")
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
     # blue #5c9ad2
-    # orange #f59035
+    # orange #FF8B00
     tags$head(tags$script(src = "message-handler.js")),
     shinyjs::useShinyjs(),
     useShinydashboardPlus(),
@@ -21,7 +21,7 @@ shinyUI(fluidPage(
         margin-bottom: 10px !important;
                     }
         .btn-info {
-        background-color: #f59035 !important;
+        background-color: #FF8B00 !important;
         border-color: #FFFFFF;
         
         border-radius: 12px;
@@ -40,7 +40,7 @@ shinyUI(fluidPage(
         }
     
     .small-box { 
-                background-color: #f59035 !important; 
+                background-color: #FF8B00 !important; 
                 color:white !important; 
                 height: 100px}
  
@@ -115,30 +115,39 @@ shinyUI(fluidPage(
                  label ="Submit Data!",
                  #class = "btn-primary",
                  icon = icon("chevron-right"),
-                 style="color: #fff; background-color: #f59035; border-color: #fff")),
+                 style="color: #fff; background-color: #FF8B00; border-color: #fff")),
         
             fluidRow(style="padding:20px 0 20px 0;",
                      column(10, offset = 1, align="center",
                             dataTableOutput('table_today')
                      )
             ),
-    
+    fluidRow(column(12, offset = 1,
+                    h2("Streaks: ")),
+             column(3, offset = 1,
+                    br(),
+                    valueBoxOutput("current_streak_vb", width = "100%"),
+                    valueBoxOutput("longest_streak_vb", width = "100%")
+             ),
+             column(3,
+                    plotOutput("streak_pie", height = "350px")
+                    #p("pie chart comign")
+                    ),
+             column(4,
+                    plotOutput("streak_histogram",  height = "350px")
+                    )),
     fluidRow(column(6, offset = 1, 
                     h2("Team Stats: "))),
     fluidRow(
         column(
-            3, offset=1,
+            4, offset=1,
             plotOutput("heatmap",  height = "350px")
         ),
         column(
-            5,
+            6,
             plotOutput("three_charts", height = "250px")
         ),
-        column(2,
-               br(),
-               valueBoxOutput("current_streak_vb", width = "100%"),
-               valueBoxOutput("longest_streak_vb", width = "100%")
-               )
+
     ),
 
     br(),
@@ -146,7 +155,7 @@ shinyUI(fluidPage(
              actionButton("show_funfact", 
                           "Show me a fun fact!",
                           icon = icon("lightbulb"),
-                          style="color: #fff; background-color: #f59035; border-color: #fff")),
+                          style="color: #fff; background-color: #FF8B00; border-color: #fff")),
     br(),
     fluidRow(align = "center", shinyjs::hidden(
         div(
@@ -270,7 +279,7 @@ shinyUI(fluidPage(
         actionButton(inputId = "show_data",
                    label = "Click to show data",
                    icon = icon("table"),
-                   style="color: #fff; background-color: #f59035; border-color: #fff")
+                   style="color: #fff; background-color: #FF8B00; border-color: #fff")
     ),
     tags$hr(),
     conditionalPanel(condition = ("input.show_data%2!=0"),

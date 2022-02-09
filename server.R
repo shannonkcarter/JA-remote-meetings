@@ -82,31 +82,46 @@ shinyServer(function(input, output, session) {
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
     rownames = F)
     
+    output$streak_histogram <- renderPlot({
+      ggplot(x, aes(x = numones)) +
+        geom_histogram(stat = "count", fill = "#5c9ad2") +
+        theme_ja() +
+        labs(x = "streak length",
+             y = "number of times") +
+        scale_x_continuous(breaks = seq(0, 55, 5))
+    })
+    
+    output$streak_pie <- renderPlot({
+      pct <- tabyl(misstep_streak, error) %>%
+        filter(error == "N") %>%
+        pull(percent)
+
+      tabyl(misstep_streak, error) %>%
+        ggplot(aes(x="", y=percent, fill=error)) +
+        geom_bar(stat="identity", width=1) +
+        coord_polar("y", start=0) +
+        theme_void() +
+        scale_fill_manual(values = c("#5c9ad2", "white")) +
+        theme(legend.position = "none")+
+        labs(title = paste0("We get the order correct in", pct, "% of our meetings"))
+
+    })
+    
     output$heatmap <- renderPlot({
       who_rates %>% 
         filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>% 
         filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>% 
         filter(!is.na(total_shared_meetings)) %>% 
-        # mutate(text = paste0(name, " calls on ", called_on, " in ", round(called_on_adj*100), 
-        #                      "% of meetings they attend together")) %>% 
-        
         ggplot(aes(x=called_on, y=name, fill=called_on_adj)) +
         geom_tile(color = "white") +
-        scale_fill_gradient2(low = "#5c9ad2", high = "#f59035",
+        scale_fill_gradient2(low = "#5c9ad2", high = "#FF8B00",
                              midpoint = 0.14, limit = c(0, 0.45)) +
         labs(title = "Who calls on whom?") +
-        theme_bw() +
         labs(y = "Person", x = "Calls On", fill = "frequency") +
-        theme(panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank(),
-              text = element_text(size = 14, family = "Roboto"),
-              legend.position = "bottom",
-              axis.text.x = element_text(angle = 45, hjust = 1),
-              plot.title.position = "plot",
-              plot.title = element_text(face="bold")
-              )
-      # ggplotly(chart,
-      #          tooltip = chart$text)
+        theme_ja() +
+        theme(legend.position = "bottom",
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank())
     })
     
     
@@ -120,19 +135,6 @@ shinyServer(function(input, output, session) {
       
     })
     
-    # output$hist_ben <- renderPlot({
-    #   hist <- df %>% 
-    #     pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-    #     mutate(order = as.numeric(order)) %>% 
-    #     filter(person == "Ben") %>%
-    #     filter(order < 9) %>% 
-    #     ggplot(aes(x = order)) +
-    #     geom_bar(stat = "count", fill = "#f59035") +
-    #     scale_x_continuous(breaks = seq(1, 8, 1)) + 
-    #     theme_void()
-    #   hist
-    # }, height = 100)
-    
     output$hist_brian <- renderPlot({
       hist <- df %>% 
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
@@ -140,7 +142,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Brian") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -154,7 +156,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Carly") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -168,7 +170,7 @@ shinyServer(function(input, output, session) {
         filter(person == "David") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -182,7 +184,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Emi") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -196,7 +198,7 @@ shinyServer(function(input, output, session) {
     #     filter(person == "Eric") %>%
     #     filter(order < 9) %>% 
     #     ggplot(aes(x = order)) +
-    #     geom_bar(stat = "count", fill = "#f59035") +
+    #     geom_bar(stat = "count", fill = "#FF8B00") +
     #     #facet_wrap(~person) +
     #     scale_x_continuous(breaks = seq(1, 8, 1)) + 
     #     theme_void()
@@ -210,7 +212,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Jeff") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -224,7 +226,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Kelsey") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -238,7 +240,7 @@ shinyServer(function(input, output, session) {
     #     filter(person == "Nigel") %>%
     #     filter(order < 9) %>% 
     #     ggplot(aes(x = order)) +
-    #     geom_bar(stat = "count", fill = "#f59035") +
+    #     geom_bar(stat = "count", fill = "#FF8B00") +
     #     #facet_wrap(~person) +
     #     scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
     #     xlim(1,8) +
@@ -254,7 +256,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Shannon") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
@@ -268,7 +270,7 @@ shinyServer(function(input, output, session) {
         filter(person == "Taylor") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#f59035") +
+        geom_bar(stat = "count", fill = "#FF8B00") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()

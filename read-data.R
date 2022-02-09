@@ -14,6 +14,7 @@ library(shinydashboard)
 library(shinyWidgets)
 library(gridExtra)
 library(plotly)
+#library(highcharter)
 
 
 # # initially - push data to aws bucket
@@ -293,7 +294,7 @@ freq_first_last <- df %>%
   left_join(freq_missing)
 
 misstep_streak <- df %>%
-  dplyr::select(date, time, error) %>%
+  dplyr::select(date, time, error) %>% 
   filter(!is.na(error)) %>%
   mutate(errorless_streak = case_when(error == "N" ~ 1,
                                       error == "Y" ~ 0)) 
@@ -304,9 +305,9 @@ longest_streak <- max(x$numones)
 current_streak <- tail(x, 1) %>% 
   pull(numones)
 
-# View(tabyl(misstep_streak$error))
+
 # library(jastyle)
-# ggplot(x, aes(x = numones)) + 
+# ggplot(x, aes(x = numones)) +
 #   geom_histogram(stat = "count", fill = ja_hex("blue")) +
 #   theme_ja() +
 #   labs(x = "streak length",

@@ -123,29 +123,38 @@ shinyUI(fluidPage(
                      )
             ),
     fluidRow(column(12, offset = 1,
-                    h2("Streaks: ")),
+                    h2("Streaks: "))),
+    fluidRow(
+
              column(3, offset = 1,
-                    br(),
-                    valueBoxOutput("current_streak_vb", width = "100%"),
-                    valueBoxOutput("longest_streak_vb", width = "100%")
-             ),
-             column(3,
-                    plotOutput("streak_pie", height = "350px")
-                    #p("pie chart comign")
+                    highchartOutput("streak_pie")
                     ),
              column(4,
-                    plotOutput("streak_histogram",  height = "350px")
-                    )),
+                    highchartOutput("streak_histogram")
+                    ),
+             column(4, 
+                    br(),
+                    br(),
+                    br(),
+                    fluidRow(valueBoxOutput("current_streak_vb", width = "100%")),
+                    br(),
+                    fluidRow(valueBoxOutput("longest_streak_vb", width = "100%"))
+             
+             
+             )),
+    
+    tags$hr(),
+    
     fluidRow(column(6, offset = 1, 
                     h2("Team Stats: "))),
     fluidRow(
-        column(
-            4, offset=1,
+        column(4, offset=1,
             plotOutput("heatmap",  height = "350px")
         ),
-        column(
-            6,
-            plotOutput("three_charts", height = "250px")
+        
+        column(6,
+               htmlOutput("three_charts")
+
         ),
 
     ),

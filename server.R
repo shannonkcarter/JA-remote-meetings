@@ -29,8 +29,7 @@ shinyServer(function(input, output, session) {
   
   output$current_streak_vb <- renderValueBox({
     valueBox(value = current_streak,
-             subtitle = tags$p("meetings since last misstep", style = "color: #ffffff !important;"),
-             #subtitle = "meetings since last misstep",
+             subtitle = tags$p("current streak", style = "color: #ffffff !important;"),
              icon = icon("clock"),
              color = "light-blue"
     )
@@ -38,7 +37,7 @@ shinyServer(function(input, output, session) {
   
   output$longest_streak_vb <- renderValueBox({
     valueBox(value = longest_streak,
-             subtitle = tags$p("longest winning streak", style = "color: #ffffff !important;"),
+             subtitle = tags$p("longest streak", style = "color: #ffffff !important;"),
              icon = icon("trophy"),
              color = "light-blue"
              )
@@ -82,35 +81,43 @@ shinyServer(function(input, output, session) {
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
     rownames = F)
     
-    output$streak_histogram <- renderPlot({
-      ggplot(x, aes(x = numones)) +
-        geom_histogram(stat = "count", fill = "#FF8B00") +
-        theme_ja() +
-        labs(x = "streak length",
-             y = "number of times") +
-        scale_x_continuous(breaks = seq(0, 55, 5))
+    output$streak_histogram <- renderHighchart({
+      x %>% count(numones) %>% 
+        hchart("column", hcaes(x = numones, y = n)) %>% 
+        hc_colors("#5c9ad2") %>% 
+        hc_add_theme(ja_hc_theme()) %>% 
+        hc_xAxis(title = list(text = "streak length")) %>% 
+        hc_yAxis(title = list(text = "number of times")) %>% 
+        hc_tooltip(formatter = JS("function(){
+                                return (
+                                'We have had a streak of ' +
+                                this.point.numones + ' meetings ' +
+                                this.point.n + ' times.'
+                            )}"
+                                  )) %>% 
+        hc_title(text = "Our streaks tend to be pretty modest")
     })
     
-    output$streak_pie <- renderPlot({
+    output$streak_pie <- renderHighchart({
       pct <- tabyl(misstep_streak, error) %>%
         filter(error == "N") %>%
         mutate(percent = round(100 * percent, 1)) %>% 
         pull(percent)
 
       tabyl(misstep_streak, error) %>%
-        ggplot(aes(x = "", y = percent, fill = error)) +
-        geom_bar(stat = "identity", width = 1, color = "white", size = 2) +
-        coord_polar("y", start=0) +
-        #theme_void() +
-        theme_ja() +
-        scale_fill_manual(values = c("#5c9ad2", "#FF8B00")) +
-        theme(legend.position = "none",
-              panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank())+
-        labs(title = paste0("We get the order correct \nin ", pct, "% of our meetings"),
-             x = NULL,
-             y= NULL)
-
+        mutate(error = case_when(error == "N" ~ "right",
+                                 error == "Y" ~ "wrong"),
+               percent = round(100 * percent, 1)) %>% 
+        hchart("pie", hcaes(error, percent)) %>% 
+        hc_plotOptions(series = list(showInLegend = F, dataLabels = F)) %>% 
+        hc_add_theme(ja_hc_theme()) %>% 
+        hc_colors(c("#5c9ad2","#FF8B00")) %>% 
+        hc_tooltip(formatter = JS("function(){
+                                return (
+                                  'We get the order ' + this.point.error + ' ' +
+                                  this.point.percent + '% of the time'
+                                  )}")) %>% 
+        hc_title(text = paste0("We get the order correct in ", pct, "% of our meetings"))
     })
     
     output$heatmap <- renderPlot({
@@ -131,13 +138,29 @@ shinyServer(function(input, output, session) {
     })
     
     
-    output$three_charts <- renderPlot({
+    output$three_charts <- renderUI({
+      b <- freq_first_last %>% 
+        select(name, "goes first" = freq_first, "goes last" = freq_last, "skips" = freq_missing) %>% 
+        pivot_longer(cols = "goes first":"skips", names_to = "var", values_to = "value")
       
-      first <- make_bar_chart(freq_first_last, freq_first, name, "% of meetings first", "Who goes first?")
-      last <- make_bar_chart(freq_first_last, freq_last, name, "% of meetings last",  "Who goes last?")
-      missing <- make_bar_chart(freq_first_last, freq_missing, name, "% of meetings missed",  "Who skips?")
       
-      grid.arrange(grobs=list(first, last, missing), ncol=3)
+      purrr::map(unique(b$var), function(x) {
+        b %>% 
+          filter(var == x) %>% 
+          arrange(desc(value)) %>% 
+          hchart("bar", hcaes(y = value, x = name)) %>% 
+          hc_title(text = paste0("Who ", x, "?")) %>%
+          hc_add_theme(ja_hc_theme()) %>% 
+          hc_colors("#5c9ad2") %>% 
+          hc_yAxis(title = list(text = "% of meetings")) %>% 
+          hc_xAxis(title = list(text = "")) %>% 
+          hc_tooltip(formatter = JS("function(){
+                                return (
+                              this.point.name + ' ' + this.point.var +
+                              ' in ' + this.point.value + '% of meetings'
+                                )}"))
+      }) %>% 
+        hw_grid(rowheight = 300, ncol = 3) 
       
     })
     

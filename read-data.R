@@ -307,5 +307,3 @@ current_streak <- tail(x, 1) %>%
 
 
 
-
-  

@@ -149,11 +149,11 @@ shinyUI(fluidPage(
                     h2("Team Stats: "))),
     fluidRow(
         column(4, offset=1,
-            plotOutput("heatmap",  height = "350px")
+            highchartOutput("heatmap",  height = "350px")
         ),
         
         column(6,
-               htmlOutput("three_charts")
+               htmlOutput("three_charts", height = "350px")
 
         ),
 

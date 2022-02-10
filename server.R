@@ -120,21 +120,18 @@ shinyServer(function(input, output, session) {
         hc_title(text = paste0("We get the order correct in ", pct, "% of our meetings"))
     })
     
-    output$heatmap <- renderPlot({
-      who_rates %>% 
-        filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>% 
-        filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>% 
+    output$heatmap <- renderHighchart({
+      who_rates %>%
+        filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>%
+        filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>%
         filter(!is.na(total_shared_meetings)) %>% 
-        ggplot(aes(x=called_on, y=name, fill=called_on_adj)) +
-        geom_tile(color = "white") +
-        scale_fill_gradient2(low = "#5c9ad2", high = "#FF8B00",
-                             midpoint = 0.14, limit = c(0, 0.45)) +
-        labs(title = "Who calls on whom?") +
-        labs(y = "Person", x = "Calls On", fill = "frequency") +
-        theme_ja() +
-        theme(legend.position = "bottom",
-              panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank())
+        mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
+        select("from" = name, "to" = called_on, weight = called_on_adj) %>% 
+        hchart("dependencywheel") %>% 
+        hc_title(text = "Who calls on whom?") %>% 
+        hc_add_theme(ja_hc_theme()) %>% 
+        hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), ja_hex("green"),
+                    ja_hex("blue"), "#00008B",   "#7f00ff", ja_hex("purple")))
     })
     
     
@@ -152,7 +149,8 @@ shinyServer(function(input, output, session) {
           hc_title(text = paste0("Who ", x, "?")) %>%
           hc_add_theme(ja_hc_theme()) %>% 
           hc_colors("#5c9ad2") %>% 
-          hc_yAxis(title = list(text = "% of meetings")) %>% 
+          hc_yAxis(title = list(text = "% of meetings"),
+                   min = 0, max = 35) %>% 
           hc_xAxis(title = list(text = "")) %>% 
           hc_tooltip(formatter = JS("function(){
                                 return (

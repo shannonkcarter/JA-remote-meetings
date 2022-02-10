@@ -84,7 +84,7 @@ shinyServer(function(input, output, session) {
     
     output$streak_histogram <- renderPlot({
       ggplot(x, aes(x = numones)) +
-        geom_histogram(stat = "count", fill = "#5c9ad2") +
+        geom_histogram(stat = "count", fill = "#FF8B00") +
         theme_ja() +
         labs(x = "streak length",
              y = "number of times") +
@@ -94,16 +94,22 @@ shinyServer(function(input, output, session) {
     output$streak_pie <- renderPlot({
       pct <- tabyl(misstep_streak, error) %>%
         filter(error == "N") %>%
+        mutate(percent = round(100 * percent, 1)) %>% 
         pull(percent)
 
       tabyl(misstep_streak, error) %>%
-        ggplot(aes(x="", y=percent, fill=error)) +
-        geom_bar(stat="identity", width=1) +
+        ggplot(aes(x = "", y = percent, fill = error)) +
+        geom_bar(stat = "identity", width = 1, color = "white", size = 2) +
         coord_polar("y", start=0) +
-        theme_void() +
-        scale_fill_manual(values = c("#5c9ad2", "white")) +
-        theme(legend.position = "none")+
-        labs(title = paste0("We get the order correct in", pct, "% of our meetings"))
+        #theme_void() +
+        theme_ja() +
+        scale_fill_manual(values = c("#5c9ad2", "#FF8B00")) +
+        theme(legend.position = "none",
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank())+
+        labs(title = paste0("We get the order correct \nin ", pct, "% of our meetings"),
+             x = NULL,
+             y= NULL)
 
     })
     

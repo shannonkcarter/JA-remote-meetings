@@ -139,8 +139,6 @@ shinyUI(fluidPage(
                     fluidRow(valueBoxOutput("current_streak_vb", width = "100%")),
                     br(),
                     fluidRow(valueBoxOutput("longest_streak_vb", width = "100%"))
-             
-             
              )),
     
     tags$hr(),

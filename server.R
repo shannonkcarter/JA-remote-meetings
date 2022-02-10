@@ -150,7 +150,7 @@ shinyServer(function(input, output, session) {
           hc_add_theme(ja_hc_theme()) %>% 
           hc_colors("#5c9ad2") %>% 
           hc_yAxis(title = list(text = "% of meetings"),
-                   min = 0, max = 35) %>% 
+                   min = 0, max = 30) %>% 
           hc_xAxis(title = list(text = "")) %>% 
           hc_tooltip(formatter = JS("function(){
                                 return (
@@ -158,7 +158,7 @@ shinyServer(function(input, output, session) {
                               ' in ' + this.point.value + '% of meetings'
                                 )}"))
       }) %>% 
-        hw_grid(rowheight = 300, ncol = 3) 
+        hw_grid(rowheight = 350, ncol = 3) 
       
     })
     

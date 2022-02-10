@@ -306,4 +306,26 @@ current_streak <- tail(x, 1) %>%
   pull(numones)
 
 
-
+# b <- freq_first_last %>% 
+#   select(name, "goes first" = freq_first, "goes last" = freq_last, "skips" = freq_missing) %>% 
+#   pivot_longer(cols = "goes first":"skips", names_to = "var", values_to = "value")
+# 
+# 
+# purrr::map(unique(b$var), function(x) {
+#   b %>% 
+#     filter(var == x) %>% 
+#     arrange(desc(value)) %>% 
+#     hchart("bar", hcaes(y = value, x = name)) %>% 
+#     hc_title(text = paste0("Who ", x, "?")) %>%
+#     hc_add_theme(ja_hc_theme()) %>% 
+#     hc_colors("#5c9ad2") %>% 
+#     hc_yAxis(title = list(text = "% of meetings"),
+#              min = 0, max = 30) %>% 
+#     hc_xAxis(title = list(text = "")) %>% 
+#     hc_tooltip(formatter = JS("function(){
+#                                 return (
+#                               this.point.name + ' ' + this.point.var +
+#                               ' in ' + this.point.value + '% of meetings'
+#                                 )}"))
+# }) %>% 
+#   hw_grid(rowheight = 300, ncol = 3) 

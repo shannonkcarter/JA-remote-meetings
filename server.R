@@ -123,8 +123,8 @@ shinyServer(function(input, output, session) {
         hchart("dependencywheel") %>% 
         hc_title(text = "Who calls on whom?", align = "center") %>% 
         hc_add_theme(ja_hc_theme()) %>% 
-        hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), ja_hex("green"),
-                    ja_hex("blue"), "#00008B",   "#7f00ff", ja_hex("purple")))
+        hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), "#9acd32",  ja_hex("green"),
+                    ja_hex("blue"), "#00008B", "#7f00ff", ja_hex("purple")))
     })
     
     

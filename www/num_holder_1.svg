@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="626px" height="626px" viewBox="0 0 626 626" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>num_holder_1</title>
+    <defs>
+        <circle id="path-1" cx="302" cy="297" r="248"></circle>
+        <filter x="-4.6%" y="-3.2%" width="109.3%" height="109.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="7" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0750988995   0 0 0 0 0.146683938   0 0 0 0 0.423867931  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="num_holder_1" transform="translate(4.000000, 16.000000)">
+            <rect id="Rectangle" fill="#319CF4" x="0" y="538" width="46" height="45"></rect>
+            <rect id="Rectangle" fill="#FF8B00" x="116" y="532" width="28" height="28"></rect>
+            <rect id="Rectangle" fill="#F4E649" x="430" y="71" width="45" height="45"></rect>
+            <rect id="Rectangle" fill="#319CF4" x="564" y="71" width="41" height="41"></rect>
+            <rect id="Rectangle" fill="#3DC29B" x="550" y="0" width="28" height="28"></rect>
+            <rect id="Rectangle" fill="#C11344" x="70" y="456" width="46" height="46"></rect>
+            <rect id="Rectangle" fill="#B5579F" x="517" y="228" width="56" height="56"></rect>
+            <rect id="Rectangle" fill="#13C18D" x="201" y="509" width="59" height="59"></rect>
+            <rect id="Rectangle" fill="#424141" x="517" y="129" width="33" height="33"></rect>
+            <g id="Oval">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#A5CBF5" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

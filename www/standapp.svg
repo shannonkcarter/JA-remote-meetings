@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1931px" height="452px" viewBox="0 0 1931 452" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>standapp</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="standapp" transform="translate(10.000000, 10.000000)">
+            <path d="M1550,139 L1550,197 L1502,197 L1502,283 L1550,283 L1550,341 L1502,341 L1502,437 L1444,437 L1444,139 L1550,139 Z M1757,139 L1757,197 L1709,197 L1709,283 L1757,283 L1757,341 L1709,341 L1709,437 L1651,437 L1651,139 L1757,139 Z M356,43 L356,139 L404,139 L404,197 L356,197 L356,341 L298,341 L298,197 L250,197 L250,139 L298,139 L298,43 L356,43 Z M611,187 L611,341 L505,341 L505,283 L553,283 L553,187 L611,187 Z M1391,187 L1391,341 L1285,341 L1285,283 L1333,283 L1333,187 L1391,187 Z M929,187 L929,293 L871,293 L871,187 L929,187 Z M722,187 L722,341 L664,341 L664,187 L722,187 Z M818,187 L818,341 L760,341 L760,187 L818,187 Z M149,283 L149,341 L43,341 L43,283 L149,283 Z M1916,283 L1916,341 L1858,341 L1858,283 L1916,283 Z M197,187 L197,293 L139,293 L139,187 L197,187 Z M515,187 L515,293 L457,293 L457,187 L515,187 Z M1295,187 L1295,293 L1237,293 L1237,187 L1295,187 Z M1598,187 L1598,293 L1540,293 L1540,187 L1598,187 Z M1805,187 L1805,293 L1747,293 L1747,187 L1805,187 Z M53,235 L53,293 L-5,293 L-5,235 L53,235 Z M1184,187 L1184,245 L1078,245 L1078,187 L1184,187 Z M1916,43 L1916,245 L1858,245 L1858,43 L1916,43 Z M149,139 L149,197 L43,197 L43,139 L149,139 Z M563,139 L563,197 L505,197 L505,139 L563,139 Z M1343,139 L1343,197 L1285,197 L1285,139 L1343,139 Z M770,139 L770,197 L712,197 L712,139 L770,139 Z M53,43 L53,149 L-5,149 L-5,43 L53,43 Z M197,43 L197,101 L139,101 L139,43 L197,43 Z M149,-5 L149,53 L43,53 L43,-5 L149,-5 Z M1025,43 L1025,341 L919,341 L919,283 L967,283 L967,197 L919,197 L919,139 L967,139 L967,43 L1025,43 Z" id="Combined-Shape" stroke="#E97402" stroke-width="10" fill="#C11344"></path>
+            <g id="Group">
+                <rect id="Rectangle" fill="#C11344" x="0" y="48" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="48" y="0" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="96" y="0" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="144" y="48" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="0" y="96" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="48" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" stroke="#979797" fill="#2B5BB0" x="96.5" y="144.5" width="47" height="47"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="144" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="144" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#000000" x="303" y="48" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="303" y="96" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="303" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="303" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="303" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="303" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#000000" x="255" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#2B5BB0" x="351" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="462" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="510" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="558" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="462" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="510" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="558" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#000000" x="558" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="1242" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="1083" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="1131" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#2B5BB0" x="1290" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1338" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1242" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="1290" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="1338" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="1338" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="876" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="924" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="972" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="876" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="924" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="972" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="972" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#000000" x="972" y="48" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="972" y="96" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="972" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1449" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="1497" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="1545" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="1449" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#000000" x="1497" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="1545" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1449" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="1449" y="336" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#2B5BB0" x="1449" y="384" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#2B5BB0" x="1449" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1863" y="96" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="1863" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#000000" x="1863" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#2B5BB0" x="1863" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="1863" y="48" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="1656" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="1704" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1752" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="1656" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="1704" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="1752" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#2B5BB0" x="1656" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="1656" y="336" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="1656" y="384" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="1656" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#C11344" x="669" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="717" y="144" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#13C18D" x="765" y="192" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#F4E649" x="669" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="669" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#319CF4" x="765" y="240" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="765" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="96" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#A71183" x="48" y="288" width="48" height="48"></rect>
+                <rect id="Rectangle" fill="#FF8B00" x="0" y="240" width="48" height="48"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

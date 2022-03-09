@@ -26,23 +26,15 @@ shinyServer(function(input, output, session) {
                                error == "No, flawless execution!" ~ "N"))
     return(df)
   })
-  
-  output$current_streak_vb <- renderValueBox({
-    valueBox(value = current_streak,
-             subtitle = tags$p("current streak", style = "color: #ffffff !important;"),
-             icon = icon("clock"),
-             color = "light-blue"
-    )
+
+  output$current_streak <- renderUI({
+    HTML(current_streak)
   })
-  
-  output$longest_streak_vb <- renderValueBox({
-    valueBox(value = longest_streak,
-             subtitle = tags$p("longest streak", style = "color: #ffffff !important;"),
-             icon = icon("trophy"),
-             color = "light-blue"
-             )
+
+  output$longest_streak <- renderUI({
+    HTML(longest_streak)
   })
-  
+
   colors_data <- reactive({
     df %>% 
       filter(date != "2021-03-11" & date != "2021-03-12") %>% 
@@ -95,7 +87,7 @@ shinyServer(function(input, output, session) {
                                 this.point.n + ' times.'
                             )}"
                                   )) %>% 
-        hc_title(text = "Our streaks tend to be pretty modest")
+        hc_title(text = "Our streaks tend to be pretty modest", align = "center")
     })
     
     output$streak_pie <- renderHighchart({
@@ -117,7 +109,7 @@ shinyServer(function(input, output, session) {
                                   'We get the order ' + this.point.error + ' ' +
                                   this.point.percent + '% of the time'
                                   )}")) %>% 
-        hc_title(text = paste0("We get the order correct in ", pct, "% of our meetings"))
+        hc_title(text = paste0("We get the order correct in ", pct, "% of our meetings"), align = "center")
     })
     
     output$heatmap <- renderHighchart({
@@ -128,7 +120,7 @@ shinyServer(function(input, output, session) {
         mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
         select("from" = name, "to" = called_on, weight = called_on_adj) %>% 
         hchart("dependencywheel") %>% 
-        hc_title(text = "Who calls on whom?") %>% 
+        hc_title(text = "Who calls on whom?", align = "center") %>% 
         hc_add_theme(ja_hc_theme()) %>% 
         hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), ja_hex("green"),
                     ja_hex("blue"), "#00008B",   "#7f00ff", ja_hex("purple")))
@@ -169,12 +161,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Brian") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     output$hist_carly <- renderPlot({
       hist <- df %>% 
@@ -183,12 +175,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Carly") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     output$hist_david <- renderPlot({
       hist <- df %>% 
@@ -197,12 +189,12 @@ shinyServer(function(input, output, session) {
         filter(person == "David") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     output$hist_emi <- renderPlot({
       hist <- df %>% 
@@ -211,12 +203,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Emi") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     # output$hist_eric <- renderPlot({
     #   hist <- df %>% 
@@ -239,12 +231,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Jeff") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     output$hist_kelsey <- renderPlot({
       hist <- df %>% 
@@ -253,12 +245,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Kelsey") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     # output$hist_nigel <- renderPlot({
     #   hist <- df %>% 
@@ -283,12 +275,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Shannon") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     output$hist_taylor <- renderPlot({
       hist <- df %>% 
@@ -297,12 +289,12 @@ shinyServer(function(input, output, session) {
         filter(person == "Taylor") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#FF8B00") +
+        geom_bar(stat = "count", fill = "#319CF4") +
         #facet_wrap(~person) +
         scale_x_continuous(breaks = seq(1, 8, 1)) + 
         theme_void()
       hist
-    }, height = 100)
+    }, height = 60)
     
     # output$colors_ben <- renderPlot({
     #   hist <- colors_data() %>% 

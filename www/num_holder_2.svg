@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="626px" height="626px" viewBox="0 0 626 626" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>num_holder_2</title>
+    <defs>
+        <circle id="path-1" cx="294" cy="300" r="262"></circle>
+        <filter x="-4.4%" y="-3.1%" width="108.8%" height="108.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="7" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.893956281   0 0 0 0 0.457412202   0 0 0 0 0.013911641  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="num_holder_1" transform="translate(12.000000, 13.000000)">
+            <rect id="Rectangle" fill="#A71183" x="21" y="148" width="46" height="45"></rect>
+            <rect id="Rectangle" fill="#C11344" x="54" y="22" width="33" height="32"></rect>
+            <rect id="Rectangle" fill="#18BE89" x="151" y="22" width="70" height="68"></rect>
+            <rect id="Rectangle" fill="#F4E649" x="106" y="541" width="45" height="45"></rect>
+            <rect id="Rectangle" fill="#F4E649" x="374" y="61" width="45" height="45"></rect>
+            <rect id="Rectangle" fill="#FA6505" x="32" y="433" width="82" height="82"></rect>
+            <rect id="Rectangle" fill="#2B5BB0" x="397" y="515" width="70" height="69"></rect>
+            <rect id="Rectangle" fill="#FA6505" x="535" y="272" width="56" height="56"></rect>
+            <rect id="Rectangle" fill="#319CF4" x="432" y="0" width="44" height="44"></rect>
+            <rect id="Rectangle" fill="#F4E649" x="523" y="67" width="33" height="33"></rect>
+            <rect id="Rectangle" fill="#13C18D" x="509" y="132" width="33" height="33"></rect>
+            <g id="Oval">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FEE978" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <rect id="Rectangle" fill="#C11344" x="508" y="476" width="48" height="48"></rect>
+            <rect id="Rectangle" fill="#319CF4" x="0" y="328" width="44" height="44"></rect>
+        </g>
+    </g>
+</svg>

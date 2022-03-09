@@ -44,15 +44,17 @@ loadData <- function() {
 
 df <- loadData() 
 
-# # need to do if adding another person...
-# todays_order <- c(date = "2022-01-04", time = "Standup", error = "N",
-#                   Ben = NA, Brian = 4, Carly = 1, David = 6, Divine = NA, Emi = 5,
-#                   Eric = NA, Hala = NA, Jeff = 7, Kelsey = 8, Marissa = NA,
-#                   Nigel = NA, Shannon = 2, Taylor = 3, Zach = NA)
-# df <- df %>%
-#   mutate("Taylor" = NA) %>%
-#   select(-Zach, Zach) %>%
-#   rbind(todays_order)
+# need to do if adding another person...
+todays_order <- c(date = "2022-03-07", time = "Standup", error = "N",
+                  Ben = NA, Brian = 3, Carly = 1, David = 2, Divine = NA, Emi = 5,
+                  Eric = NA, Gerard = 7, Hala = NA, Jeff = 4, Kelsey = 6, Marissa = NA,
+                  Nigel = NA, Shannon = NA, Taylor = 8, Zach = NA)
+df <- df %>%
+  mutate("Gerard" = NA) %>%
+  select(date, time, error, Ben, Brian, Carly, David, Divine, Emi,
+         Eric, Gerard, Hala, Jeff, Kelsey, Marissa, Nigel,
+         Shannon, Taylor, Zach) %>%
+  rbind(todays_order)
 
 
 loadData_ff <- function() {
@@ -95,6 +97,7 @@ modes <- df %>%
             Divine = getMode(Divine)[1],
             Emi = getMode(Emi)[1],
             Eric = getMode(Eric)[1],
+            Gerard = getMode(Gerard)[1],
             Hala = getMode(Hala)[1],
             Jeff = getMode(Jeff)[1],
             Kelsey = getMode(Kelsey)[1],
@@ -120,7 +123,8 @@ all_combos <- combn(names, 2) %>%
     rowid = row_number()
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
-  pivot_longer(V1:V105, names_to = "name1", values_to = "name2") %>% 
+  # need to change to # of columns when adding someone new
+  pivot_longer(V1:V120, names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -136,6 +140,7 @@ shared_meetings <- df %>%
     Divine = ifelse(!is.na(Divine), "Divine", NA),
     Emi = ifelse(!is.na(Emi), "Emi", NA),
     Eric = ifelse(!is.na(Eric), "Eric", NA),
+    Gerard = ifelse(!is.na(Gerard), "Gerard", NA),
     Hala = ifelse(!is.na(Hala), "Hala", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
@@ -221,21 +226,6 @@ called_on_most_by <- who_rates_by %>%
   slice_head(n = 1) %>% 
   select(name, called_on_by_most = called_on_by, called_on_by_x_times = n, called_on_by_x_pct = called_on_adj)
 
-# heatmap <- who_rates %>% 
-#   filter(name != "Hala" & name != "Divine" & name != "Zach") %>% 
-#   filter(called_on != "Hala" & called_on != "Divine" & called_on != "Zach") %>% 
-#   filter(!is.na(total_shared_meetings)) %>% 
-#   ggplot(aes(x=called_on, y=name, fill=called_on_adj)) + 
-#   geom_tile(color = "white") +
-#   scale_fill_gradient2(low = "#000080", high = "#f59035",
-#                        midpoint = 0.14, limit = c(0, 0.4)) +
-#   theme_bw() +
-#   labs(y = "Person", x = "Calls On", fill = "frequency") +
-#   theme(panel.grid.major = element_blank(), 
-#         panel.grid.minor = element_blank(),
-#         text = element_text(size = 14, family = "Roboto"))
-# heatmap
-
 stats <- who_rates %>% 
   #filter(n > 5) %>% 
   group_by(name) %>% 
@@ -251,6 +241,7 @@ meetings_since <- as.numeric(length(df$date[as.numeric(rownames(df)) > 432]))
 meetings_since_interns <- as.numeric(length(df$date[as.numeric(rownames(df)) > 523]))
 meetings_since_nigel <- as.numeric(length(df$date[as.numeric(rownames(df)) > 566]))
 meetings_since_taylor <- as.numeric(length(df$date[as.numeric(rownames(df)) > 789]))
+meetings_since_gerard <- as.numeric(length(df$date[as.numeric(rownames(df)) > 866]))
 
 freq_missing <- df %>% 
   ungroup() %>% 
@@ -266,6 +257,7 @@ freq_missing <- df %>%
                                         name == "Carly" ~ 324 + meetings_since,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
+                                        name == "Gerard" ~ meetings_since_gerard,
                                         #name == "Eric" ~ 0 +meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,
                                         name == "Kelsey" ~ 432 + meetings_since,
@@ -305,27 +297,3 @@ longest_streak <- max(x$numones)
 current_streak <- tail(x, 1) %>% 
   pull(numones)
 
-
-# b <- freq_first_last %>% 
-#   select(name, "goes first" = freq_first, "goes last" = freq_last, "skips" = freq_missing) %>% 
-#   pivot_longer(cols = "goes first":"skips", names_to = "var", values_to = "value")
-# 
-# 
-# purrr::map(unique(b$var), function(x) {
-#   b %>% 
-#     filter(var == x) %>% 
-#     arrange(desc(value)) %>% 
-#     hchart("bar", hcaes(y = value, x = name)) %>% 
-#     hc_title(text = paste0("Who ", x, "?")) %>%
-#     hc_add_theme(ja_hc_theme()) %>% 
-#     hc_colors("#5c9ad2") %>% 
-#     hc_yAxis(title = list(text = "% of meetings"),
-#              min = 0, max = 30) %>% 
-#     hc_xAxis(title = list(text = "")) %>% 
-#     hc_tooltip(formatter = JS("function(){
-#                                 return (
-#                               this.point.name + ' ' + this.point.var +
-#                               ' in ' + this.point.value + '% of meetings'
-#                                 )}"))
-# }) %>% 
-#   hw_grid(rowheight = 300, ncol = 3) 

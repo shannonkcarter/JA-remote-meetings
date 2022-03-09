@@ -44,17 +44,17 @@ loadData <- function() {
 
 df <- loadData() 
 
-# need to do if adding another person...
-todays_order <- c(date = "2022-03-07", time = "Standup", error = "N",
-                  Ben = NA, Brian = 3, Carly = 1, David = 2, Divine = NA, Emi = 5,
-                  Eric = NA, Gerard = 7, Hala = NA, Jeff = 4, Kelsey = 6, Marissa = NA,
-                  Nigel = NA, Shannon = NA, Taylor = 8, Zach = NA)
-df <- df %>%
-  mutate("Gerard" = NA) %>%
-  select(date, time, error, Ben, Brian, Carly, David, Divine, Emi,
-         Eric, Gerard, Hala, Jeff, Kelsey, Marissa, Nigel,
-         Shannon, Taylor, Zach) %>%
-  rbind(todays_order)
+# # need to do if adding another person...
+# todays_order <- c(date = "2022-03-07", time = "Standup", error = "N",
+#                   Ben = NA, Brian = 3, Carly = 1, David = 2, Divine = NA, Emi = 5,
+#                   Eric = NA, Gerard = 7, Hala = NA, Jeff = 4, Kelsey = 6, Marissa = NA,
+#                   Nigel = NA, Shannon = NA, Taylor = 8, Zach = NA)
+# df <- df %>%
+#   mutate("Gerard" = NA) %>%
+#   select(date, time, error, Ben, Brian, Carly, David, Divine, Emi,
+#          Eric, Gerard, Hala, Jeff, Kelsey, Marissa, Nigel,
+#          Shannon, Taylor, Zach) %>%
+#   rbind(todays_order)
 
 
 loadData_ff <- function() {

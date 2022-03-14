@@ -70,6 +70,7 @@ loadData_ff <- function() {
 #   mutate(error = case_when(date == "2021-11-30" & time == "Standup" ~ "Y",
 #                            T ~ error))
 fun_facts <- loadData_ff() 
+# write_csv(fun_facts, here::here("fun_facts.csv"))
 
 # extra_ff <- data.frame(date = "2021-03-26",
 #                        time = "Sitdown",

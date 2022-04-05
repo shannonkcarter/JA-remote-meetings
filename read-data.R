@@ -298,3 +298,11 @@ longest_streak <- max(x$numones)
 current_streak <- tail(x, 1) %>% 
   pull(numones)
 
+# csa = df %>% 
+#   select(date, time, Carly, Shannon) %>% 
+#   filter(!is.na(Carly)) %>% 
+#   filter(!is.na(Shannon)) %>% 
+#   filter(date > "2020-07-01") %>% 
+#   mutate(Carly = as.numeric(Carly),
+#          Shannon = as.numeric(Shannon)) %>% 
+#   mutate(diff = abs(Carly - Shannon))

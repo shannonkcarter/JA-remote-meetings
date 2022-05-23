@@ -14,6 +14,7 @@ shinyServer(function(input, output, session) {
                      Divine = NA,
                      Emi = ifelse("Emi" %in% input$order_order$text, which(input$order_order$text == "Emi"), NA),
                      Eric = NA,
+                     Gail = ifelse("Gail" %in% input$order_order$text, which(input$order_order$text == "Gail"), NA),
                      Gerard = ifelse("Gerard" %in% input$order_order$text, which(input$order_order$text == "Gerard"), NA),
                      Hala = NA,
                      Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
@@ -43,7 +44,7 @@ shinyServer(function(input, output, session) {
       select(-c(Ben, Divine, Eric, Hala, Marissa, Nigel, Zach)) %>% 
       mutate(index = 1:length(date)) %>% 
       pivot_longer(Brian:Taylor) %>% 
-      mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9"), ordered = T))  
+      mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"), ordered = T))  
   })
   
   todays_fun_fact <- reactive({
@@ -124,7 +125,7 @@ shinyServer(function(input, output, session) {
         hc_title(text = "Who calls on whom?", align = "center") %>% 
         hc_add_theme(ja_hc_theme()) %>% 
         hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), "#9acd32",  ja_hex("green"),
-                    ja_hex("blue"), "#00008B", "#7f00ff", ja_hex("purple")))
+                    ja_hex("blue"), "#00008B", "#7f00ff", ja_hex("purple3"), ja_hex("purple")))
     })
     
     
@@ -202,6 +203,20 @@ shinyServer(function(input, output, session) {
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
         filter(person == "Emi") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#319CF4") +
+        #facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_void()
+      hist
+    }, height = 60)
+    
+    output$hist_gail <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Gail") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "#319CF4") +
@@ -318,6 +333,12 @@ shinyServer(function(input, output, session) {
     output$colors_emi <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Emi")
+      hist
+    }, height = 25)
+    
+    output$colors_gail <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Gail")
       hist
     }, height = 25)
     

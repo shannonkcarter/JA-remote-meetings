@@ -45,17 +45,16 @@ loadData <- function() {
 df <- loadData() 
 
 # # need to do if adding another person...
-# todays_order <- c(date = "2022-03-07", time = "Standup", error = "N",
-#                   Ben = NA, Brian = 3, Carly = 1, David = 2, Divine = NA, Emi = 5,
-#                   Eric = NA, Gerard = 7, Hala = NA, Jeff = 4, Kelsey = 6, Marissa = NA,
-#                   Nigel = NA, Shannon = NA, Taylor = 8, Zach = NA)
+# todays_order <- c(date = "2022-05-23", time = "Sitdown", error = "N",
+#                   Ben = NA, Brian = NA, Carly = 2, David = 4, Divine = NA, Emi = 6,
+#                   Eric = NA, Gail = 5, Gerard = 9, Hala = NA, Jeff = 7, Kelsey = 1, Marissa = NA,
+#                   Nigel = NA, Shannon = 3, Taylor = 8, Zach = NA)
 # df <- df %>%
-#   mutate("Gerard" = NA) %>%
+#   mutate("Gail" = NA) %>%
 #   select(date, time, error, Ben, Brian, Carly, David, Divine, Emi,
-#          Eric, Gerard, Hala, Jeff, Kelsey, Marissa, Nigel,
+#          Eric, Gail, Gerard, Hala, Jeff, Kelsey, Marissa, Nigel,
 #          Shannon, Taylor, Zach) %>%
 #   rbind(todays_order)
-
 
 loadData_ff <- function() {
   df <- s3readRDS(
@@ -66,23 +65,8 @@ loadData_ff <- function() {
     distinct()
   return(df)
 }
-# df <- df %>% 
-#   mutate(error = case_when(date == "2021-11-30" & time == "Standup" ~ "Y",
-#                            T ~ error))
+
 fun_facts <- loadData_ff() 
-# write_csv(fun_facts, here::here("fun_facts.csv"))
-
-# extra_ff <- data.frame(date = "2021-03-26",
-#                        time = "Sitdown",
-#                        funfact = c("Jeff hasn't had Carly's Mimi's kugel"),
-#                        fun = c("Y"),
-#                        fact = c("Y")) %>%
-#   mutate(fun = case_when(fun == "Y" ~ "Yes!",
-#                          fun == "N" ~ "Not really :("),
-#          fact = case_when(fact == "Y" ~ "Yes!",
-#                           fact == "N" ~ "Not really :/"))
-# fun_facts <- rbind(fun_facts, extra_ff)
-
 
 ###--- calculations for data vis and stats
 getMode <- function(x) {
@@ -98,6 +82,7 @@ modes <- df %>%
             Divine = getMode(Divine)[1],
             Emi = getMode(Emi)[1],
             Eric = getMode(Eric)[1],
+            Gail = getMode(Gail)[1],
             Gerard = getMode(Gerard)[1],
             Hala = getMode(Hala)[1],
             Jeff = getMode(Jeff)[1],
@@ -125,7 +110,7 @@ all_combos <- combn(names, 2) %>%
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
   # need to change to # of columns when adding someone new
-  pivot_longer(V1:V120, names_to = "name1", values_to = "name2") %>% 
+  pivot_longer(V1:V136, names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -141,6 +126,7 @@ shared_meetings <- df %>%
     Divine = ifelse(!is.na(Divine), "Divine", NA),
     Emi = ifelse(!is.na(Emi), "Emi", NA),
     Eric = ifelse(!is.na(Eric), "Eric", NA),
+    Gail = ifelse(!is.na(Gail), "Gail", NA),
     Gerard = ifelse(!is.na(Gerard), "Gerard", NA),
     Hala = ifelse(!is.na(Hala), "Hala", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
@@ -243,6 +229,7 @@ meetings_since_interns <- as.numeric(length(df$date[as.numeric(rownames(df)) > 5
 meetings_since_nigel <- as.numeric(length(df$date[as.numeric(rownames(df)) > 566]))
 meetings_since_taylor <- as.numeric(length(df$date[as.numeric(rownames(df)) > 789]))
 meetings_since_gerard <- as.numeric(length(df$date[as.numeric(rownames(df)) > 866]))
+meetings_since_gail <- as.numeric(length(df$date[as.numeric(rownames(df)) > 961]))
 
 freq_missing <- df %>% 
   ungroup() %>% 
@@ -258,6 +245,7 @@ freq_missing <- df %>%
                                         name == "Carly" ~ 324 + meetings_since,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
+                                        name == "Gail" ~ meetings_since_gail,
                                         name == "Gerard" ~ meetings_since_gerard,
                                         #name == "Eric" ~ 0 +meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,

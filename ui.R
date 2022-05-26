@@ -277,7 +277,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("Gail")
                     ),
-                    img(src = "ja.png", class="profile-img", height = 150),
+                    img(src = "gail.png", class="profile-img", height = 150),
                     plotOutput("hist_gail", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Gail"]),  align = "left"),

@@ -284,7 +284,9 @@ zis <- c(which(misstep_streak[,'errorless_streak']==0), length(misstep_streak$er
 x <- data.frame(x=seq_along(zis),numones=diff(c(0L,zis))-1L)
 longest_streak <- max(x$numones)
 current_streak <- tail(x, 1) %>% 
-  pull(numones)
+  # who knows why but i have to do this - saves correctly (eg for longest streak) after its over
+  mutate(current_streak = numones + 1) %>% 
+  pull(current_streak)
 
 # csa = df %>% 
 #   select(date, time, Carly, Shannon) %>% 

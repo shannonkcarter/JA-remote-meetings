@@ -44,19 +44,18 @@ loadData <- function() {
 
 df <- loadData() 
 
-# # # need to do if adding another person...
-todays_order <- c(date = "2022-08-01", time = "Standup", error = "Y",
-                  Ben = NA, Brian = 4, Carly = 3, David = 1, Divine = NA, Emi = NA,
-                  Eric = NA, Gail = NA, Gerard = 9, Hala = NA, Jeff = 5, Kelsey = 7,
-                  Malsi = 8, Marissa = NA,
-                  Nigel = NA, Shannon = 2, Taylor = 6, Zach = NA)
-df <- df %>%
-  mutate("Malsi" = NA) %>%
-  select(date, time, error, Ben, Brian, Carly, David, Divine, Emi,
-         Eric, Gail, Gerard, Hala, Jeff, Kelsey, Malsi, Marissa, Nigel,
-         Shannon, Taylor, Zach) %>%
-  rbind(todays_order) %>% 
-  rename(Smith = Taylor)
+# need to do if adding another person...
+# todays_order <- c(date = "2022-08-01", time = "Standup", error = "Y",
+#                   Ben = NA, Brian = 4, Carly = 3, David = 1, Divine = NA, Emi = NA,
+#                   Eric = NA, Gail = NA, Gerard = 9, Hala = NA, Jeff = 5, Kelsey = 7,
+#                   Malsi = 8, Marissa = NA,
+#                   Nigel = NA, Shannon = 2, Taylor = 6, Zach = NA)
+# df <- df %>%
+#   mutate("Malsi" = NA) %>%
+#   select(date, time, error, Ben, Brian, Carly, David, Divine, Emi,
+#          Eric, Gail, Gerard, Hala, Jeff, Kelsey, Malsi, Marissa, Nigel,
+#          Shannon, Taylor, Zach) %>%
+#   rbind(todays_order) 
 
 loadData_ff <- function() {
   df <- s3readRDS(

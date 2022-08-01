@@ -14,15 +14,16 @@ shinyServer(function(input, output, session) {
                      Divine = NA,
                      Emi = ifelse("Emi" %in% input$order_order$text, which(input$order_order$text == "Emi"), NA),
                      Eric = NA,
-                     Gail = ifelse("Gail" %in% input$order_order$text, which(input$order_order$text == "Gail"), NA),
+                     Gail = NA,
                      Gerard = ifelse("Gerard" %in% input$order_order$text, which(input$order_order$text == "Gerard"), NA),
                      Hala = NA,
                      Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
                      Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
+                     Malsi = ifelse("Malsi" %in% input$order_order$text, which(input$order_order$text == "Malsi"), NA),
                      Marissa = NA,
                      Nigel = NA,
                      Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
-                     Taylor = ifelse("Taylor" %in% input$order_order$text, which(input$order_order$text == "Taylor"), NA),
+                     Smith = ifelse("Smith" %in% input$order_order$text, which(input$order_order$text == "Smith"), NA),
                      Zach = NA) %>% 
       mutate(error = case_when(error == "Yes :/" ~ "Y",
                                error == "No, flawless execution!" ~ "N"))
@@ -41,9 +42,9 @@ shinyServer(function(input, output, session) {
     df %>% 
       filter(date != "2021-03-11" & date != "2021-03-12") %>% 
       tail(10) %>% 
-      select(-c(Ben, Divine, Eric, Hala, Marissa, Nigel, Zach)) %>% 
+      select(-c(Ben, Divine, Eric, Hala, Marissa, Nigel, Zach, Gail)) %>% 
       mutate(index = 1:length(date)) %>% 
-      pivot_longer(Brian:Taylor) %>% 
+      pivot_longer(Brian:Smith) %>% 
       mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"), ordered = T))  
   })
   
@@ -69,7 +70,7 @@ shinyServer(function(input, output, session) {
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
-        select(-c(error, Divine, Hala, Marissa, Zach, Ben, Eric, Nigel))
+        select(-c(error, Divine, Hala, Marissa, Zach, Ben, Eric, Nigel, Gail))
       return(dt)
     }, options = list(dom = "t", ordering = F, 
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
@@ -116,8 +117,8 @@ shinyServer(function(input, output, session) {
     
     output$heatmap <- renderHighchart({
       who_rates %>%
-        filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>%
-        filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel")) %>%
+        filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail")) %>%
+        filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail")) %>%
         filter(!is.na(total_shared_meetings)) %>% 
         mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
         select("from" = name, "to" = called_on, weight = called_on_adj) %>% 
@@ -212,11 +213,11 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 60)
     
-    output$hist_gail <- renderPlot({
+    output$hist_malsi <- renderPlot({
       hist <- df %>% 
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
-        filter(person == "Gail") %>%
+        filter(person == "Malsi") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "#319CF4") +
@@ -298,11 +299,11 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 60)
     
-    output$hist_taylor <- renderPlot({
+    output$hist_smith <- renderPlot({
       hist <- df %>% 
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
         mutate(order = as.numeric(order)) %>% 
-        filter(person == "Taylor") %>%
+        filter(person == "Smith") %>%
         filter(order < 9) %>% 
         ggplot(aes(x = order)) +
         geom_bar(stat = "count", fill = "#319CF4") +
@@ -336,9 +337,9 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 25)
     
-    output$colors_gail <- renderPlot({
+    output$colors_malsi <- renderPlot({
       hist <- colors_data() %>% 
-        make_colors_chart(., "Gail")
+        make_colors_chart(., "Malsi")
       hist
     }, height = 25)
     
@@ -372,9 +373,9 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 25)
     
-    output$colors_taylor <- renderPlot({
+    output$colors_smith <- renderPlot({
       hist <- colors_data() %>% 
-        make_colors_chart(., "Taylor")
+        make_colors_chart(., "Smith")
       hist
     }, height = 25)
     
@@ -419,7 +420,7 @@ shinyServer(function(input, output, session) {
     output$table_past <- renderDataTable({
       dt <- df %>% 
         tail(20) %>% 
-        select(-c(Divine, Hala, Zach, Marissa, Ben, Eric, Nigel))
+        select(-c(Divine, Hala, Zach, Marissa, Ben, Eric, Nigel, Gail))
       return(dt)
     }, options = list(dom = "t", ordering = F, pageLength = 20,
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 

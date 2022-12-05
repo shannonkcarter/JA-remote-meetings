@@ -89,7 +89,7 @@ modes <- df %>%
             Jeff = getMode(Jeff)[1],
             Kelsey = getMode(Kelsey)[1],
             Marissa = getMode(Marissa)[1],
-            Masi = getMode(Malsi)[1],
+            #Masi = getMode(Malsi)[1],
             Nigel = getMode(Nigel)[1],
             Shannon = getMode(Shannon)[1],
             Smith = getMode(Smith)[1],
@@ -253,7 +253,7 @@ freq_missing <- df %>%
                                         #name == "Eric" ~ 0 +meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,
                                         name == "Kelsey" ~ 432 + meetings_since,
-                                        name == "Malsi" ~ meetings_since_malsi,
+                                        #name == "Malsi" ~ meetings_since_malsi,
                                         #name == "Marissa" ~ 173 + meetings_since,
                                         #name == "Nigel" ~ 0 + meetings_since_nigel,
                                         name == "Shannon" ~ 432 + meetings_since,
@@ -263,7 +263,7 @@ freq_missing <- df %>%
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
-  select(-c("Ben", "Divine", "Eric", "Gail", "Hala",  "Marissa", "Nigel", "Zach")) %>% 
+  select(-c("Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach")) %>% 
   pivot_longer(`Brian`:`Smith`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 

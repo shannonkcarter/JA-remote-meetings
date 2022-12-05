@@ -70,7 +70,7 @@ shinyUI(div(class="page-wrapper",
                 orderInput(
                     inputId = 'people',
                     label = 'Meeting Order: ',
-                    items = c('Brian', 'Carly', 'David', "Emi", "Gerard", "Jeff", "Kelsey", "Malsi", "Shannon", "Smith"),
+                    items = c('Brian', 'Carly', 'David', "Emi", "Gerard", "Jeff", "Kelsey", "Shannon", "Smith"),
                     connect = c('order', "missing"),
                     item_class = "info",
                     width = "100%"
@@ -91,12 +91,6 @@ shinyUI(div(class="page-wrapper",
                 )
             )
         ),
-        # # Today's pre-submit table
-        # fluidRow(
-        #     column(10, offset = 1, align="center",
-        #         dataTableOutput('table_today')
-        #     )
-        # ),
 
         # Submit data section!
         fluidRow(align = "center",
@@ -137,32 +131,9 @@ shinyUI(div(class="page-wrapper",
             highchartOutput("streak_histogram"),
         )
     ),
-    # fluidRow(column(12, h2("Streaks: "))),
-    # fluidRow(
-    #     column(3, highchartOutput("streak_pie")),
-    #     column(4, highchartOutput("streak_histogram")),
-    #     column(4, 
-    #         br(),
-    #         br(),
-    #         br(),
-    #         fluidRow(valueBoxOutput("current_streak_vb", width = 9)),
-    #         br(),
-    #         fluidRow(valueBoxOutput("longest_streak_vb", width = 9))
-    #     )
-    # ),
     
     tags$hr(),
 
-    # Team stats
-    # div(
-    #     class="team-stats",
-    #     div(
-    #         highchartOutput("heatmap",  height = "350px")
-    #     ),
-    #     div(
-    #         htmlOutput("three_charts", height = "350px")
-    #     ),
-    # ),
     fluidRow(
         column(4, offset=1,
             highchartOutput("heatmap",  height = "350px")
@@ -267,26 +238,6 @@ shinyUI(div(class="page-wrapper",
                     div(class="recent-activity",
                         h5("Recent activity"),
                         plotOutput("colors_emi", height = "100%")
-                    )
-                )
-            ),
-            
-            div(
-                wellPanel(
-                    div(
-                        class="personal-stats-header",
-                        h3("Malsi")
-                    ),
-                    img(src = "ja.png", class="profile-img", height = 150),
-                    plotOutput("hist_malsi", height = "100%", width= '70%'),
-                    div(class="indv-written-stats",
-                        h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Malsi"]),  align = "left"),
-                        h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Malsi"], " (", stats$called_on_x_pct[stats$name == "Malsi"], "%)"), align = "left"),
-                        h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Malsi"], " (", stats$called_on_by_x_pct[stats$name == "Malsi"], "%)"), align = "left"),
-                    ),
-                    div(class="recent-activity",
-                        h5("Recent activity"),
-                        plotOutput("colors_malsi", height = "100%")
                     )
                 )
             ),

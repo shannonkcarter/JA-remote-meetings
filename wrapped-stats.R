@@ -2,6 +2,16 @@ library(tidyverse)
 library(here)
 library(janitor)
 library(lubridate)
+library(aws.s3)
+
+app_password <- config::get("submit", file = "config.yml")$app_pw
+
+pw <- config::get("aws", file = "config.yml")
+
+Sys.setenv("AWS_ACCESS_KEY_ID" = pw$AWS_ACCESS_KEY_ID,
+           "AWS_SECRET_ACCESS_KEY" =  pw$AWS_SECRET_ACCESS_KEY,
+           "AWS_DEFAULT_REGION" = pw$AWS_DEFAULT_REGION
+)
 
 loadData <- function() {
   df <- s3readRDS(
@@ -13,11 +23,12 @@ loadData <- function() {
 
 df <- loadData() 
 
+
 wrapped <- df %>% 
   select(date, time, error, 
          Brian, Carly, David, Emi, Jeff, Kelsey, Shannon) %>% 
   mutate(year = year(date)) %>% 
-  filter(year == 2021) %>% 
+  filter(year == 2022) %>% 
   select(-year)
   
 freq_first_last <- wrapped %>% 
@@ -128,9 +139,10 @@ who_rates_to <- who_called_on_who %>%
   dplyr::select(name, called_on, n = n.x, total_shared_meetings, called_on_adj) %>% 
   group_by(name) %>% 
   slice_max(called_on_adj) %>% 
-  select(name, person_calls_on_most = called_on, freq_calls_on_most = called_on_adj) %>% 
-  mutate(person_called_by_most = c(),
-         freq_called_by_most =)
+  ungroup() %>% 
+  select(name, person_calls_on_most = called_on, freq_calls_on_most = called_on_adj) #%>% 
+  # mutate(person_called_by_most = c(),
+  #        freq_called_by_most =)
 
 who_rates_from <- who_called_on_who %>% 
   left_join(., shared_meeting_count, by=c("name" = "x1", "called_on" = "x2")) %>% 

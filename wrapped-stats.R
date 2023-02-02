@@ -26,7 +26,7 @@ df <- loadData()
 
 wrapped <- df %>% 
   select(date, time, error, 
-         Brian, Carly, David, Emi, Jeff, Kelsey, Shannon) %>% 
+         Brian, Carly, David, Emi, Gerard, Jeff, Kelsey, Smith, Shannon) %>% 
   mutate(year = year(date)) %>% 
   filter(year == 2022) %>% 
   select(-year)
@@ -64,7 +64,7 @@ all_combos <- combn(names, 2) %>%
     rowid = row_number()
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
-  pivot_longer(V1:V21, names_to = "name1", values_to = "name2") %>% 
+  pivot_longer(V1:V36, names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -77,8 +77,10 @@ shared_meetings <- wrapped %>%
     Carly = ifelse(!is.na(Carly), "Carly", NA),
     David = ifelse(!is.na(David), "David", NA),
     Emi = ifelse(!is.na(Emi), "Emi", NA),
+    Gerard = ifelse(!is.na(Gerard), "Gerard", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
+    Smith = ifelse(!is.na(Smith), "Smith", NA),
     Shannon = ifelse(!is.na(Shannon), "Shannon", NA)
   ) 
 

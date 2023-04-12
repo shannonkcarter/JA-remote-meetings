@@ -19,6 +19,7 @@ shinyServer(function(input, output, session) {
                      Gerard = ifelse("Gerard" %in% input$order_order$text, which(input$order_order$text == "Gerard"), NA),
                      Hala = NA,
                      Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
+                     Jessica = ifelse("Jessica" %in% input$order_order$text, which(input$order_order$text == "Jessica"), NA),
                      Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
                      Malsi = NA,
                      Marissa = NA,
@@ -256,6 +257,20 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 60)
     
+    output$hist_jessica <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Jessica") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#319CF4") +
+        #facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_void()
+      hist
+    }, height = 60)
+    
     output$hist_kelsey <- renderPlot({
       hist <- df %>% 
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
@@ -353,6 +368,12 @@ shinyServer(function(input, output, session) {
     output$colors_jeff <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Jeff")
+      hist
+    }, height = 25)
+    
+    output$colors_jessica <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Jessica")
       hist
     }, height = 25)
     

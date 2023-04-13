@@ -5,10 +5,10 @@ account: januaryadvisors
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3631083
-bundleId: 7081603
+bundleId: 7085031
 url: https://januaryadvisors.shinyapps.io/JA-remote-meetings/
-when: 1681329685.15319
-lastSyncTime: 1681329685.15322
+when: 1681397763.54578
+lastSyncTime: 1681397763.5458
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: blog_figures.R|fun_facts.csv|JA-remote-meetings.Rmd|standup_data.csv|wrapped_stats.csv|wrapped-stats.R
+ignoredFiles: blog_figures.R|fun_facts.csv|JA-remote-meetings.Rmd|standup_data.csv|wrapped_stats.csv|wrapped-stats.R|figures

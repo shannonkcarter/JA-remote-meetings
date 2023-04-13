@@ -33,16 +33,18 @@ shinyUI(div(class="page-wrapper",
         div(class="main-input-section",
             div(
                 class="form-fields",
-                dateInput(
-                    inputId = "date",
-                    format = "M d, yyyy",
-                    label = "Enter today's date:"
-                ),
+
                 div(class="form-row",
-                    radioButtons(
-                        inputId = "time",
-                        label = "Standup or Sitdown?",
-                        choices = c("Standup", "Sitdown")
+                    # radioButtons(
+                    #     inputId = "time",
+                    #     label = "Standup or Sitdown?",
+                    #     choices = c("Standup", "Sitdown")
+                    # ),
+                    dateInput(
+                      inputId = "date",
+                      format = "M d, yyyy",
+                      label = "Enter today's date:",
+                      width = "30%"
                     ),
                     radioButtons(
                         inputId = "errors", label = "Did we misstep?",

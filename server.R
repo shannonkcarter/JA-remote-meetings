@@ -5,7 +5,7 @@ shinyServer(function(input, output, session) {
   
   todays_order <- reactive({
     df <- data.frame(date = input$date,
-                     time = input$time,
+                     time = "Standup",
                      error = input$errors,
                      Ben = NA,
                      Brian = ifelse("Brian" %in% input$order_order$text, which(input$order_order$text == "Brian"), NA),

@@ -2,7 +2,7 @@ library(shiny)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
-  
+  observe(print(todays_order()))
   todays_order <- reactive({
     df <- data.frame(date = input$date,
                      time = "Standup",
@@ -52,7 +52,7 @@ shinyServer(function(input, output, session) {
   
   todays_fun_fact <- reactive({
     ff_df <- tibble(date = input$date,
-                    time = input$time,
+                    time = "Standup",
                     funfact = input$fun_fact,
                     fun = input$fun_fact_fun,
                     fact = input$fun_fact_fact)

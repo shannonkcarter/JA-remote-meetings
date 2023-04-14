@@ -193,40 +193,40 @@ who_called_on_by <- df %>%
   count(name, called_on_by)
 
 
-who_rates <- who_called_on_who %>% 
-  left_join(., shared_meeting_count, by=c("name" = "x1", "called_on" = "x2")) %>% 
-  left_join(., shared_meeting_count, by=c("name" = "x2", "called_on" = "x1")) %>% 
+who_rates <- who_called_on_who %>%
+  left_join(., shared_meeting_count, by=c("name" = "x1", "called_on" = "x2")) %>%
+  left_join(., shared_meeting_count, by=c("name" = "x2", "called_on" = "x1")) %>%
   mutate(
     total_shared_meetings = ifelse(is.na(n.y), n, n.y),
     called_on_adj = n.x/total_shared_meetings
-  ) %>% 
+  ) %>%
   dplyr::select(name, called_on, n = n.x, total_shared_meetings, called_on_adj)
 
-who_rates_by <- who_called_on_by %>% 
-  left_join(., shared_meeting_count, by=c("name" = "x1", "called_on_by" = "x2")) %>% 
-  left_join(., shared_meeting_count, by=c("name" = "x2", "called_on_by" = "x1")) %>% 
+who_rates_by <- who_called_on_by %>%
+  left_join(., shared_meeting_count, by=c("name" = "x1", "called_on_by" = "x2")) %>%
+  left_join(., shared_meeting_count, by=c("name" = "x2", "called_on_by" = "x1")) %>%
   mutate(
     total_shared_meetings = ifelse(is.na(n.y), n, n.y),
     called_on_adj = n.x/total_shared_meetings
-  ) %>% 
+  ) %>%
   dplyr::select(name, called_on_by, n = n.x, total_shared_meetings, called_on_adj)
 
-called_on_most_by <- who_rates_by %>% 
-  #filter(n > 5) %>% 
-  group_by(name) %>% 
-  mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
-  arrange(desc(called_on_adj)) %>% 
-  slice_head(n = 1) %>% 
+called_on_most_by <- who_rates_by %>%
+  #filter(n > 5) %>%
+  group_by(name) %>%
+  mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
+  arrange(desc(called_on_adj)) %>%
+  slice_head(n = 1) %>%
   select(name, called_on_by_most = called_on_by, called_on_by_x_times = n, called_on_by_x_pct = called_on_adj)
 
-stats <- who_rates %>% 
-  #filter(n > 5) %>% 
-  group_by(name) %>% 
-  mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
-  arrange(desc(called_on_adj)) %>% 
-  slice_head(n = 1) %>% 
-  select(name, calls_on_most = called_on, called_on_x_times = n, called_on_x_pct = called_on_adj) %>% 
-  left_join(modes) %>% 
+stats <- who_rates %>%
+  #filter(n > 5) %>%
+  group_by(name) %>%
+  mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
+  arrange(desc(called_on_adj)) %>%
+  slice_head(n = 1) %>%
+  select(name, calls_on_most = called_on, called_on_x_times = n, called_on_x_pct = called_on_adj) %>%
+  left_join(modes) %>%
   left_join(called_on_most_by)
 
 

@@ -121,12 +121,12 @@ shinyServer(function(input, output, session) {
       who_rates %>%
         filter(!name %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail")) %>%
         filter(!called_on %in% c("Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail")) %>%
-        filter(!is.na(total_shared_meetings)) %>% 
-        mutate(called_on_adj = round(100 * called_on_adj, 1)) %>% 
-        select("from" = name, "to" = called_on, weight = called_on_adj) %>% 
-        hchart("dependencywheel") %>% 
-        hc_title(text = "Who calls on whom?", align = "center") %>% 
-        hc_add_theme(ja_hc_theme()) %>% 
+        filter(!is.na(total_shared_meetings)) %>%
+        mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
+        select("from" = name, "to" = called_on, weight = called_on_adj) %>%
+        hchart("dependencywheel") %>%
+        hc_title(text = "Who calls on whom?", align = "center") %>%
+        hc_add_theme(ja_hc_theme()) %>%
         hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), "#9acd32",  ja_hex("green"),
                     ja_hex("blue"), "#00008B", "#7f00ff", ja_hex("purple3"), ja_hex("purple")))
     })

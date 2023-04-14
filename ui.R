@@ -113,7 +113,6 @@ shinyUI(div(class="page-wrapper",
 
     ),
 
-    #
     div(
         class="streaks",
         div(
@@ -133,14 +132,14 @@ shinyUI(div(class="page-wrapper",
             highchartOutput("streak_histogram"),
         )
     ),
-    
+
     tags$hr(),
 
     fluidRow(
         column(4, offset=1,
             highchartOutput("heatmap",  height = "350px")
         ),
-        
+
         column(6,
                htmlOutput("three_charts", height = "350px")
 
@@ -150,7 +149,7 @@ shinyUI(div(class="page-wrapper",
 
     br(),
     div(align = "center",
-             actionButton("show_funfact", 
+             actionButton("show_funfact",
                           "Show me a fun fact!",
                           icon = icon("lightbulb"),
                           style="color: #fff; background-color: #FF8B00; border-color: #fff")),
@@ -161,7 +160,7 @@ shinyUI(div(class="page-wrapper",
             h4(htmlOutput("funfact"))
         )
     )),
-    
+
     div(
         class="individual-stats",
         h2("Individual Stats: "),
@@ -224,7 +223,7 @@ shinyUI(div(class="page-wrapper",
                     )
                 )
             ),
-            
+
             div(
               wellPanel(
                 div(
@@ -244,7 +243,7 @@ shinyUI(div(class="page-wrapper",
                 )
               )
             ),
-            
+
             div(
                 wellPanel(
                     div(
@@ -264,7 +263,7 @@ shinyUI(div(class="page-wrapper",
                     )
                 )
             ),
-            
+
             div(
                 wellPanel(
                     div(
@@ -284,7 +283,7 @@ shinyUI(div(class="page-wrapper",
                     )
                 )
             ),
-            
+
             div(
                 wellPanel(
                     div(
@@ -304,7 +303,7 @@ shinyUI(div(class="page-wrapper",
                     )
                 )
             ),
-            
+
             div(
               wellPanel(
                 div(
@@ -312,7 +311,7 @@ shinyUI(div(class="page-wrapper",
                   h3("Jessica")
                 ),
                 img(src = "ja.png", class="profile-img", height = 150),
-                plotOutput("hist_jeff", height = "100%", width= '70%'),
+                plotOutput("hist_jessica", height = "100%", width= '70%'),
                 div(class="indv-written-stats",
                     h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Jessica"]),  align = "left"),
                     h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Jessica"], " (", stats$called_on_x_pct[stats$name == "Jessica"], "%)"), align = "left"),
@@ -324,7 +323,7 @@ shinyUI(div(class="page-wrapper",
                 )
               )
             ),
-            
+
             div(
                 wellPanel(
                     div(

@@ -21,6 +21,7 @@ shinyServer(function(input, output, session) {
                      Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
                      Jessica = ifelse("Jessica" %in% input$order_order$text, which(input$order_order$text == "Jessica"), NA),
                      Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
+                     Kevin = ifelse("Kevin" %in% input$order_order$text, which(input$order_order$text == "Kevin"), NA),
                      Malsi = NA,
                      Marissa = NA,
                      Nigel = NA,
@@ -285,21 +286,19 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 60)
     
-    # output$hist_nigel <- renderPlot({
-    #   hist <- df %>% 
-    #     pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-    #     mutate(order = as.numeric(order)) %>% 
-    #     filter(person == "Nigel") %>%
-    #     filter(order < 9) %>% 
-    #     ggplot(aes(x = order)) +
-    #     geom_bar(stat = "count", fill = "#FF8B00") +
-    #     #facet_wrap(~person) +
-    #     scale_x_continuous(breaks = seq(1, 8, 1), limits = c(1,8)) + 
-    #     xlim(1,8) +
-    #     theme_void()
-    #   hist
-    # }, height = 100)
-
+    output$hist_kevin <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Kevin") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#319CF4") +
+        #facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_void()
+      hist
+    }, height = 60)
     
     output$hist_shannon <- renderPlot({
       hist <- df %>% 
@@ -383,11 +382,11 @@ shinyServer(function(input, output, session) {
       hist
     }, height = 25)
     
-    # output$colors_nigel <- renderPlot({
-    #   hist <- colors_data() %>%
-    #     make_colors_chart(., "Nigel")
-    #   hist
-    # }, height = 25)
+    output$colors_kevin <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Kevin")
+      hist
+    }, height = 25)
     
     output$colors_shannon <- renderPlot({
       hist <- colors_data() %>% 

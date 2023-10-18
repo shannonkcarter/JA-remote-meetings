@@ -279,7 +279,7 @@ freq_missing <- df %>%
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
-  select(-c("Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach")) %>% 
+  select(-c("Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach", "Emi", "Kevin")) %>% 
   pivot_longer(`Brian`:`Smith`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 

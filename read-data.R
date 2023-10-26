@@ -15,6 +15,7 @@ library(shinyWidgets)
 library(gridExtra)
 library(plotly)
 library(highcharter)
+library(googlesheets4)
 
 
 # # initially - push data to aws bucket
@@ -72,7 +73,8 @@ loadData_ff <- function() {
 }
 
 fun_facts <- loadData_ff() 
-
+#write_sheet(fun_facts, ss = "https://docs.google.com/spreadsheets/d/1A4lGnWVhg4gsHe6lIUv2_l_4wATiBxt_SlRiOCZHpfE/edit#gid=0", sheet = "all_fun_facts")
+#write_csv(fun_facts, here::here("fun_facts.csv"))
 ###--- calculations for data vis and stats
 getMode <- function(x) {
   ux <- na.omit(unique(x) )

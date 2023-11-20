@@ -19,10 +19,18 @@ shinyUI(div(class="page-wrapper",
     # column(12, align = "center",
     #        img(src = "ja_logo.png", height = 100)),
     #        #h1("January Advisors StandApp")),
-    div(class="title", 
-        img(src = "ja_logo.png"),
-        img(src = "standapp.svg"),
-    ),
+    fluidRow(
+      column(5, align = "right",
+             br(),
+             img(src = "gpt.jpg", style = "width: 200px")
+             ),
+      column(6, align = "left",
+             br(),
+             div(class="title", 
+                 img(src = "ja_logo.png"),
+                 img(src = "standapp.svg")
+                 ))
+      ),
 
     # Sidebar with a slider input for number of bins
     #sidebarLayout(
@@ -230,7 +238,7 @@ shinyUI(div(class="page-wrapper",
                   class="personal-stats-header",
                   h3("Divia")
                 ),
-                img(src = "ja.png", class="profile-img", height = 150),
+                img(src = "gpt.jpg", class="profile-img", height = 150),
                 plotOutput("hist_divia", height = "100%", width= '70%'),
                 div(class="indv-written-stats",
                     h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Divia"]),  align = "left"),
@@ -290,7 +298,7 @@ shinyUI(div(class="page-wrapper",
                   class="personal-stats-header",
                   h3("Jessica")
                 ),
-                img(src = "ja.png", class="profile-img", height = 150),
+                img(src = "gpt.jpg", class="profile-img", height = 150),
                 plotOutput("hist_jessica", height = "100%", width= '70%'),
                 div(class="indv-written-stats",
                     h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Jessica"]),  align = "left"),

@@ -26,9 +26,9 @@ df <- loadData()
 
 wrapped <- df %>% 
   select(date, time, error, 
-         Brian, Carly, David, Emi, Gerard, Jeff, Kelsey, Smith, Shannon) %>% 
+         Brian, Carly, David, Divia, Gerard, Jeff, Jessica, Kelsey, Smith, Shannon) %>% 
   mutate(year = year(date)) %>% 
-  filter(year == 2022) %>% 
+  filter(year == 2023) %>% 
   select(-year)
   
 freq_first_last <- wrapped %>% 
@@ -64,7 +64,7 @@ all_combos <- combn(names, 2) %>%
     rowid = row_number()
   ) %>% 
   dplyr::select(rowid, everything()) %>% 
-  pivot_longer(V1:V36, names_to = "name1", values_to = "name2") %>% 
+  pivot_longer(V1:last_col(), names_to = "name1", values_to = "name2") %>% 
   pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
   dplyr::select(-name1) %>% 
   clean_names() %>% 
@@ -76,9 +76,10 @@ shared_meetings <- wrapped %>%
     Brian = ifelse(!is.na(Brian), "Brian", NA),
     Carly = ifelse(!is.na(Carly), "Carly", NA),
     David = ifelse(!is.na(David), "David", NA),
-    Emi = ifelse(!is.na(Emi), "Emi", NA),
+    Divia = ifelse(!is.na(Divia), "Divia", NA),
     Gerard = ifelse(!is.na(Gerard), "Gerard", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
+    Jessica = ifelse(!is.na(Jessica), "Jessica", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
     Smith = ifelse(!is.na(Smith), "Smith", NA),
     Shannon = ifelse(!is.na(Shannon), "Shannon", NA)
@@ -98,7 +99,8 @@ shared_meeting_count <- all_combos %>%
   group_by(row_id) %>% 
   do(count_shared_meetings(.$row_id)) %>% 
   ungroup() %>% 
-  dplyr::select(-row_id)
+  dplyr::select(-row_id) %>% 
+  distinct()
 
 who_called_on_who <- wrapped %>% 
   select(-error) %>% 

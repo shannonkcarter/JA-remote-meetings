@@ -80,7 +80,7 @@ shinyUI(div(class="page-wrapper",
                 orderInput(
                     inputId = 'people',
                     label = 'Meeting Order: ',
-                    items = c('Brian', 'Carly', 'David', "Divia", "Gerard", "Jeff", "Jessica", "Kelsey", "Shannon", "Smith"),
+                    items = c('Brian', 'Carly', 'David', "Divia", "Gerard", "Jeff", "Jessica", "Katie", "Kelsey", "Shannon"),
                     connect = c('order', "missing"),
                     item_class = "info",
                     width = "100%"
@@ -311,6 +311,26 @@ shinyUI(div(class="page-wrapper",
                 )
               )
             ),
+            
+            div(
+              wellPanel(
+                div(
+                  class="personal-stats-header",
+                  h3("Katie")
+                ),
+                img(src = "gpt.jpg", class="profile-img", height = 150),
+                plotOutput("hist_katie", height = "100%", width= '70%'),
+                div(class="indv-written-stats",
+                    h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Katie"]),  align = "left"),
+                    h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Katie"], " (", stats$called_on_x_pct[stats$name == "Katie"], "%)"), align = "left"),
+                    h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Katie"], " (", stats$called_on_by_x_pct[stats$name == "Katie"], "%)"), align = "left"),
+                ),
+                div(class="recent-activity",
+                    h5("Recent activity"),
+                    plotOutput("colors_katie", height = "100%")
+                )
+              )
+            ),
 
             div(
                 wellPanel(
@@ -348,25 +368,6 @@ shinyUI(div(class="page-wrapper",
                     div(class="recent-activity",
                         h5("Recent activity"),
                         plotOutput("colors_shannon", height = "100%")
-                    )
-                )
-            ),
-            div(
-                wellPanel(
-                    div(
-                        class="personal-stats-header",
-                        h3("Smith")
-                    ),
-                    img(src = "smith.jpg", class="profile-img", height = 150),
-                    plotOutput("hist_smith", height = "100%", width= '70%'),
-                    div(class="indv-written-stats",
-                        h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Smith"]),  align = "left"),
-                        h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Smith"], " (", stats$called_on_x_pct[stats$name == "Smith"], "%)"), align = "left"),
-                        h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Smith"], " (", stats$called_on_by_x_pct[stats$name == "Smith"], "%)"), align = "left"),
-                    ),
-                    div(class="recent-activity",
-                        h5("Recent activity"),
-                        plotOutput("colors_smith", height = "100%")
                     )
                 )
             )

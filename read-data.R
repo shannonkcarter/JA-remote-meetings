@@ -47,13 +47,13 @@ df <- loadData()
 
 # # need to do if adding another person...
 # todays_order <- c(date = "2024-01-04", time = "Sitdown", error = "N",
-#                   Ben = NA, Brian = NA, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
+#                   Ben = NA, Brian = NA, Anna = 1, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
 #                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Kelsey = NA,
-#                   Katie = 1, Kevin = NA, Malsi = NA, Marissa = NA,
+#                   Katie = NA, Kevin = NA, Malsi = NA, Marissa = NA,
 #                   Nigel = NA, Shannon = NA, Smith = NA, Zach = NA)
 # df <- df %>%
-#   mutate("Katie" = NA) %>%
-#   select(date, time, error, Ben, Brian, Carly, David, Divia, Divine, Emi,
+#   mutate("Anna" = NA) %>%
+#   select(date, time, error, Ben, Brian, Anna, Carly, David, Divia, Divine, Emi,
 #          Eric, Gail, Gerard, Hala, Jeff, Jessica, Kelsey, Katie, Kevin, Malsi, Marissa, Nigel,
 #          Shannon, Smith, Zach) %>%
 #   rbind(todays_order)
@@ -84,6 +84,7 @@ getMode <- function(x) {
 modes <- df %>% 
   summarize(Ben = getMode(Ben)[1],
             Brian = getMode(Brian)[1],
+            Anna = getMode(Anna)[1],
             Carly = getMode(Carly)[1],
             David = getMode(David)[1],
             Divia = getMode(Divia)[1],
@@ -133,6 +134,7 @@ shared_meetings <- df %>%
   mutate(
     Ben = ifelse(!is.na(Ben), "Ben", NA),
     Brian = ifelse(!is.na(Brian), "Brian", NA),
+    Anna = ifelse(!is.na(Anna), "Anna", NA),
     Carly = ifelse(!is.na(Carly), "Carly", NA),
     David = ifelse(!is.na(David), "David", NA),
     Divia = ifelse(!is.na(Divia), "Divia", NA),
@@ -251,6 +253,7 @@ meetings_since_divia = as.numeric(length(df$date[as.numeric(rownames(df)) > 1263
 meetings_since_jessica = as.numeric(length(df$date[as.numeric(rownames(df)) > 1311]))
 meetings_since_kevin = as.numeric(length(df$date[as.numeric(rownames(df)) > 1340]))
 meetings_since_katie = as.numeric(length(df$date[as.numeric(rownames(df)) > 1460]))
+meetings_since_anna = as.numeric(length(df$date[as.numeric(rownames(df)) > 1533]))
 
 freq_missing <- df %>% 
   ungroup() %>% 
@@ -263,7 +266,8 @@ freq_missing <- df %>%
   reframe(number_attended = length(name),
             number_meetings = case_when(#name == "Ben" ~ 0 + meetings_since_interns,
                                         name == "Brian" ~ 432 + meetings_since,
-                                        name == "Carly" ~ 324 + meetings_since,
+                                        name == "Anna" ~ meetings_since,
+                                        name == "Carly" ~ 324 + meetings_since_anna,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
                                         #name == "Gail" ~ meetings_since_gail,

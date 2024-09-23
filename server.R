@@ -87,7 +87,16 @@ shinyServer(function(input, output, session) {
         hchart("column", hcaes(x = numones, y = n)) %>% 
         hc_colors("#5c9ad2") %>% 
         hc_add_theme(ja_hc_theme()) %>% 
-        hc_xAxis(title = list(text = "streak length")) %>% 
+        hc_xAxis(title = list(text = "streak length"),
+                 plotLines = list(list(
+                   value = median(x$numones),
+                   color = 'black',
+                   width = 1,
+                   zIndex = 4,
+                   dashStyle = "dash",
+                   label = list(text = paste0("median: ", median(x$numones)),
+                                style = list( color = 'black')
+                   )))) %>% 
         hc_yAxis(title = list(text = "number of times")) %>% 
         hc_tooltip(formatter = JS("function(){
                                 return (

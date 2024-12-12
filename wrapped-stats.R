@@ -26,26 +26,26 @@ df <- loadData()
 
 wrapped <- df %>% 
   select(date, time, error, 
-         Brian, Carly, David, Divia, Gerard, Jeff, Jessica, Kelsey, Smith, Shannon) %>% 
+         Brian, Carly, David, Divia, Gerard, Jeff, Katie, Kelsey, Shannon) %>% 
   mutate(year = year(date)) %>% 
-  filter(year == 2023) %>% 
+  filter(year == 2024) %>% 
   select(-year)
   
 freq_first_last <- wrapped %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
-  group_by(date, time) %>% 
+  group_by(date) %>% 
   mutate(last_position = max(order)) %>% 
   ungroup() %>% 
   group_by(name) %>% 
   summarize(number_present = length(order),
-            number_absent = 439 - number_present,
+            number_absent = nrow(wrapped) - number_present,
             number_last = length(order[order == last_position]),
             number_first = length(order[order == 1])) %>%
   mutate(freq_last = round((number_last/number_present)*100, 1),
          freq_first = round((number_first/number_present)*100, 1),
-         freq_present = round(number_present/439*100, 1),
+         freq_present = round(number_present/nrow(wrapped)*100, 1),
          freq_absent = 100 - freq_present) %>% 
   select(name, 
          number_present, freq_present, 
@@ -79,9 +79,8 @@ shared_meetings <- wrapped %>%
     Divia = ifelse(!is.na(Divia), "Divia", NA),
     Gerard = ifelse(!is.na(Gerard), "Gerard", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
-    Jessica = ifelse(!is.na(Jessica), "Jessica", NA),
+    Katie = ifelse(!is.na(Katie), "Katie", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
-    Smith = ifelse(!is.na(Smith), "Smith", NA),
     Shannon = ifelse(!is.na(Shannon), "Shannon", NA)
   ) 
 

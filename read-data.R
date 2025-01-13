@@ -47,13 +47,13 @@ df <- loadData()
 
 # # need to do if adding another person...
 # todays_order <- c(date = "2024-09-23", time = "Sitdown", error = "N",
-#                   Ben = NA, Brian = NA, Anna = NA, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
+#                   Ben = NA, Brian = NA, Anna = NA, Adelle = 1, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
 #                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Kelsey = NA,
 #                   Katie = NA, Kevin = NA, Malsi = NA, Marissa = NA,
-#                   Nigel = NA, Sarah = 1, Shannon = NA, Smith = NA, Zach = NA)
+#                   Nigel = NA, Sarah = NA, Shannon = NA, Smith = NA, Zach = NA)
 # df <- df %>%
-#   mutate("Sarah" = NA) %>%
-#   select(date, time, error, Ben, Brian, Anna, Carly, David, Divia, Divine, Emi,
+#   mutate("Adelle" = NA) %>%
+#   select(date, time, error, Ben, Brian, Anna, Adelle, Carly, David, Divia, Divine, Emi,
 #          Eric, Gail, Gerard, Hala, Jeff, Jessica, Kelsey, Katie, Kevin, Malsi, Marissa, Nigel,
 #          Sarah, Shannon, Smith, Zach) %>%
 #   rbind(todays_order)
@@ -85,6 +85,7 @@ modes <- df %>%
   summarize(Ben = getMode(Ben)[1],
             Brian = getMode(Brian)[1],
             Anna = getMode(Anna)[1],
+            Adelle = getMode(Adelle)[1],
             Carly = getMode(Carly)[1],
             David = getMode(David)[1],
             Divia = getMode(Divia)[1],
@@ -137,6 +138,7 @@ shared_meetings <- df %>%
     Brian = ifelse(!is.na(Brian), "Brian", NA),
     Anna = ifelse(!is.na(Anna), "Anna", NA),
     Carly = ifelse(!is.na(Carly), "Carly", NA),
+    Adelle = ifelse(!is.na(Adelle), "Adelle", NA),
     David = ifelse(!is.na(David), "David", NA),
     Divia = ifelse(!is.na(Divia), "Divia", NA),
     Divine = ifelse(!is.na(Divine), "Divine", NA),
@@ -257,11 +259,12 @@ meetings_since_kevin = as.numeric(length(df$date[as.numeric(rownames(df)) > 1340
 meetings_since_katie = as.numeric(length(df$date[as.numeric(rownames(df)) > 1460]))
 meetings_since_anna = as.numeric(length(df$date[as.numeric(rownames(df)) > 1533]))
 meetings_since_sarah = as.numeric(length(df$date[as.numeric(rownames(df)) > 1584]))
+meetings_since_adelle = as.numeric(length(df$date[as.numeric(rownames(df)) > 1638]))
 
 freq_missing <- df %>% 
   ungroup() %>% 
   select(-c("Anna", "Ben", "Divine", "Eric", "Hala", "Gail", "Malsi",  "Marissa", "Nigel", "Zach", "Smith", 
-            "Sarah", "Jessica")) %>% 
+            "Sarah", "Jessica", "Kevin", "Emi")) %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>%
@@ -271,7 +274,7 @@ freq_missing <- df %>%
             number_meetings = case_when(#name == "Ben" ~ 0 + meetings_since_interns,
                                         name == "Brian" ~ 432 + meetings_since,
                                         name == "Anna" ~ meetings_since,
-                                        name == "Carly" ~ 324 + meetings_since_anna,
+                                        name == "Carly" ~ 324 + meetings_since,
                                         name == "David" ~ 432 + meetings_since,
                                         name == "Emi" ~ 188 + meetings_since,
                                         #name == "Gail" ~ meetings_since_gail,
@@ -288,14 +291,15 @@ freq_missing <- df %>%
                                         name == "Shannon" ~ 432 + meetings_since,
                                         #name == "Smith" ~ meetings_since_smith,
                                         name == "Divia" ~ meetings_since_divia,
-                                        name == "Katie" ~ meetings_since_katie)) %>%
+                                        name == "Katie" ~ meetings_since_katie,
+                                        name == "Adelle" ~ meetings_since_adelle)) %>%
   mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
   distinct() %>% 
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
   select(-c("Anna", "Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach", "Emi", "Kevin", "Smith", 
-            "Sarah", "Jessica")) %>% 
+            "Sarah", "Jessica", "Kevin", "Emi")) %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 

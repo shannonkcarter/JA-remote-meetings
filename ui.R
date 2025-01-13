@@ -80,7 +80,7 @@ shinyUI(div(class="page-wrapper",
                 orderInput(
                     inputId = 'people',
                     label = 'Meeting Order: ',
-                    items = c('Brian', 'Carly', 'David', "Divia", "Gerard", "Jeff", "Katie", "Kelsey", "Shannon"),
+                    items = c("Adelle", 'Brian', 'Carly', 'David', "Divia", "Gerard", "Jeff", "Katie", "Kelsey", "Shannon"),
                     connect = c('order', "missing"),
                     item_class = "info",
                     width = "100%"
@@ -175,12 +175,30 @@ shinyUI(div(class="page-wrapper",
         div(
             class="personal-stats-wrapper",
             div(
+              wellPanel(
+                div(
+                  class="personal-stats-header",
+                  h3("Adelle")
+                ),
+                plotOutput("hist_adelle", height = "100%", width= '70%'),
+                div(class="indv-written-stats",
+                    h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Adelle"]),  align = "left"),
+                    h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Adelle"], " (", stats$called_on_x_pct[stats$name == "Adelle"], "%)"), align = "left"),
+                    h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Adelle"], " (", stats$called_on_by_x_pct[stats$name == "Adelle"], "%)"), align = "left"),
+                ),
+                div(class="recent-activity",
+                    h5("Recent activity"),
+                    plotOutput("colors_adelle", height = "100%")
+                )
+              )
+            ),
+            div(
                 wellPanel(
                     div(
                         class="personal-stats-header",
                         h3("Brian")
                     ),
-                    img(src = "brian.jpg", class="profile-img", height = 150),
+                    #img(src = "brian.jpg", class="profile-img", height = 150),
                     plotOutput("hist_brian", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Brian"]),  align = "left"),
@@ -199,7 +217,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("Carly")
                     ),
-                    img(src = "carly.jpg", class="profile-img", height = 150),
+                    #img(src = "carly.jpg", class="profile-img", height = 150),
                     plotOutput("hist_carly", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Carly"]),  align = "left"),
@@ -218,7 +236,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("David")
                     ),
-                    img(src = "david.jpg", class="profile-img", height = 150),
+                    #img(src = "david.jpg", class="profile-img", height = 150),
                     plotOutput("hist_david", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "David"]),  align = "left"),
@@ -238,7 +256,7 @@ shinyUI(div(class="page-wrapper",
                   class="personal-stats-header",
                   h3("Divia")
                 ),
-                img(src = "gpt.jpg", class="profile-img", height = 150),
+                #img(src = "gpt.jpg", class="profile-img", height = 150),
                 plotOutput("hist_divia", height = "100%", width= '70%'),
                 div(class="indv-written-stats",
                     h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Divia"]),  align = "left"),
@@ -258,7 +276,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("Gerard")
                     ),
-                    img(src = "gerard.jpg", class="profile-img", height = 150),
+                    #img(src = "gerard.jpg", class="profile-img", height = 150),
                     plotOutput("hist_gerard", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Gerard"]),  align = "left"),
@@ -278,7 +296,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("Jeff")
                     ),
-                    img(src = "jeff.jpg", class="profile-img", height = 150),
+                    #img(src = "jeff.jpg", class="profile-img", height = 150),
                     plotOutput("hist_jeff", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Jeff"]),  align = "left"),
@@ -298,7 +316,7 @@ shinyUI(div(class="page-wrapper",
                   class="personal-stats-header",
                   h3("Katie")
                 ),
-                img(src = "gpt.jpg", class="profile-img", height = 150),
+                #img(src = "gpt.jpg", class="profile-img", height = 150),
                 plotOutput("hist_katie", height = "100%", width= '70%'),
                 div(class="indv-written-stats",
                     h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Katie"]),  align = "left"),
@@ -318,7 +336,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("Kelsey")
                     ),
-                    img(src = "kelsey.jpg", class="profile-img", height = 150),
+                    #img(src = "kelsey.jpg", class="profile-img", height = 150),
                     plotOutput("hist_kelsey", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Kelsey"]),  align = "left"),
@@ -338,7 +356,7 @@ shinyUI(div(class="page-wrapper",
                         class="personal-stats-header",
                         h3("Shannon")
                     ),
-                    img(src = "shannon.jpg", class="profile-img", height = 150),
+                    #img(src = "shannon.jpg", class="profile-img", height = 150),
                     plotOutput("hist_shannon", height = "100%", width= '70%'),
                     div(class="indv-written-stats",
                         h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Shannon"]),  align = "left"),

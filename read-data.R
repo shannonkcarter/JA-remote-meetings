@@ -1,21 +1,23 @@
-library(shiny)
-library(shinyjqui)
-library(DT)
-library(tidyverse)
-library(here)
-library(config)
-library(aws.s3)
-library(shinyjs)
-library(jastyle)
-library(lubridate)
-library(janitor)
-library(shinydashboardPlus)
-library(shinydashboard)
-library(shinyWidgets)
-library(gridExtra)
-library(plotly)
-library(highcharter)
-library(googlesheets4)
+{
+  library(shiny)
+  library(shinyjqui)
+  library(DT)
+  library(tidyverse)
+  library(here)
+  library(config)
+  library(aws.s3)
+  library(shinyjs)
+  library(jastyle)
+  library(lubridate)
+  library(janitor)
+  library(shinydashboardPlus)
+  library(shinydashboard)
+  library(shinyWidgets)
+  library(gridExtra)
+  library(plotly)
+  library(highcharter)
+  library(googlesheets4)
+}
 
 
 # # initially - push data to aws bucket
@@ -298,9 +300,9 @@ freq_missing <- df %>%
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
-  select(-c("Anna", "Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach", "Emi", "Kevin", "Smith", 
+  select(-c("Anna", "Brian", "Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach", "Emi", "Kevin", "Smith", 
             "Sarah", "Jessica", "Kevin", "Emi")) %>% 
-  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
+  pivot_longer(`Adelle`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 
   group_by(date, time) %>% 

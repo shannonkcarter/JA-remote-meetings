@@ -80,7 +80,7 @@ shinyUI(div(class="page-wrapper",
                 orderInput(
                     inputId = 'people',
                     label = 'Meeting Order: ',
-                    items = c("Adelle", 'Carly', 'David', "Divia", "Gerard", "Jeff", "Katie", "Kelsey", "Shannon"),
+                    items = c("Adelle", 'Carly', 'David', "Divia", "Gerard", "Jeff", "Juweek", "Katie", "Kelsey", "Shannon"),
                     connect = c('order', "missing"),
                     item_class = "info",
                     width = "100%"
@@ -289,6 +289,26 @@ shinyUI(div(class="page-wrapper",
                         plotOutput("colors_jeff", height = "100%")
                     )
                 )
+            ),
+            
+            div(
+              wellPanel(
+                div(
+                  class="personal-stats-header",
+                  h3("Juweek")
+                ),
+                #img(src = "jeff.jpg", class="profile-img", height = 150),
+                plotOutput("hist_juweek", height = "100%", width= '70%'),
+                div(class="indv-written-stats",
+                    h5(paste0("Most often goes: ", stats$mode_pretty[stats$name == "Juweek"]),  align = "left"),
+                    h5(paste0("Most likely to call on: ", stats$calls_on_most[stats$name == "Juweek"], " (", stats$called_on_x_pct[stats$name == "Juweek"], "%)"), align = "left"),
+                    h5(paste0("Most likely to be called on by: ", stats$called_on_by_most[stats$name == "Juweek"], " (", stats$called_on_by_x_pct[stats$name == "Juweek"], "%)"), align = "left"),
+                ),
+                div(class="recent-activity",
+                    h5("Recent activity"),
+                    plotOutput("colors_juweek", height = "100%")
+                )
+              )
             ),
 
             div(

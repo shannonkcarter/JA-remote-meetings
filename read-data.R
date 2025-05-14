@@ -48,15 +48,15 @@ loadData <- function() {
 df <- loadData() 
 
 # # need to do if adding another person...
-# todays_order <- c(date = "2025-04-02", time = "Standup", error = "N",
-#                   Ben = NA, Brian = NA, Anna = NA, Adelle = 1, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
-#                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Juweek = 1, Kelsey = NA,
-#                   Katie = NA, Kevin = NA, Malsi = NA, Marissa = NA,
+# todays_order <- c(date = "2025-05-14", time = "Standup", error = "N",
+#                   Ben = NA, Brian = NA, Anna = NA, Adelle = NA, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
+#                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Juweek = NA, Kelsey = NA,
+#                   Katie = NA, Kevin = NA, Malsi = NA, Marian = 1, Marissa = NA,
 #                   Nigel = NA, Sarah = NA, Shannon = NA, Smith = NA, Zach = NA)
 # df <- df %>%
-#   mutate("Juweek" = NA) %>%
+#   mutate("Marian" = NA) %>%
 #   select(date, time, error, Ben, Brian, Anna, Adelle, Carly, David, Divia, Divine, Emi,
-#          Eric, Gail, Gerard, Hala, Jeff, Jessica, Juweek, Kelsey, Katie, Kevin, Malsi, Marissa, Nigel,
+#          Eric, Gail, Gerard, Hala, Jeff, Jessica, Juweek, Kelsey, Katie, Kevin, Malsi, Marian, Marissa, Nigel,
 #          Sarah, Shannon, Smith, Zach) %>%
 #   rbind(todays_order)
 # 
@@ -103,6 +103,7 @@ modes <- df %>%
             Katie = getMode(Katie)[1],
             Kelsey = getMode(Kelsey)[1],
             Kevin = getMode(Kevin)[1],
+            Marian = getMode(Marian)[1],
             Marissa = getMode(Marissa)[1],
             #Masi = getMode(Malsi)[1],
             Nigel = getMode(Nigel)[1],
@@ -156,6 +157,7 @@ shared_meetings <- df %>%
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
     Katie = ifelse(!is.na(Katie), "Katie", NA),
     Kevin = ifelse(!is.na(Kevin), "Kevin", NA),
+    Marian = ifelse(!is.na(Marian), "Marian", NA),
     Marissa = ifelse(!is.na(Marissa), "Marissa", NA),
     Nigel = ifelse(!is.na(Nigel), "Nigel", NA),
     Sarah = ifelse(!is.na(Sarah), "Sarah", NA),
@@ -265,6 +267,7 @@ meetings_since_anna = as.numeric(length(df$date[as.numeric(rownames(df)) > 1533]
 meetings_since_sarah = as.numeric(length(df$date[as.numeric(rownames(df)) > 1584]))
 meetings_since_adelle = as.numeric(length(df$date[as.numeric(rownames(df)) > 1638]))
 meetings_since_juweek = as.numeric(length(df$date[as.numeric(rownames(df)) > 1693]))
+meetings_since_marian = as.numeric(length(df$date[as.numeric(rownames(df)) > 1722]))
 
 freq_missing <- df %>% 
   ungroup() %>% 
@@ -298,7 +301,8 @@ freq_missing <- df %>%
                                         name == "Divia" ~ meetings_since_divia,
                                         name == "Katie" ~ meetings_since_katie,
                                         name == "Adelle" ~ meetings_since_adelle,
-                                        name == "Juweek" ~ meetings_since_juweek)) %>%
+                                        name == "Juweek" ~ meetings_since_juweek,
+                                        name == "Marian" ~ meetings_since_marian)) %>%
   mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
   distinct() %>% 
   select(name, freq_missing)

@@ -31,6 +31,7 @@ shinyServer(function(input, output, session) {
                      Marissa = NA,
                      Nigel = NA,
                      Sarah = NA,
+                     Ruchi = ifelse("Ruchi" %in% input$order_order$text, which(input$order_order$text == "Ruchi"), NA),
                      Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
                      Smith = NA,
                      Zach = NA) %>% 
@@ -51,9 +52,9 @@ shinyServer(function(input, output, session) {
     df %>% 
       filter(date != "2021-03-11" & date != "2021-03-12") %>% 
       tail(10) %>% 
-      select(-c(Anna, Ben, Divine, Eric, Hala, Marissa, Nigel, Zach, Gail, Emi, Kevin, Smith)) %>% 
+      select(-c(Anna, Ben, Divine, Eric, Hala, Marissa, Nigel, Zach, Gail, Emi, Kevin, Smith, Brian)) %>% 
       mutate(index = 1:length(date)) %>% 
-      pivot_longer(Brian:Shannon) %>% 
+      pivot_longer(Adelle:Shannon) %>% 
       mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"), ordered = T))  
   })
   
@@ -314,7 +315,21 @@ shinyServer(function(input, output, session) {
         theme_void()
       hist
     }, height = 60)
-    
+
+    output$hist_ruchi <- renderPlot({
+      hist <- df %>% 
+        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
+        mutate(order = as.numeric(order)) %>% 
+        filter(person == "Ruchi") %>%
+        filter(order < 9) %>% 
+        ggplot(aes(x = order)) +
+        geom_bar(stat = "count", fill = "#319CF4") +
+        #facet_wrap(~person) +
+        scale_x_continuous(breaks = seq(1, 8, 1)) + 
+        theme_void()
+      hist
+    }, height = 60)
+        
     output$hist_shannon <- renderPlot({
       hist <- df %>% 
         pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
@@ -392,6 +407,12 @@ shinyServer(function(input, output, session) {
     output$colors_shannon <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Shannon")
+      hist
+    }, height = 25)
+    
+    output$colors_ruchi <- renderPlot({
+      hist <- colors_data() %>% 
+        make_colors_chart(., "Ruchi")
       hist
     }, height = 25)
     

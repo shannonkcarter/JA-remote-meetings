@@ -31,7 +31,7 @@ shinyServer(function(input, output, session) {
                      Marissa = NA,
                      Nigel = NA,
                      Sarah = NA,
-                     Ruchi = ifelse("Ruchi" %in% input$order_order$text, which(input$order_order$text == "Ruchi"), NA),
+                     Ruchi = NA,
                      Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
                      Smith = NA,
                      Zach = NA) %>% 
@@ -136,8 +136,8 @@ shinyServer(function(input, output, session) {
     
     output$heatmap <- renderHighchart({
       who_rates %>%
-        filter(!name %in% c("Anna", "Brian", "Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail", "Emi", "Kevin", "Smith", "Jessica", "Sarah")) %>%
-        filter(!called_on %in% c("Anna", "Brian", "Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail", "Emi", "Kevin", "Smith", "Jessica", "Sarah")) %>%
+        filter(!name %in% c("Anna", "Brian", "Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail", "Emi", "Kevin", "Smith", "Jessica", "Sarah", "Ruchi")) %>%
+        filter(!called_on %in% c("Anna", "Brian", "Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail", "Emi", "Kevin", "Smith", "Jessica", "Sarah", "Ruchi")) %>%
         filter(!is.na(total_shared_meetings)) %>%
         mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
         select("from" = name, "to" = called_on, weight = called_on_adj) %>%
@@ -315,20 +315,6 @@ shinyServer(function(input, output, session) {
         theme_void()
       hist
     }, height = 60)
-
-    output$hist_ruchi <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Ruchi") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
         
     output$hist_shannon <- renderPlot({
       hist <- df %>% 
@@ -407,12 +393,6 @@ shinyServer(function(input, output, session) {
     output$colors_shannon <- renderPlot({
       hist <- colors_data() %>% 
         make_colors_chart(., "Shannon")
-      hist
-    }, height = 25)
-    
-    output$colors_ruchi <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Ruchi")
       hist
     }, height = 25)
     

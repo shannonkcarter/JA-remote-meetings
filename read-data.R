@@ -274,7 +274,7 @@ meetings_since_ruchi = as.numeric(length(df$date[as.numeric(rownames(df)) > 1725
 freq_missing <- df %>% 
   ungroup() %>% 
   select(-c("Anna", "Ben", "Divine", "Eric", "Hala", "Gail", "Malsi",  "Marissa", "Nigel", "Zach", "Smith", 
-            "Sarah", "Jessica", "Kevin", "Emi")) %>% 
+            "Sarah", "Jessica", "Kevin", "Emi", "Ruchi")) %>% 
   pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>%
@@ -305,14 +305,15 @@ freq_missing <- df %>%
                                         name == "Adelle" ~ meetings_since_adelle,
                                         name == "Juweek" ~ meetings_since_juweek,
                                         name == "Marian" ~ meetings_since_marian,
-                                        name == "Ruchi" ~ meetings_since_ruchi)) %>%
+                                        #name == "Ruchi" ~ meetings_since_ruchi
+                                        )) %>%
   mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
   distinct() %>% 
   select(name, freq_missing)
 
 freq_first_last <- df %>% 
   select(-c("Anna", "Brian", "Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach", "Emi", "Kevin", "Smith", 
-            "Sarah", "Jessica", "Kevin", "Emi")) %>% 
+            "Sarah", "Jessica", "Kevin", "Emi", "Ruchi")) %>% 
   pivot_longer(`Adelle`:`Shannon`, names_to = "name", values_to = "order") %>% 
   mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
   filter(!is.na(order)) %>% 

@@ -19,7 +19,6 @@
   library(googlesheets4)
 }
 
-
 # # initially - push data to aws bucket
 # df <- read_csv(here::here("standup_data.csv")) %>%
 #   mutate(date = as.Date(date_y, format = "%m/%d/%y")) %>%
@@ -48,15 +47,15 @@ loadData <- function() {
 df <- loadData() 
 
 # # need to do if adding another person...
-# todays_order <- c(date = "2025-05-14", time = "Standup", error = "N",
+# todays_order <- c(date = "2025-09-23", time = "Standup", error = "N",
 #                   Ben = NA, Brian = NA, Anna = NA, Adelle = NA, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
-#                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Juweek = NA, Kelsey = NA,
+#                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Jonathan = 1, Juweek = NA, Kelsey = NA,
 #                   Katie = NA, Kevin = NA, Malsi = NA, Marian = NA, Marissa = NA,
-#                   Nigel = NA, Ruchi = 1, Sarah = NA, Shannon = NA, Smith = NA, Zach = NA)
+#                   Nigel = NA, Ruchi = NA, Sarah = NA, Shannon = NA, Smith = NA, Zach = NA)
 # df <- df %>%
-#   mutate("Ruchi" = NA) %>%
+#   mutate("Jonathan" = NA) %>%
 #   select(date, time, error, Ben, Brian, Anna, Adelle, Carly, David, Divia, Divine, Emi,
-#          Eric, Gail, Gerard, Hala, Jeff, Jessica, Juweek, Kelsey, Katie, Kevin, Malsi, Marian, Marissa, Nigel, Ruchi,
+#          Eric, Gail, Gerard, Hala, Jeff, Jessica, Jonathan, Juweek, Kelsey, Katie, Kevin, Malsi, Marian, Marissa, Nigel, Ruchi,
 #          Sarah, Shannon, Smith, Zach) %>%
 #   rbind(todays_order)
 # 
@@ -99,6 +98,7 @@ modes <- df %>%
             Hala = getMode(Hala)[1],
             Jeff = getMode(Jeff)[1],
             Jessica = getMode(Jessica)[1],
+            Jonathan = getMode(Jonathan)[1],
             Juweek = getMode(Juweek)[1],
             Katie = getMode(Katie)[1],
             Kelsey = getMode(Kelsey)[1],
@@ -154,6 +154,7 @@ shared_meetings <- df %>%
     Hala = ifelse(!is.na(Hala), "Hala", NA),
     Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
     Jessica = ifelse(!is.na(Jessica), "Jessica", NA),
+    Jonathan = ifelse(!is.na(Jonathan), "Jonathan", NA),
     Juweek = ifelse(!is.na(Jessica), "Juweek", NA),
     Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
     Katie = ifelse(!is.na(Katie), "Katie", NA),
@@ -271,6 +272,7 @@ meetings_since_adelle = as.numeric(length(df$date[as.numeric(rownames(df)) > 163
 meetings_since_juweek = as.numeric(length(df$date[as.numeric(rownames(df)) > 1693]))
 meetings_since_marian = as.numeric(length(df$date[as.numeric(rownames(df)) > 1722]))
 meetings_since_ruchi = as.numeric(length(df$date[as.numeric(rownames(df)) > 1725]))
+meetings_since_jonathan = as.numeric(length(df$date[as.numeric(rownames(df)) > 1797]))
 freq_missing <- df %>% 
   ungroup() %>% 
   select(-c("Anna", "Ben", "Divine", "Eric", "Hala", "Gail", "Malsi",  "Marissa", "Nigel", "Zach", "Smith", 
@@ -291,6 +293,7 @@ freq_missing <- df %>%
                                         name == "Gerard" ~ meetings_since_gerard,
                                         #name == "Eric" ~ 0 +meetings_since_interns,
                                         name == "Jeff" ~ 432 + meetings_since,
+                                        name == "Jonathan" ~ meetings_since_jonathan,
                                         name == "Jessica" ~ meetings_since_jessica,
                                         name == "Kelsey" ~ 432 + meetings_since,
                                         name == "Kevin" ~ meetings_since_kevin,

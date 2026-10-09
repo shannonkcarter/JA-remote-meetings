@@ -4,41 +4,14 @@ library(shiny)
 shinyServer(function(input, output, session) {
   observe(print(todays_order()))
   todays_order <- reactive({
-    df <- data.frame(date = input$date,
-                     time = "Standup",
-                     error = input$errors,
-                     Ben = NA,
-                     Anna = NA,
-                     Adelle = ifelse("Adelle" %in% input$order_order$text, which(input$order_order$text == "Adelle"), NA),
-                     Brian = NA,
-                     Carly = ifelse("Carly" %in% input$order_order$text, which(input$order_order$text == "Carly"), NA),
-                     David = ifelse("David" %in% input$order_order$text, which(input$order_order$text == "David"), NA),
-                     Divia = ifelse("Divia" %in% input$order_order$text, which(input$order_order$text == "Divia"), NA),
-                     Divine = NA,
-                     Emi = NA,
-                     Eric = NA,
-                     Gail = NA,
-                     Gerard = ifelse("Gerard" %in% input$order_order$text, which(input$order_order$text == "Gerard"), NA),
-                     Hala = NA,
-                     Jeff = ifelse("Jeff" %in% input$order_order$text, which(input$order_order$text == "Jeff"), NA),
-                     Jessica = NA, 
-                     Jonathan = ifelse("Jonathan" %in% input$order_order$text, which(input$order_order$text == "Jonathan"), NA),
-                     Juweek = ifelse("Juweek" %in% input$order_order$text, which(input$order_order$text == "Juweek"), NA),
-                     Katie = ifelse("Katie" %in% input$order_order$text, which(input$order_order$text == "Katie"), NA),
-                     Kaitlin = ifelse("Kaitlin" %in% input$order_order$text, which(input$order_order$text == "Kaitlin"), NA),
-                     Kelsey = ifelse("Kelsey" %in% input$order_order$text, which(input$order_order$text == "Kelsey"), NA),
-                     Kevin = NA,
-                     Malsi = NA,
-                     Marian = ifelse("Marian" %in% input$order_order$text, which(input$order_order$text == "Marian"), NA),
-                     Marissa = NA,
-                     Nigel = NA,
-                     Sarah = NA,
-                     Ruchi = NA,
-                     Shannon = ifelse("Shannon" %in% input$order_order$text, which(input$order_order$text == "Shannon"), NA),
-                     Smith = NA,
-                     Zach = NA) %>% 
-      mutate(error = case_when(error == "Yes :/" ~ "Y",
-                               error == "No, flawless execution!" ~ "N"))
+    # Each person's position in today's order (NA if they weren't in it), one column per roster member
+    positions <- as.list(setNames(as.character(match(all_members, input$order_order$text)), all_members))
+
+    df <- tibble(date = input$date,
+                 time = "Standup",
+                 error = case_when(input$errors == "Yes :/" ~ "Y",
+                                   input$errors == "No, flawless execution!" ~ "N"),
+                 !!!positions)
     return(df)
   })
 
@@ -50,15 +23,12 @@ shinyServer(function(input, output, session) {
     HTML(longest_streak)
   })
 
-  colors_data <- reactive({
-    df %>% 
-      filter(date != "2021-03-11" & date != "2021-03-12") %>% 
-      tail(10) %>% 
-      select(-c(Anna, Ben, Divine, Eric, Hala, Marissa, Nigel, Zach, Gail, Emi, Kevin, Smith, Brian)) %>% 
-      mutate(index = 1:length(date)) %>% 
-      pivot_longer(Adelle:Shannon) %>% 
-      mutate(value = factor(value, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"), ordered = T))  
-  })
+  # Last 10 meetings, for the "Last 10 games" strips
+  colors_data <- df %>%
+    tail(10) %>%
+    mutate(index = 1:length(date)) %>%
+    pivot_longer(all_of(active_members)) %>%
+    mutate(value = factor(value, levels = as.character(seq_len(max_position)), ordered = T))
   
   todays_fun_fact <- reactive({
     ff_df <- tibble(date = input$date,
@@ -82,7 +52,7 @@ shinyServer(function(input, output, session) {
     
     output$table_today <- renderDataTable({
       dt <- todays_order() %>% 
-        select(-c(error, Divine, Hala, Marissa, Zach, Ben, Eric, Nigel, Gail, Emi, Kevin, Smith))
+        select(date, time, all_of(active_members))
       return(dt)
     }, options = list(dom = "t", ordering = F, 
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 
@@ -91,9 +61,9 @@ shinyServer(function(input, output, session) {
     output$streak_histogram <- renderHighchart({
       x %>% count(numones) %>% 
         hchart("column", hcaes(x = numones, y = n)) %>% 
-        hc_colors("#5c9ad2") %>% 
+        hc_colors("#004E7B") %>% 
         hc_add_theme(ja_hc_theme()) %>% 
-        hc_xAxis(title = list(text = "streak length"),
+        hc_xAxis(title = list(text = "hitting streak length"),
                  plotLines = list(list(
                    value = median(x$numones),
                    color = 'black',
@@ -106,337 +76,76 @@ shinyServer(function(input, output, session) {
         hc_yAxis(title = list(text = "number of times")) %>% 
         hc_tooltip(formatter = JS("function(){
                                 return (
-                                'We have had a streak of ' +
-                                this.point.numones + ' meetings ' +
+                                'We have had a hitting streak of ' +
+                                this.point.numones + ' games ' +
                                 this.point.n + ' times.'
                             )}"
                                   )) %>% 
-        hc_title(text = "Our streaks tend to be pretty modest", align = "center")
+        hc_title(text = "Our hitting streaks tend to be pretty modest", align = "center")
     })
     
-    output$streak_pie <- renderHighchart({
-      pct <- tabyl(misstep_streak, error) %>%
-        filter(error == "N") %>%
-        mutate(percent = round(100 * percent, 1)) %>% 
-        pull(percent)
-
-      tabyl(misstep_streak, error) %>%
-        mutate(error = case_when(error == "N" ~ "right",
-                                 error == "Y" ~ "wrong"),
-               percent = round(100 * percent, 1)) %>% 
-        hchart("pie", hcaes(error, percent)) %>% 
-        hc_plotOptions(series = list(showInLegend = F, dataLabels = F)) %>% 
-        hc_add_theme(ja_hc_theme()) %>% 
-        hc_colors(c("#5c9ad2","#FF8B00")) %>% 
-        hc_tooltip(formatter = JS("function(){
-                                return (
-                                  'We get the order ' + this.point.error + ' ' +
-                                  this.point.percent + '% of the time'
-                                  )}")) %>% 
-        hc_title(text = paste0("We get the order correct in ", pct, "% of our meetings"), align = "center")
+    output$batting_average <- renderUI({
+      HTML(sprintf("%.3f", batting_average))
     })
     
     output$heatmap <- renderHighchart({
-      who_rates %>%
-        filter(!name %in% c("Anna", "Brian", "Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail", "Emi", "Kevin", "Smith", "Jessica", "Sarah", "Ruchi")) %>%
-        filter(!called_on %in% c("Anna", "Brian", "Hala", "Divine", "Zach", "Marissa", "Eric", "Ben", "Nigel", "Gail", "Emi", "Kevin", "Smith", "Jessica", "Sarah", "Ruchi")) %>%
+      wheel_data <- who_rates %>%
+        filter(name %in% active_members, called_on %in% active_members) %>%
         filter(!is.na(total_shared_meetings)) %>%
         mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
-        select("from" = name, "to" = called_on, weight = called_on_adj) %>%
-        hchart("dependencywheel") %>%
+        select("from" = name, "to" = called_on, weight = called_on_adj)
+
+      # Give each person their own color (only people with data, or the wheel shows empty nodes)
+      wheel_people <- intersect(active_members, c(wheel_data$from, wheel_data$to))
+      nodes <- lapply(wheel_people, function(p) list(id = p, color = member_colors[[p]]))
+
+      highchart() %>%
+        hc_add_series(type = "dependencywheel", name = "Calls on", data = list_parse(wheel_data), nodes = nodes) %>%
         hc_title(text = "Who calls on whom?", align = "center") %>%
-        hc_add_theme(ja_hc_theme()) %>%
-        hc_colors(c(ja_hex("red"), ja_hex("orange"), ja_hex("yellow"), "#9acd32",  ja_hex("green"),
-                    ja_hex("blue"), "#00008B", "#7f00ff", ja_hex("purple3"), ja_hex("purple")))
+        hc_add_theme(ja_hc_theme())
     })
     
     
     output$three_charts <- renderUI({
-      b <- freq_first_last %>% 
-        select(name, "goes first" = freq_first, "goes last" = freq_last, "skips" = freq_missing) %>% 
-        pivot_longer(cols = "goes first":"skips", names_to = "var", values_to = "value")
-      
-      
-      purrr::map(unique(b$var), function(x) {
-        b %>% 
-          filter(var == x) %>% 
-          arrange(desc(value)) %>% 
-          hchart("bar", hcaes(y = value, x = name)) %>% 
-          hc_title(text = paste0("Who ", x, "?")) %>%
-          hc_add_theme(ja_hc_theme()) %>% 
-          hc_colors("#5c9ad2") %>% 
-          hc_yAxis(title = list(text = "% of meetings"),
-                   min = 0, max = 30) %>% 
-          hc_xAxis(title = list(text = "")) %>% 
+      # First and last share an axis so they're comparable; attendance is out of 100
+      first_last_max <- ceiling(max(freq_first_last$freq_first, freq_first_last$freq_last) / 10) * 10
+      charts <- list(
+        list(col = "freq_first",    title = "Who bats leadoff?",           var = "bats leadoff in", max = first_last_max),
+        list(col = "freq_last",     title = "Who bats cleanup?",           var = "bats cleanup in",  max = first_last_max),
+        list(col = "freq_attended", title = "Who has perfect attendance?", var = "attends",       max = 100)
+      )
+
+      purrr::map(charts, function(chart) {
+        freq_first_last %>%
+          mutate(value = .data[[chart$col]], var = chart$var) %>%
+          arrange(desc(value)) %>%
+          hchart("bar", hcaes(y = value, x = name)) %>%
+          hc_title(text = chart$title, style = list(fontSize = "16px")) %>%
+          hc_add_theme(ja_hc_theme()) %>%
+          hc_colors("#004E7B") %>%
+          hc_yAxis(title = list(text = "% of games"),
+                   min = 0, max = chart$max) %>%
+          hc_xAxis(title = list(text = "")) %>%
           hc_tooltip(formatter = JS("function(){
                                 return (
                               this.point.name + ' ' + this.point.var +
-                              ' in ' + this.point.value + '% of meetings'
+                              ' ' + this.point.value + '% of games'
                                 )}"))
-      }) %>% 
+      }) %>%
         hw_grid(rowheight = 350, ncol = 3) 
       
     })
     
-    output$hist_adelle <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Adelle") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_carly <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Carly") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_david <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "David") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_divia <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Divia") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_gerard <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Gerard") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_jeff <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Jeff") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_jonathan <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Jonathan") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_juweek <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Juweek") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_katie <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Katie") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_kaitlin <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Kaitlin") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_kelsey <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Kelsey") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$hist_marian <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Marian") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-        
-    output$hist_shannon <- renderPlot({
-      hist <- df %>% 
-        pivot_longer(cols = Ben:Zach, names_to = "person", values_to = "order") %>% 
-        mutate(order = as.numeric(order)) %>% 
-        filter(person == "Shannon") %>%
-        filter(order < 9) %>% 
-        ggplot(aes(x = order)) +
-        geom_bar(stat = "count", fill = "#319CF4") +
-        #facet_wrap(~person) +
-        scale_x_continuous(breaks = seq(1, 8, 1)) + 
-        theme_void()
-      hist
-    }, height = 60)
-    
-    output$colors_adelle <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Adelle")
-      hist
-    }, height = 25)
-    
-    output$colors_carly <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Carly")
-      hist
-    }, height = 25)
-    
-    output$colors_david <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "David")
-      hist
-    }, height = 25)
-    
-    output$colors_divia <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Divia")
-      hist
-    }, height = 25)
-    
-    output$colors_gerard <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Gerard")
-      hist
-    }, height = 25)
-    
-    output$colors_jeff <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Jeff")
-      hist
-    }, height = 25)
-    
-    output$colors_jonathan <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Jonathan")
-      hist
-    }, height = 25)
-    
-    output$colors_juweek <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Juweek")
-      hist
-    }, height = 25)
-    
-    output$colors_katie <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Katie")
-      hist
-    }, height = 25)
-    
-    output$colors_kaitlin <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Kaitlin")
-      hist
-    }, height = 25)
-    
-    output$colors_kelsey <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Kelsey")
-      hist
-    }, height = 25)
-    
-    output$colors_marian <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Marian")
-      hist
-    }, height = 25)
-        
-    output$colors_shannon <- renderPlot({
-      hist <- colors_data() %>% 
-        make_colors_chart(., "Shannon")
-      hist
-    }, height = 25)
+    # Individual stats charts for each active member (see person_panel() in helper-functions.R)
+    lapply(active_members, function(person) {
+      output[[paste0("hist_", tolower(person))]] <- renderPlot({
+        make_order_hist(attended, person)
+      }, height = 60)
+      
+      output[[paste0("colors_", tolower(person))]] <- renderPlot({
+        make_colors_chart(colors_data, person)
+      }, height = 25)
+    })
     
     #Submit password
     observeEvent(input$submit, {
@@ -479,7 +188,7 @@ shinyServer(function(input, output, session) {
     output$table_past <- renderDataTable({
       dt <- df %>% 
         tail(20) %>% 
-        select(-c(Divine, Hala, Zach, Marissa, Ben, Eric, Nigel, Gail, Smith))
+        select(date, time, error, all_of(active_members))
       return(dt)
     }, options = list(dom = "t", ordering = F, pageLength = 20,
                       columnDefs = list(list(width = '100px', targets = "_all", className = "dt-center"))), 

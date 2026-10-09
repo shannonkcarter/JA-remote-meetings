@@ -46,22 +46,29 @@ loadData <- function() {
 
 df <- loadData() 
 
-# # need to do if adding another person...
-# todays_order <- c(date = "2025-10-24", time = "Standup", error = "N",
-#                   Ben = NA, Brian = NA, Anna = NA, Adelle = NA, Carly = NA, David = NA, Divia = NA, Divine = NA, Emi = NA,
-#                   Eric = NA, Gail = NA, Gerard = NA, Hala = NA, Jeff = NA, Jessica = NA, Jonathan = NA, Juweek = NA, Kaitlin = 1, Kelsey = NA,
-#                   Katie = NA, Kevin = NA, Malsi = NA, Marian = NA, Marissa = NA,
-#                   Nigel = NA, Ruchi = NA, Sarah = NA, Shannon = NA, Smith = NA, Zach = NA)
-# df <- df %>%
-#   mutate("Kaitlin" = NA) %>%
-#   select(date, time, error, Ben, Brian, Anna, Adelle, Carly, David, Divia, Divine, Emi,
-#          Eric, Gail, Gerard, Hala, Jeff, Jessica, Jonathan, Juweek, Kaitlin, Kelsey, Katie, Kevin, Malsi, Marian, Marissa, Nigel, Ruchi,
-#          Sarah, Shannon, Smith, Zach) %>%
-#   rbind(todays_order)
-# 
-# s3saveRDS(df,
-#           bucket = "standupapp",
-#           object = "standapp-data.rds")
+# Roster: everyone who has ever been in the data, plus whether they're current.
+# To add someone, add a row with active = TRUE. When someone leaves, set active = FALSE.
+roster <- read_csv(here::here("roster.csv"), show_col_types = FALSE)
+all_members <- roster$name
+active_members <- sort(roster$name[roster$active])
+
+# Never drop anyone's history: df is written back to S3 on every submission
+not_in_roster <- setdiff(names(df), c("date", "time", "error", all_members))
+if (length(not_in_roster) > 0) stop("Add to roster.csv (active = FALSE): ", paste(not_in_roster, collapse = ", "))
+
+# New roster members get an empty column; it's saved to S3 with the next submission
+for (p in setdiff(all_members, names(df))) df[[p]] <- NA_character_
+df <- select(df, date, time, error, all_of(all_members))
+
+# One row per person per meeting they attended. meeting_id is the row order of df,
+# which is more reliable than date (a few rows have mistyped dates)
+attended <- df %>% 
+  mutate(meeting_id = row_number()) %>% 
+  pivot_longer(all_of(all_members), names_to = "name", values_to = "order") %>% 
+  filter(!is.na(order)) %>% 
+  mutate(order = as.numeric(order))
+
+max_position <- max(attended$order)
 
 loadData_ff <- function() {
   df <- s3readRDS(
@@ -74,7 +81,13 @@ loadData_ff <- function() {
 }
 
 fun_facts <- loadData_ff() 
-write_sheet(fun_facts, ss = "https://docs.google.com/spreadsheets/d/1A4lGnWVhg4gsHe6lIUv2_l_4wATiBxt_SlRiOCZHpfE/edit#gid=0", sheet = "all_fun_facts")
+# Sync fun facts to Google Sheets only when running locally (the deployed app has no Google login)
+if (interactive()) {
+  tryCatch(
+    write_sheet(fun_facts, ss = "https://docs.google.com/spreadsheets/d/1A4lGnWVhg4gsHe6lIUv2_l_4wATiBxt_SlRiOCZHpfE/edit#gid=0", sheet = "all_fun_facts"),
+    error = function(e) message("Fun fact sync to Google Sheets failed: ", conditionMessage(e))
+  )
+}
 #write_csv(fun_facts, here::here("fun_facts.csv"))
 ###--- calculations for data vis and stats
 getMode <- function(x) {
@@ -82,164 +95,45 @@ getMode <- function(x) {
   tab <- tabulate(match(x, ux)); ux[tab == max(tab) ]
 }
 
-modes <- df %>% 
-  summarize(Ben = getMode(Ben)[1],
-            Brian = getMode(Brian)[1],
-            Anna = getMode(Anna)[1],
-            Adelle = getMode(Adelle)[1],
-            Carly = getMode(Carly)[1],
-            David = getMode(David)[1],
-            Divia = getMode(Divia)[1],
-            Divine = getMode(Divine)[1],
-            Emi = getMode(Emi)[1],
-            Eric = getMode(Eric)[1],
-            Gail = getMode(Gail)[1],
-            Gerard = getMode(Gerard)[1],
-            Hala = getMode(Hala)[1],
-            Jeff = getMode(Jeff)[1],
-            Jessica = getMode(Jessica)[1],
-            Jonathan = getMode(Jonathan)[1],
-            Juweek = getMode(Juweek)[1],
-            Kaitlin = getMode(Kaitlin)[1],
-            Katie = getMode(Katie)[1],
-            Kelsey = getMode(Kelsey)[1],
-            Kevin = getMode(Kevin)[1],
-            Marian = getMode(Marian)[1],
-            Marissa = getMode(Marissa)[1],
-            #Masi = getMode(Malsi)[1],
-            Ruchi = getMode(Ruchi)[1],
-            Nigel = getMode(Nigel)[1],
-            Sarah = getMode(Sarah)[1],
-            Shannon = getMode(Shannon)[1],
-            Smith = getMode(Smith)[1],
-            Zach = getMode(Zach)[1]) %>% 
-  pivot_longer(cols = Ben:Zach, names_to = "name", values_to = "mode") %>% 
+modes <- attended %>% 
+  group_by(name) %>% 
+  summarize(mode = getMode(order)[1]) %>% 
   mutate(mode_pretty = case_when(mode == 1 ~ "1st",
                                  mode == 2 ~ "2nd",
                                  mode == 3 ~ "3rd", 
                                  T ~ paste0(mode, "th")))
 
 #Calculate Number of times each team member was in a meeting with another
-columns <- colnames(df)
-columns
-names <- columns[!columns %in% c("date", "time", "error")]
-names
-all_combos <- combn(names, 2) %>% 
-  as.data.frame() %>% 
-  mutate(
-    rowid = row_number()
-  ) %>% 
-  dplyr::select(rowid, everything()) %>% 
-  # need to change to # of columns when adding someone new
-  pivot_longer(V1:last_col(), names_to = "name1", values_to = "name2") %>% 
-  pivot_wider(names_from = "rowid" , values_from = "name2") %>% 
-  dplyr::select(-name1) %>% 
-  clean_names() %>% 
-  mutate(row_id = row_number())
+shared_meeting_count <- attended %>% 
+  select(meeting_id, x1 = name) %>% 
+  inner_join(select(attended, meeting_id, x2 = name), by = "meeting_id", relationship = "many-to-many") %>% 
+  filter(x1 != x2) %>% 
+  count(x1, x2, name = "total_shared_meetings")
 
-shared_meetings <- df %>% 
-  select(-error) %>% 
-  mutate(
-    Ben = ifelse(!is.na(Ben), "Ben", NA),
-    Brian = ifelse(!is.na(Brian), "Brian", NA),
-    Anna = ifelse(!is.na(Anna), "Anna", NA),
-    Carly = ifelse(!is.na(Carly), "Carly", NA),
-    Adelle = ifelse(!is.na(Adelle), "Adelle", NA),
-    David = ifelse(!is.na(David), "David", NA),
-    Divia = ifelse(!is.na(Divia), "Divia", NA),
-    Divine = ifelse(!is.na(Divine), "Divine", NA),
-    Emi = ifelse(!is.na(Emi), "Emi", NA),
-    Eric = ifelse(!is.na(Eric), "Eric", NA),
-    Gail = ifelse(!is.na(Gail), "Gail", NA),
-    Gerard = ifelse(!is.na(Gerard), "Gerard", NA),
-    Hala = ifelse(!is.na(Hala), "Hala", NA),
-    Jeff = ifelse(!is.na(Jeff), "Jeff", NA),
-    Jessica = ifelse(!is.na(Jessica), "Jessica", NA),
-    Jonathan = ifelse(!is.na(Jonathan), "Jonathan", NA),
-    Juweek = ifelse(!is.na(Jessica), "Juweek", NA),
-    Kelsey = ifelse(!is.na(Kelsey), "Kelsey", NA),
-    Kaitlin = ifelse(!is.na(Kaitlin), "Kaitlin", NA),
-    Katie = ifelse(!is.na(Katie), "Katie", NA),
-    Kevin = ifelse(!is.na(Kevin), "Kevin", NA),
-    Marian = ifelse(!is.na(Marian), "Marian", NA),
-    Marissa = ifelse(!is.na(Marissa), "Marissa", NA),
-    Ruchi = ifelse(!is.na(Ruchi), "Ruchi", NA),
-    Nigel = ifelse(!is.na(Nigel), "Nigel", NA),
-    Sarah = ifelse(!is.na(Sarah), "Sarah", NA),
-    Shannon = ifelse(!is.na(Shannon), "Shannon", NA),
-    Smith = ifelse(!is.na(Smith), "Smith", NA),
-    Zach = ifelse(!is.na(Zach), "Zach", NA),
-  ) 
-
-count_shared_meetings <- function(i) {
-  select_combo <- filter(all_combos, row_id==i)
-  
-  count_shared_meetings <- shared_meetings %>% 
-    dplyr::select(x1 = select_combo[[1]], x2 = select_combo[[2]]) %>% 
-    filter(!is.na(x1) & !is.na(x2)) %>% 
-    count(x1, x2)
-  return(count_shared_meetings)
-}
-
-shared_meeting_count <- all_combos %>%
-  group_by(row_id) %>% 
-  do(count_shared_meetings(.$row_id)) %>% 
-  ungroup() %>% 
-  dplyr::select(-row_id)
-
-#Figure out who called on who and divide by number of times they shared a meeting
-who_called_on_who <- df %>% 
-  select(-error) %>% 
-  pivot_longer(`Ben`:`Zach`, names_to = "name", values_to = "order") %>% 
-  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
-  filter(!is.na(order)) %>% 
-  arrange(date, time, order) %>% 
-  group_by(date, time) %>% 
-  mutate(
-    total_n = max(order, na.rm=T),
-    called_on = lead(name)
-  ) %>% 
+#Each pair of consecutive speakers: name called on called_on
+call_pairs <- attended %>% 
+  arrange(meeting_id, order) %>% 
+  group_by(meeting_id) %>% 
+  mutate(called_on = lead(name)) %>% 
   ungroup() %>% 
   filter(!is.na(called_on)) %>% 
-  count(name, called_on)
+  select(name, called_on)
 
 #Figure out who called on who and divide by number of times they shared a meeting
-who_called_on_by <- df %>% 
-  select(-error) %>% 
-  pivot_longer(`Ben`:`Zach`, names_to = "name", values_to = "order") %>% 
-  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
-  filter(!is.na(order)) %>% 
-  arrange(date, time, order) %>% 
-  group_by(date, time) %>% 
-  mutate(
-    total_n = max(order, na.rm=T),
-    called_on_by = lag(name)
-  ) %>% 
-  ungroup() %>% 
-  filter(!is.na(called_on_by)) %>% 
-  count(name, called_on_by)
+who_rates <- call_pairs %>% 
+  count(name, called_on) %>% 
+  left_join(shared_meeting_count, by = c("name" = "x1", "called_on" = "x2")) %>% 
+  mutate(called_on_adj = n/total_shared_meetings)
 
+who_rates_by <- call_pairs %>% 
+  select(name = called_on, called_on_by = name) %>% 
+  count(name, called_on_by) %>% 
+  left_join(shared_meeting_count, by = c("name" = "x1", "called_on_by" = "x2")) %>% 
+  mutate(called_on_adj = n/total_shared_meetings)
 
-who_rates <- who_called_on_who %>%
-  left_join(., shared_meeting_count, by=c("name" = "x1", "called_on" = "x2")) %>%
-  left_join(., shared_meeting_count, by=c("name" = "x2", "called_on" = "x1")) %>%
-  mutate(
-    total_shared_meetings = ifelse(is.na(n.y), n, n.y),
-    called_on_adj = n.x/total_shared_meetings
-  ) %>%
-  dplyr::select(name, called_on, n = n.x, total_shared_meetings, called_on_adj)
-
-who_rates_by <- who_called_on_by %>%
-  left_join(., shared_meeting_count, by=c("name" = "x1", "called_on_by" = "x2")) %>%
-  left_join(., shared_meeting_count, by=c("name" = "x2", "called_on_by" = "x1")) %>%
-  mutate(
-    total_shared_meetings = ifelse(is.na(n.y), n, n.y),
-    called_on_adj = n.x/total_shared_meetings
-  ) %>%
-  dplyr::select(name, called_on_by, n = n.x, total_shared_meetings, called_on_adj)
-
+# Individual stats only name people on the current roster
 called_on_most_by <- who_rates_by %>%
-  #filter(n > 5) %>%
+  filter(called_on_by %in% active_members) %>%
   group_by(name) %>%
   mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
   arrange(desc(called_on_adj)) %>%
@@ -247,93 +141,54 @@ called_on_most_by <- who_rates_by %>%
   select(name, called_on_by_most = called_on_by, called_on_by_x_times = n, called_on_by_x_pct = called_on_adj)
 
 stats <- who_rates %>%
-  #filter(n > 5) %>%
+  filter(called_on %in% active_members) %>%
   group_by(name) %>%
   mutate(called_on_adj = round(100 * called_on_adj, 1)) %>%
   arrange(desc(called_on_adj)) %>%
   slice_head(n = 1) %>%
   select(name, calls_on_most = called_on, called_on_x_times = n, called_on_x_pct = called_on_adj) %>%
-  left_join(modes) %>%
-  left_join(called_on_most_by)
+  left_join(modes, by = "name") %>%
+  left_join(called_on_most_by, by = "name")
 
-
-meetings_since <- as.numeric(length(df$date[as.numeric(rownames(df)) > 432]))
-meetings_since_interns <- as.numeric(length(df$date[as.numeric(rownames(df)) > 523]))
-meetings_since_nigel <- as.numeric(length(df$date[as.numeric(rownames(df)) > 566]))
-meetings_since_smith <- as.numeric(length(df$date[as.numeric(rownames(df)) > 789]))
-meetings_since_gerard <- as.numeric(length(df$date[as.numeric(rownames(df)) > 866]))
-meetings_since_gail <- as.numeric(length(df$date[as.numeric(rownames(df)) > 961]))
-meetings_since_malsi = as.numeric(length(df$date[as.numeric(rownames(df)) > 1044]))
-meetings_since_divia = as.numeric(length(df$date[as.numeric(rownames(df)) > 1263]))
-meetings_since_jessica = as.numeric(length(df$date[as.numeric(rownames(df)) > 1311]))
-meetings_since_kevin = as.numeric(length(df$date[as.numeric(rownames(df)) > 1340]))
-meetings_since_katie = as.numeric(length(df$date[as.numeric(rownames(df)) > 1460]))
-meetings_since_anna = as.numeric(length(df$date[as.numeric(rownames(df)) > 1533]))
-meetings_since_sarah = as.numeric(length(df$date[as.numeric(rownames(df)) > 1584]))
-meetings_since_adelle = as.numeric(length(df$date[as.numeric(rownames(df)) > 1638]))
-meetings_since_juweek = as.numeric(length(df$date[as.numeric(rownames(df)) > 1693]))
-meetings_since_marian = as.numeric(length(df$date[as.numeric(rownames(df)) > 1722]))
-meetings_since_ruchi = as.numeric(length(df$date[as.numeric(rownames(df)) > 1725]))
-meetings_since_jonathan = as.numeric(length(df$date[as.numeric(rownames(df)) > 1797]))
-meetings_since_kaitlin = as.numeric(length(df$date[as.numeric(rownames(df)) > 1818]))
-freq_missing <- df %>% 
-  ungroup() %>% 
-  select(-c("Anna", "Ben", "Divine", "Eric", "Hala", "Gail", "Malsi",  "Marissa", "Nigel", "Zach", "Smith", 
-            "Sarah", "Jessica", "Kevin", "Emi", "Ruchi")) %>% 
-  pivot_longer(`Brian`:`Shannon`, names_to = "name", values_to = "order") %>% 
-  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
-  filter(!is.na(order)) %>%
-  mutate(order = as.numeric(order)) %>% 
+#Attendance rate: meetings attended out of all meetings since the person's first one
+freq_attended <- attended %>% 
+  filter(name %in% active_members) %>% 
   group_by(name) %>% 
-  reframe(number_attended = length(name),
-            number_meetings = case_when(#name == "Ben" ~ 0 + meetings_since_interns,
-                                        name == "Brian" ~ 432 + meetings_since,
-                                        name == "Anna" ~ meetings_since,
-                                        name == "Carly" ~ 324 + meetings_since,
-                                        name == "David" ~ 432 + meetings_since,
-                                        name == "Emi" ~ 188 + meetings_since,
-                                        #name == "Gail" ~ meetings_since_gail,
-                                        name == "Gerard" ~ meetings_since_gerard,
-                                        #name == "Eric" ~ 0 +meetings_since_interns,
-                                        name == "Jeff" ~ 432 + meetings_since,
-                                        name == "Jonathan" ~ meetings_since_jonathan,
-                                        name == "Jessica" ~ meetings_since_jessica,
-                                        name == "Kelsey" ~ 432 + meetings_since,
-                                        name == "Kevin" ~ meetings_since_kevin,
-                                        #name == "Malsi" ~ meetings_since_malsi,
-                                        #name == "Marissa" ~ 173 + meetings_since,
-                                        #name == "Nigel" ~ 0 + meetings_since_nigel,
-                                        name == "Sarah" ~ meetings_since_sarah,
-                                        name == "Shannon" ~ 432 + meetings_since,
-                                        #name == "Smith" ~ meetings_since_smith,
-                                        name == "Divia" ~ meetings_since_divia,
-                                        name == "Katie" ~ meetings_since_katie,
-                                        name == "Adelle" ~ meetings_since_adelle,
-                                        name == "Juweek" ~ meetings_since_juweek,
-                                        name == "Marian" ~ meetings_since_marian,
-                                        name == "Kaitlin" ~ meetings_since_kaitlin
-                                        #name == "Ruchi" ~ meetings_since_ruchi
-                                        )) %>%
-  mutate(freq_missing = round(100 - (number_attended/number_meetings)*100, 1)) %>% 
-  distinct() %>% 
-  select(name, freq_missing)
+  summarize(number_attended = n(),
+            number_meetings = nrow(df) - min(meeting_id) + 1) %>% 
+  mutate(freq_attended = round((number_attended/number_meetings)*100, 1)) %>% 
+  select(name, freq_attended)
 
-freq_first_last <- df %>% 
-  select(-c("Anna", "Brian", "Ben", "Divine", "Eric", "Gail", "Hala", "Malsi", "Marissa", "Nigel", "Zach", "Emi", "Kevin", "Smith", 
-            "Sarah", "Jessica", "Kevin", "Emi", "Ruchi")) %>% 
-  pivot_longer(`Adelle`:`Shannon`, names_to = "name", values_to = "order") %>% 
-  mutate(time = factor(time, levels = c("Standup", "Sitdown"))) %>% 
-  filter(!is.na(order)) %>% 
-  group_by(date, time) %>% 
+freq_first_last <- attended %>% 
+  group_by(meeting_id) %>% 
   mutate(last_position = max(order)) %>% 
   ungroup() %>% 
+  filter(name %in% active_members) %>% 
   group_by(name) %>% 
-  summarize(number_meetings = length(order),
-            number_last = length(order[order == last_position]),
-            number_first = length(order[order == 1])) %>%
+  summarize(number_meetings = n(),
+            number_last = sum(order == last_position),
+            number_first = sum(order == 1)) %>%
   mutate(freq_last = round((number_last/number_meetings)*100, 2),
          freq_first = round((number_first/number_meetings)*100, 2)) %>% 
-  left_join(freq_missing)
+  left_join(freq_attended, by = "name")
+
+#Personal records: longest run of consecutive meetings attended, and times going first this month
+this_month <- floor_date(Sys.Date(), "month")
+
+personal_records <- attended %>%
+  filter(name %in% active_members) %>%
+  arrange(name, meeting_id) %>%
+  group_by(name) %>%
+  mutate(run = cumsum(meeting_id != lag(meeting_id, default = -1L) + 1)) %>%
+  count(name, run) %>%
+  summarize(longest_attendance_streak = max(n)) %>%
+  left_join(
+    attended %>%
+      filter(name %in% active_members, date >= this_month) %>%
+      group_by(name) %>%
+      summarize(attended_this_month = n(), first_this_month = sum(order == 1)),
+    by = "name") %>%
+  mutate(across(c(attended_this_month, first_this_month), ~replace_na(.x, 0)))
 
 misstep_streak <- df %>%
   dplyr::select(date, time, error) %>% 
@@ -349,3 +204,6 @@ current_streak <- tail(x, 1) %>%
   mutate(current_streak = numones + 1) %>% 
   pull(current_streak)
 
+
+# Share of meetings where we got the lineup right, shown baseball-style (e.g. 0.841)
+batting_average <- mean(misstep_streak$error == "N")

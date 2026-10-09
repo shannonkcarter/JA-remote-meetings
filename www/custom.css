@@ -1,51 +1,91 @@
+/* ============================================================
+   Brand colors (see brand/ja_report.css): Navy #004E7B | Teal #00B9C3 | Orange #FAA634
+   Logo blue #2495B7 | Text #262626 | Light gray #F0EDED | Navy tint #e8f2fa
+   Font: Onest
+   ============================================================ */
+
 body {
-  font-family: 'Roboto Condensed', Sans-Serif;
-  color: #000;
+  font-family: 'Onest', Arial, sans-serif;
+  color: #262626;
 }
 
-h1, h2, h3, h4, h5, p {
-  font-family: 'Roboto Condensed', Sans-Serif !important;
-  color: #000;
+h1, h2, h3, h4, h5, p, label, .btn, .form-control, .dataTables_wrapper {
+  font-family: 'Onest', Arial, sans-serif !important;
+  color: #262626;
 }
 
-.individual-stats {
-  text-align: center;
-  padding: 20px 0px;
-  background-color: #F1F1F1;
-  margin: 0px !important;
+h2, h3 {
+  color: #004E7B;
+  font-weight: 600;
 }
+
+label {
+  font-weight: 600;
+}
+
+input[type="radio"] {
+  accent-color: #004E7B;
+}
+
+.form-control:focus {
+  border-color: #00B9C3;
+  box-shadow: 0 0 0 2px rgba(0, 185, 195, .25);
+}
+
+/* ---- Header ----------------------------------------------- */
 
 .title {
   display: flex;
-  flex-direction: column;
-  align-items: start; 
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 30px 20px 10px 20px;
 }
 
 .title img:first-child {
-  width: 300px;
+  width: 260px;
 }
 
 .title img:last-child {
   width: 400px;
 }
 
+/* ---- Buttons ---------------------------------------------- */
+
 .btn.btn-default.action-button {
   font-size: 1.2em;
+  font-weight: 600;
+  color: #fff;
+  background-color: #FAA634;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
 }
 
+.btn.btn-default.action-button:hover,
+.btn.btn-default.action-button:focus {
+  color: #fff;
+  background-color: #004E7B;
+}
+
+/* ---- Input section ---------------------------------------- */
+
 .main-input-wrapper {
-  color: #000;
+  color: #262626;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #dedede;
-  box-shadow: 0 4px 6px rgba(0,0,0,.16);
+  background-color: #fff;
+  background-image: url('baseball-pattern.svg');
+  background-size: 240px 240px;
 }
 
 .main-input-section {
-  border-top: 1px solid #dedede;
-  color: #000;
+  border-top: 1px solid #F0EDED;
+  color: #262626;
   display: flex;
   max-width: 1100px;
   justify-content: space-between;
@@ -58,17 +98,17 @@ h1, h2, h3, h4, h5, p {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-  }  
+  }
 }
 
 @media only screen and (max-width: 650px) {
   .main-input-section {
     max-width: 400px;
-  }  
+  }
   .order-fields {
     max-width: 400px;
   }
-  
+
   .form-fields {
     max-width: 400px;
   }
@@ -78,8 +118,8 @@ h1, h2, h3, h4, h5, p {
 }
 
 #order, #missing, #people {
-  background-color: #eeeeee;
-  border-radius: 15px;
+  background-color: #F0EDED;
+  border-radius: 10px;
   padding: 5px;
   min-height: 47px !important;
   margin-bottom: 6px;
@@ -90,8 +130,18 @@ h1, h2, h3, h4, h5, p {
   justify-content: space-between;
 }
 
+/* Drag-and-drop name chips */
+.btn-info {
+  color: #fff !important;
+  background-color: #004E7B !important;
+  border-color: #fff;
+  border-radius: 6px;
+}
+
+/* ---- Streaks ---------------------------------------------- */
+
 .streaks {
-  padding-top: 20px;
+  padding-top: 0px;
   display: flex;
   flex-direction: column;
 }
@@ -101,51 +151,54 @@ h1, h2, h3, h4, h5, p {
   justify-content: space-around;
   flex-direction: row;
   text-align: center;
-  padding: 0px 200px;
+  padding: 10px 60px;
+  margin-bottom: 40px;
+  background-color: #004E7B;
 }
 
 .streak-counters > div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 60px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .streak-counters > div > h2 {
   padding-bottom: 10px;
+  color: #FAA634;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 22px;
 }
 
-#current_streak, #longest_streak {
+#current_streak, #longest_streak, #batting_average {
+  font-family: 'Onest', Arial, sans-serif;
   font-size: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  font-weight: 700;
   background-image: url('num_holder_1.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   height: 200px;
   width: 200px;
-  color: #2B5BB0;
-  text-shadow:
-      3px  3px 0 #13282e,
-    -1px -1px 0 #13282e,  
-      1px -1px 0 #13282e,
-    -1px  1px 0 #13282e,
-      1px  1px 0 #13282e;
+  color: #004E7B;
 }
 
 #longest_streak {
-  color: #FA6505;
   background-image: url('num_holder_2.svg');
-  text-shadow:
-    3px  3px 0 #2e0d36,
-  -1px -1px 0 #2e0d36,  
-    1px -1px 0 #2e0d36,
-  -1px  1px 0 #2e0d36,
-    1px  1px 0 #2e0d36;
+}
+
+#batting_average {
+  font-size: 44px;
+}
+
+.streak-caption {
+  color: #fff !important;
+  margin-top: 4px;
 }
 
 .streak-graphs {
@@ -153,6 +206,11 @@ h1, h2, h3, h4, h5, p {
   justify-content: center;
   flex-direction: row;
   padding: 0px 100px;
+}
+
+.streak-graphs > div {
+  width: 100%;
+  max-width: 900px;
 }
 
 @media only screen and (max-width: 900px) {
@@ -171,18 +229,30 @@ h1, h2, h3, h4, h5, p {
   }
 }
 
+hr {
+  border-top: 1px solid #F0EDED;
+}
+
+/* ---- Individual stats ------------------------------------- */
+
+.individual-stats {
+  text-align: center;
+  padding: 20px 0px;
+  background-color: #f0f8fa;
+  background-image: url('baseball-pattern.svg');
+  background-size: 240px 240px;
+  margin: 0px !important;
+}
+
+.individual-stats > h2 {
+  display: inline-block;
+  padding-bottom: 6px;
+  border-bottom: 3px solid #FAA634;
+}
+
 .personal-stats-wrapper > div {
   width: 300px;
   margin: 5px 10px;
-  /* color: #ff0000;
-  color: #f59035; 
-  color: #ffff00; 
-  color: #149414; 
-  color: #5c9ad2; 
-  color: #2b5bb0; 
-  color: #663399; 
-  color: #ff69b4;
-  color: #681a47; */
 }
 
 .personal-stats-wrapper {
@@ -193,12 +263,41 @@ h1, h2, h3, h4, h5, p {
 }
 
 .personal-stats-wrapper .well {
-  box-shadow: 0 4px 6px rgba(0,0,0,.16);
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,.08);
   display: flex;
   flex-direction: column;
   align-items: center;
   border: none;
-  padding: 0px;
+  border-top: 4px solid #004E7B;
+  padding: 0px 0px 6px 0px;
+}
+
+/* Inner frame, like a classic baseball card */
+.personal-stats-wrapper .well::after {
+  content: "";
+  position: absolute;
+  top: 6px; right: 6px; bottom: 6px; left: 6px;
+  border: 1px solid #c5daea;
+  pointer-events: none;
+}
+
+/* Jersey-number badge: usual spot in the lineup */
+.jersey-number {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  border-radius: 50%;
+  background-color: #004E7B;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  border: 2px solid #FAA634;
 }
 
 .personal-stats-wrapper .well h3 {
@@ -206,38 +305,48 @@ h1, h2, h3, h4, h5, p {
 }
 
 .personal-stats-header {
-  background-color: aliceblue;
+  background-color: #e8f2fa;
   width: 100%;
   margin-bottom: 10px;
   border-radius: 0px 0px 100% 100%;
 }
 
 .recent-activity {
-  /* background-color: #f3f3f3; */
   width: 100%;
+  padding: 0px 12px 6px 12px;
+}
+
+.recent-activity h5,
+.personal-records h5:first-child {
+  color: #666;
+}
+
+.personal-records {
+  width: 100%;
+  padding: 0px 16px;
+}
+
+/* Keep card contents inside the inner frame */
+.indv-written-stats {
+  width: 100%;
+  padding: 0px 16px;
 }
 
 .profile-img {
   border-radius: 100%;
   margin-bottom: 10px;
-  border: 2px solid #eeeeee;
+  border: 2px solid #F0EDED;
 }
+
 .well {
-  background-color: #fff; 
+  background-color: #fff;
   margin-bottom: 10px !important;
-  color: #000;
+  color: #262626;
   border-radius: 0px;
 }
-.btn-info {
-  background-color: #FF8B00 !important;
-  border-color: #FFFFFF;
-  border-radius: 12px;
-}
-    
-.small-box { 
-  background-color: #FF8B00 !important; 
-  color:white !important; 
+
+.small-box {
+  background-color: #FAA634 !important;
+  color: #004E7B !important;
   height: 100px
 }
- 
-                    

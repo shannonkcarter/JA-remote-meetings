@@ -11,23 +11,63 @@
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="num_holder_1" transform="translate(12.000000, 13.000000)">
-            <rect id="Rectangle" fill="#A71183" x="21" y="148" width="46" height="45"></rect>
-            <rect id="Rectangle" fill="#C11344" x="54" y="22" width="33" height="32"></rect>
-            <rect id="Rectangle" fill="#18BE89" x="151" y="22" width="70" height="68"></rect>
-            <rect id="Rectangle" fill="#F4E649" x="106" y="541" width="45" height="45"></rect>
-            <rect id="Rectangle" fill="#F4E649" x="374" y="61" width="45" height="45"></rect>
-            <rect id="Rectangle" fill="#FA6505" x="32" y="433" width="82" height="82"></rect>
-            <rect id="Rectangle" fill="#2B5BB0" x="397" y="515" width="70" height="69"></rect>
-            <rect id="Rectangle" fill="#FA6505" x="535" y="272" width="56" height="56"></rect>
-            <rect id="Rectangle" fill="#319CF4" x="432" y="0" width="44" height="44"></rect>
-            <rect id="Rectangle" fill="#F4E649" x="523" y="67" width="33" height="33"></rect>
-            <rect id="Rectangle" fill="#13C18D" x="509" y="132" width="33" height="33"></rect>
+            <rect id="Rectangle" fill="#00B9C3" x="21" y="148" width="46" height="45"></rect>
+            <rect id="Rectangle" fill="#FFFFFF" x="54" y="22" width="33" height="32"></rect>
+            <rect id="Rectangle" fill="#00B9C3" x="151" y="22" width="70" height="68"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="106" y="541" width="45" height="45"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="374" y="61" width="45" height="45"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="32" y="433" width="82" height="82"></rect>
+            <rect id="Rectangle" fill="#FFFFFF" x="397" y="515" width="70" height="69"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="535" y="272" width="56" height="56"></rect>
+            <rect id="Rectangle" fill="#2495B7" x="432" y="0" width="44" height="44"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="523" y="67" width="33" height="33"></rect>
+            <rect id="Rectangle" fill="#00B9C3" x="509" y="132" width="33" height="33"></rect>
             <g id="Oval">
                 <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
-                <use fill="#FEE978" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
             </g>
-            <rect id="Rectangle" fill="#C11344" x="508" y="476" width="48" height="48"></rect>
-            <rect id="Rectangle" fill="#319CF4" x="0" y="328" width="44" height="44"></rect>
+            <g id="seams">
+            <path d="M132.7,93.5 Q246.8,300.0 132.7,506.5" stroke="#FAA634" stroke-width="6.6" fill="none" stroke-linecap="round"/>
+            <line x1="153.2" y1="134.8" x2="166.4" y2="116.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="153.2" y1="134.8" x2="130.5" y2="132.0" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="169.2" y1="176.1" x2="184.2" y2="158.7" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="169.2" y1="176.1" x2="146.9" y2="171.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="180.6" y1="217.4" x2="197.3" y2="201.7" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="180.6" y1="217.4" x2="158.9" y2="210.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="187.5" y1="258.7" x2="205.7" y2="244.8" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="187.5" y1="258.7" x2="166.7" y2="249.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="189.8" y1="300.0" x2="209.4" y2="288.2" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="189.8" y1="300.0" x2="170.1" y2="288.2" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="187.5" y1="341.3" x2="208.3" y2="331.7" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="187.5" y1="341.3" x2="169.3" y2="327.4" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="180.6" y1="382.6" x2="202.4" y2="375.3" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="180.6" y1="382.6" x2="164.0" y2="366.8" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="169.2" y1="423.9" x2="191.6" y2="418.9" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="169.2" y1="423.9" x2="154.3" y2="406.5" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="153.2" y1="465.2" x2="176.0" y2="462.3" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="153.2" y1="465.2" x2="140.0" y2="446.4" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <path d="M455.3,93.5 Q341.2,300.0 455.3,506.5" stroke="#FAA634" stroke-width="6.6" fill="none" stroke-linecap="round"/>
+            <line x1="434.8" y1="134.8" x2="457.5" y2="132.0" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="434.8" y1="134.8" x2="421.6" y2="116.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="418.8" y1="176.1" x2="441.1" y2="171.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="418.8" y1="176.1" x2="403.8" y2="158.7" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="407.4" y1="217.4" x2="429.1" y2="210.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="407.4" y1="217.4" x2="390.7" y2="201.7" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="400.5" y1="258.7" x2="421.3" y2="249.1" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="400.5" y1="258.7" x2="382.3" y2="244.8" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="398.2" y1="300.0" x2="417.9" y2="288.2" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="398.2" y1="300.0" x2="378.6" y2="288.2" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="400.5" y1="341.3" x2="418.7" y2="327.4" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="400.5" y1="341.3" x2="379.7" y2="331.7" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="407.4" y1="382.6" x2="424.0" y2="366.8" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="407.4" y1="382.6" x2="385.6" y2="375.3" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="418.8" y1="423.9" x2="433.7" y2="406.5" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="418.8" y1="423.9" x2="396.4" y2="418.9" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="434.8" y1="465.2" x2="448.0" y2="446.4" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            <line x1="434.8" y1="465.2" x2="412.0" y2="462.3" stroke="#FAA634" stroke-width="6.6" stroke-linecap="round"/>
+            </g>
+            <rect id="Rectangle" fill="#FFFFFF" x="508" y="476" width="48" height="48"></rect>
+            <rect id="Rectangle" fill="#2495B7" x="0" y="328" width="44" height="44"></rect>
         </g>
     </g>
 </svg>

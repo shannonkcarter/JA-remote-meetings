@@ -11,18 +11,58 @@
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="num_holder_1" transform="translate(4.000000, 16.000000)">
-            <rect id="Rectangle" fill="#319CF4" x="0" y="538" width="46" height="45"></rect>
-            <rect id="Rectangle" fill="#FF8B00" x="116" y="532" width="28" height="28"></rect>
-            <rect id="Rectangle" fill="#F4E649" x="430" y="71" width="45" height="45"></rect>
-            <rect id="Rectangle" fill="#319CF4" x="564" y="71" width="41" height="41"></rect>
-            <rect id="Rectangle" fill="#3DC29B" x="550" y="0" width="28" height="28"></rect>
-            <rect id="Rectangle" fill="#C11344" x="70" y="456" width="46" height="46"></rect>
-            <rect id="Rectangle" fill="#B5579F" x="517" y="228" width="56" height="56"></rect>
-            <rect id="Rectangle" fill="#13C18D" x="201" y="509" width="59" height="59"></rect>
-            <rect id="Rectangle" fill="#424141" x="517" y="129" width="33" height="33"></rect>
+            <rect id="Rectangle" fill="#2495B7" x="0" y="538" width="46" height="45"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="116" y="532" width="28" height="28"></rect>
+            <rect id="Rectangle" fill="#FAA634" x="430" y="71" width="45" height="45"></rect>
+            <rect id="Rectangle" fill="#2495B7" x="564" y="71" width="41" height="41"></rect>
+            <rect id="Rectangle" fill="#00B9C3" x="550" y="0" width="28" height="28"></rect>
+            <rect id="Rectangle" fill="#FFFFFF" x="70" y="456" width="46" height="46"></rect>
+            <rect id="Rectangle" fill="#00B9C3" x="517" y="228" width="56" height="56"></rect>
+            <rect id="Rectangle" fill="#00B9C3" x="201" y="509" width="59" height="59"></rect>
+            <rect id="Rectangle" fill="#FFFFFF" x="517" y="129" width="33" height="33"></rect>
             <g id="Oval">
                 <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
-                <use fill="#A5CBF5" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <g id="seams">
+            <path d="M149.3,101.6 Q257.4,297.0 149.3,492.4" stroke="#FAA634" stroke-width="6.2" fill="none" stroke-linecap="round"/>
+            <line x1="168.8" y1="140.7" x2="181.3" y2="122.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="168.8" y1="140.7" x2="147.2" y2="138.0" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="183.9" y1="179.7" x2="198.0" y2="163.3" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="183.9" y1="179.7" x2="162.7" y2="175.0" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="194.7" y1="218.8" x2="210.4" y2="203.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="194.7" y1="218.8" x2="174.1" y2="211.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="201.2" y1="257.9" x2="218.4" y2="244.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="201.2" y1="257.9" x2="181.5" y2="248.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="203.3" y1="297.0" x2="221.9" y2="285.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="203.3" y1="297.0" x2="184.7" y2="285.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="201.2" y1="336.1" x2="220.9" y2="327.0" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="201.2" y1="336.1" x2="183.9" y2="322.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="194.7" y1="375.2" x2="215.3" y2="368.3" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="194.7" y1="375.2" x2="178.9" y2="360.3" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="183.9" y1="414.3" x2="205.1" y2="409.5" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="183.9" y1="414.3" x2="169.7" y2="397.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="168.8" y1="453.3" x2="190.3" y2="450.7" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="168.8" y1="453.3" x2="156.3" y2="435.6" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <path d="M454.7,101.6 Q346.6,297.0 454.7,492.4" stroke="#FAA634" stroke-width="6.2" fill="none" stroke-linecap="round"/>
+            <line x1="435.2" y1="140.7" x2="456.8" y2="138.0" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="435.2" y1="140.7" x2="422.7" y2="122.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="420.1" y1="179.7" x2="441.3" y2="175.0" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="420.1" y1="179.7" x2="406.0" y2="163.3" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="409.3" y1="218.8" x2="429.9" y2="211.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="409.3" y1="218.8" x2="393.6" y2="203.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="402.8" y1="257.9" x2="422.5" y2="248.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="402.8" y1="257.9" x2="385.6" y2="244.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="400.7" y1="297.0" x2="419.3" y2="285.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="400.7" y1="297.0" x2="382.1" y2="285.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="402.8" y1="336.1" x2="420.1" y2="322.9" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="402.8" y1="336.1" x2="383.1" y2="327.0" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="409.3" y1="375.2" x2="425.1" y2="360.3" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="409.3" y1="375.2" x2="388.7" y2="368.3" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="420.1" y1="414.3" x2="434.3" y2="397.8" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="420.1" y1="414.3" x2="398.9" y2="409.5" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="435.2" y1="453.3" x2="447.7" y2="435.6" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
+            <line x1="435.2" y1="453.3" x2="413.7" y2="450.7" stroke="#FAA634" stroke-width="6.2" stroke-linecap="round"/>
             </g>
         </g>
     </g>

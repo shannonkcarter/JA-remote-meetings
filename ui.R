@@ -125,13 +125,30 @@ shinyUI(div(class="page-wrapper",
                 #p(class="streak-caption", "how often we get the lineup right")
             )
         ),
+        # Fun facts: "On this day" from a year ago, plus a random one on demand
+        div(
+            class="fun-facts",
+            div(
+                class="fun-fact-card",
+                h3("On this day"),
+                uiOutput("on_this_day")
+            ),
+            actionButton("show_funfact",
+                         "Show me a fun fact!",
+                         icon = icon("lightbulb")),
+            shinyjs::hidden(
+                div(
+                    id = "funfact_random",
+                    class = "fun-fact-card",
+                    uiOutput("funfact")
+                )
+            )
+        ),
         div(
             class="streak-graphs",
             highchartOutput("streak_histogram")
         )
     ),
-
-    tags$hr(),
 
     fluidRow(
         column(4, offset=1,
@@ -144,19 +161,6 @@ shinyUI(div(class="page-wrapper",
         ),
 
     ),
-
-    br(),
-    div(align = "center",
-             actionButton("show_funfact",
-                          "Show me a fun fact!",
-                          icon = icon("lightbulb"))),
-    br(),
-    div(align = "center", shinyjs::hidden(
-        div(
-            id = "funfact_random",
-            h4(htmlOutput("funfact"))
-        )
-    )),
 
     div(
         class="individual-stats",

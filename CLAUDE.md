@@ -34,7 +34,7 @@ The app follows Shiny's standard split-file pattern:
 - **`read-data.R`** — sourced first; loads data from AWS S3 (`standupapp` bucket), reads the roster, builds `attended` (long format: one row per person per meeting, keyed by `meeting_id` = row order) and computes all stats (`stats`, `freq_first_last`, `personal_records`, streaks, `batting_average`); defines all package imports
 - **`ui.R`** — all UI components: date/error inputs, drag-and-drop lineup, fun fact submission, scoreboard, charts, baseball cards (generated from `active_members`), data table
 - **`server.R`** — reactive logic: processes form submissions, writes to S3, renders all charts and stats; per-person outputs are created in a loop over `active_members`
-- **`helper-functions.R`** — palettes (`position_colors`, `member_colors`), chart builders (`make_order_hist`, `make_colors_chart`) and the baseball card UI (`person_panel`, `personal_records_section`)
+- **`helper-functions.R`** — palettes (`position_colors`, `member_colors`), chart builders (`make_order_hist`, `make_colors_chart`) the baseball card UI (`person_panel`, `personal_records_section`), and `on_this_day_fact` (fun fact from ~a year ago, shown under the scoreboard next to the random "Show me a fun fact!" button)
 
 All stats are computed once at app startup, so they (including "Led off in <month>") reflect the data as of the last restart.
 
@@ -56,7 +56,7 @@ Edit `roster.csv` only — nothing else names people:
 - **Person leaves:** set `active = FALSE`. Their history stays in the data and still counts toward others' pairwise stats.
 - Never delete a roster row; the app stops with an error if the data has a column not in the roster (protects history on save).
 
-Attendance rate ("Who has perfect attendance?") and "Most consecutive games" count meetings since each person's first appearance in the data. "Most likely to call on / be called on by" only name active members.
+Attendance rate ("Who suits up?") and "Most consecutive games" count meetings since each person's first appearance in the data. "Most likely to call on / be called on by" only name active members.
 
 ## Design
 

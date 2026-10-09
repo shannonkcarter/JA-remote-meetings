@@ -47,7 +47,20 @@ shinyServer(function(input, output, session) {
   
   output$funfact <- renderUI({
     req(random_fun_fact())
-    text <- random_fun_fact()$funfact
+    fact <- random_fun_fact()
+    tagList(
+      h4(fact$funfact),
+      if (!is.na(fact$date)) p(class = "fun-fact-date", format(fact$date, "%B %e, %Y"))
+    )
+  })
+
+  output$on_this_day <- renderUI({
+    fact <- on_this_day_fact(fun_facts)
+    if (is.null(fact)) return(p(class = "fun-fact-date", "No fun facts from around this date in past years."))
+    tagList(
+      h4(fact$funfact),
+      p(class = "fun-fact-date", format(fact$date, "%B %e, %Y"))
+    )
   })
     
     output$table_today <- renderDataTable({
@@ -61,6 +74,7 @@ shinyServer(function(input, output, session) {
     output$streak_histogram <- renderHighchart({
       x %>% count(numones) %>% 
         hchart("column", hcaes(x = numones, y = n)) %>% 
+        hc_chart(backgroundColor = "transparent") %>% 
         hc_colors("#004E7B") %>% 
         hc_add_theme(ja_hc_theme()) %>% 
         hc_xAxis(title = list(text = "hitting streak length"),
@@ -112,7 +126,7 @@ shinyServer(function(input, output, session) {
       charts <- list(
         list(col = "freq_first",    title = "Who bats leadoff?",           var = "bats leadoff in", max = first_last_max),
         list(col = "freq_last",     title = "Who bats cleanup?",           var = "bats cleanup in",  max = first_last_max),
-        list(col = "freq_attended", title = "Who has perfect attendance?", var = "attends",       max = 100)
+        list(col = "freq_attended", title = "Who suits up?",              var = "suits up for",   max = 100)
       )
 
       purrr::map(charts, function(chart) {
@@ -144,7 +158,7 @@ shinyServer(function(input, output, session) {
       
       output[[paste0("colors_", tolower(person))]] <- renderPlot({
         make_colors_chart(colors_data, person)
-      }, height = 25)
+      }, height = 34)
     })
     
     #Submit password

@@ -34,7 +34,7 @@ make_colors_chart <- function(.data, .filter_name) {
     filter(name == .filter_name) %>%
     ggplot(aes(x = index, y = name, fill = value)) +
     geom_tile(color = "white", linewidth = 1) +
-    geom_text(aes(label = value, color = value), fontface = "bold") +
+    geom_text(aes(label = value, color = value), fontface = "bold", size = 5) +
     scale_fill_manual(values = fills, na.value = "transparent") +
     scale_color_manual(values = setNames(label_colors(fills), names(fills)), na.value = "transparent") +
     theme_void() +
@@ -98,4 +98,22 @@ person_panel <- function(.name) {
       )
     )
   )
+}
+
+# "On this day" fun fact: the one closest to this date a year ago (within a week), preferring ones
+# rated fun; falls back to two years ago, three years ago, ... Returns NULL if nothing is close
+on_this_day_fact <- function(.facts, .today = Sys.Date(), .window = 7) {
+  facts <- filter(.facts, !is.na(date))
+  years_back <- seq_len(year(.today) - year(min(facts$date)))
+  
+  for (y in years_back) {
+    target <- .today %m-% years(y)
+    match <- facts %>% 
+      mutate(days_off = abs(as.numeric(date - target))) %>% 
+      filter(days_off <= .window) %>% 
+      arrange(days_off, fun != "Yes!") %>% 
+      slice_head(n = 1)
+    if (nrow(match) == 1) return(match)
+  }
+  NULL
 }

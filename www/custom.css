@@ -41,7 +41,8 @@ input[type="radio"] {
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding: 30px 20px 10px 20px;
+  padding: 30px 20px 20px 20px;
+  border-bottom: 1px solid #dde7eb;
 }
 
 .title img:first-child {
@@ -78,13 +79,12 @@ input[type="radio"] {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #fff;
+  background-color: #f0f8fa;
   background-image: url('baseball-pattern.svg');
   background-size: 240px 240px;
 }
 
 .main-input-section {
-  border-top: 1px solid #F0EDED;
   color: #262626;
   display: flex;
   max-width: 1100px;
@@ -142,8 +142,12 @@ input[type="radio"] {
 
 .streaks {
   padding-top: 0px;
+  padding-bottom: 30px;
   display: flex;
   flex-direction: column;
+  background-color: #f0f8fa;
+  background-image: url('baseball-pattern.svg');
+  background-size: 240px 240px;
 }
 
 .streak-counters {
@@ -349,4 +353,71 @@ hr {
   background-color: #FAA634 !important;
   color: #004E7B !important;
   height: 100px
+}
+
+/* ---- Larger text ------------------------------------------ */
+
+/* Data submission form */
+.main-input-wrapper .control-label,
+.main-input-wrapper > .main-input-section label:not(.radio label) {
+  font-size: 17px;
+}
+
+.main-input-wrapper .radio label,
+.main-input-wrapper .shiny-options-group label {
+  font-size: 16px;
+}
+
+.main-input-wrapper .form-control {
+  font-size: 16px;
+  height: 40px;
+}
+
+#people .btn, #order .btn, #missing .btn {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+/* Baseball cards */
+.personal-stats-wrapper h5 {
+  font-size: 15px;
+}
+
+/* ---- Fun facts (below the scoreboard) --------------------- */
+
+.fun-facts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 0px 20px 30px 20px;
+}
+
+.fun-fact-card {
+  width: 100%;
+  max-width: 760px;
+  background-color: #fff;
+  border-top: 4px solid #FAA634;
+  box-shadow: 0 4px 6px rgba(0,0,0,.08);
+  padding: 14px 24px 10px 24px;
+  text-align: center;
+}
+
+.fun-fact-card h3 {
+  margin: 0px 0px 6px 0px;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #004E7B;
+}
+
+.fun-fact-card h4 {
+  font-size: 19px;
+  line-height: 1.4;
+  margin: 4px 0px 6px 0px;
+}
+
+.fun-fact-date {
+  color: #666 !important;
+  font-size: 14px;
 }
